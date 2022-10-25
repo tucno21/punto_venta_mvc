@@ -37,7 +37,7 @@
     <div class="pc-mob-header pc-header">
         <div class="pcm-logo">
             <!-- <img src="assets/images/logo.svg" alt="" class="logo logo-lg"> -->
-            <p class="logo logo-lg text-white fs-2 mt-2 mx-auto"><?= $title ?></p>
+            <p class="logo logo-lg text-white fs-2 mt-2 mx-auto"> <i class="bi bi-truck"></i> <?= $title ?></p>
         </div>
         <div class="pcm-toolbar">
             <a href="#!" class="pc-head-link" id="mobile-collapse">
@@ -62,8 +62,9 @@
             <div class="m-header">
                 <a href="<?= $mainLink ?>" class="b-brand text-white fs-3 mt-2 mx-auto">
                     <!-- ========   change your logo hear   ============ -->
+                    <i class="bi bi-truck"></i>
                     <span class="logo logo-lg"><?= $title ?></span>
-                    <span class="logo logo-sm"><?= $titleShort ?></span>
+                    <!-- <span class="logo logo-sm"><?= $titleShort ?></span> -->
                     <!-- <img src="assets/images/logo.svg" alt="" class="logo logo-lg">
 					<img src="assets/images/logo-sm.svg" alt="" class="logo logo-sm"> -->
                 </a>
