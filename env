@@ -1,0 +1,18 @@
+# configuraciones basicas para el framework
+
+APP_URL=http://framework_mvc_php.test/
+
+DB_HOST=localhost
+DB_DATABASE=MVC
+DB_USERNAME=root
+DB_PASSWORD=root
+
+# nombre de la carpeta de imagenes
+
+# dentro de la carpeta public
+
+FOLDER_IMAGE=img
+
+# Zona horaria
+
+TIME_ZONE=America/Lima

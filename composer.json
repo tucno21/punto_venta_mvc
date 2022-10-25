@@ -1,0 +1,20 @@
+{
+    "name": "catuva21/mini_framework_php",
+    "description": "base framework mini",
+    "authors": [
+        {
+            "name": "tucno21",
+            "email": "carlitostucno@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "vlucas/phpdotenv": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "./App",
+            "System\\" : "./System"
+        }
+    }
+}
