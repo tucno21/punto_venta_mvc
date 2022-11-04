@@ -2,7 +2,7 @@
 
 namespace App\Controller\Auth;
 
-use App\Model\Auth;
+use App\Model\Users;
 use System\Controller;
 
 
@@ -20,8 +20,8 @@ class AuthController extends Controller
         $data = $this->request()->getInput();
 
         $valid = $this->validate($data, [
-            'email' => 'required|email|not_unique:Auth,email',
-            'password' => 'required|password_verify:Auth,email',
+            'email' => 'required|email|not_unique:Users,email',
+            'password' => 'required|password_verify:Users,email',
         ]);
 
         if ($valid !== true) {
@@ -30,7 +30,7 @@ class AuthController extends Controller
                 'data' => $data,
             ]);
         } else {
-            $user = Auth::select('users.id', 'users.email', 'users.name', 'users.status', 'users.rol_id', 'roles.rol_name')
+            $user = Users::select('users.id', 'users.email', 'users.name', 'users.status', 'users.rol_id', 'roles.rol_name')
                 ->join('roles', 'users.rol_id', '=', 'roles.id')
                 ->get();
 

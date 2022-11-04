@@ -4,7 +4,7 @@ namespace App\Model;
 
 use System\Model;
 
-class Auth extends Model
+class Users extends Model
 {
     /**
      * nombre de la tabla
