@@ -75,6 +75,7 @@ $linksCss = [
     $linkURL . '/assets/css/style.css',
     $linkURL . '/assets/css/customizer.css',
     $linkURL . '/assets/css/icon/bootstrap-icons.css',
+    $linkURL . '/assets/plugins/simple-datatables/style.css',
 ];
 
 $linksScript = [
@@ -83,4 +84,6 @@ $linksScript = [
     $linkURL . '/assets/js/bootstrap.min.js',
     $linkURL . '/assets/js/feather.min.js',
     $linkURL . '/assets/js/pcoded.js',
+    $linkURL . '/assets/plugins/simple-datatables/simple-datatables.js',
+    $linkURL . '/assets/js/simple-datatables.js',
 ];
