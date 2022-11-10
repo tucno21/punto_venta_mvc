@@ -45,6 +45,7 @@ Route::post('/permissions/create', [PermissionController::class, 'store']);
 Route::get('/permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
 Route::post('/permissions/edit', [PermissionController::class, 'update']);
 Route::get('/permissions/destroy', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+Route::get('/permissions/listaPermissions', [PermissionController::class, 'listaPermissions'])->name('permissions.listaPermissions');
 
 //role y permisos
 Route::get('/roles/permissions', [RolesPermissionController::class, 'edit'])->name('roles.permissions');

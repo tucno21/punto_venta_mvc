@@ -7,6 +7,9 @@
                 <div class="col d-flex flex-column flex-md-row justify-content-between align-items-center">
                     <div class="page-header-title">
                         <h5 class="m-b-10">Panel de permisos</h5>
+                        <input id="listaPermisos" type="hidden" data-url="<?= route('permissions.listaPermissions') ?>">
+                        <input id="editarPermiso" type="hidden" data-url="<?= route('permissions.edit') ?>">
+                        <input id="eliminarPermiso" type="hidden" data-url="<?= route('permissions.destroy') ?>">
                     </div>
                     <div class="">
                         <?php if (can('users.create')) : ?>
@@ -28,27 +31,8 @@
                 </div>
                 <div class="card-body table-border-style">
                     <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Descripción</th>
-                                    <th scope="col">Editar</th>
-                                    <th scope="col">Eliminar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($permissions as $p) : ?>
-                                    <tr>
-                                        <th scope="row"><?= $p->id ?></th>
-                                        <td><?= $p->per_name ?></td>
-                                        <td><?= $p->description ?></td>
-                                        <td><a href="<?= route('permissions.edit') . '?id=' . $p->id ?>" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a></td>
-                                        <td><a href=<?= route('permissions.destroy') . '?id=' . $p->id ?>" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></a></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
+                        <table class="table table-striped" id="simpleDatatable">
+
                         </table>
                     </div>
                 </div>

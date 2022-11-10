@@ -29,6 +29,20 @@ class PermissionController extends Controller
         ]);
     }
 
+    public function listaPermissions()
+    {
+        $permissions = Permissions::get();
+
+        //cuando viene un solo objeto
+        if (is_object($permissions)) {
+            $permissions = [$permissions];
+        }
+
+        //json
+        echo json_encode($permissions);
+        exit;
+    }
+
     public function create()
     {
         return view('permission.create', [
