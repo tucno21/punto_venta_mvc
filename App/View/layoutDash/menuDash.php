@@ -85,5 +85,6 @@ $linksScript = [
     $linkURL . '/assets/js/feather.min.js',
     $linkURL . '/assets/js/pcoded.js',
     $linkURL . '/assets/plugins/simple-datatables/simple-datatables.js',
-    $linkURL . '/assets/js/simple-datatables.js',
+    $linkURL . '/assets/plugins/sweetalert2/sweetalert2.js',
+    $linkURL . '/assets/js/funciones.js',
 ];
