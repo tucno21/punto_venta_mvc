@@ -16,16 +16,8 @@ class PermissionController extends Controller
 
     public function index()
     {
-        $permissions = Permissions::get();
-
-        //cuando viene un solo objeto
-        if (is_object($permissions)) {
-            $permissions = [$permissions];
-        }
-
         return view('permission.index', [
             'titulo' => 'panel de permisos',
-            'permissions' => $permissions,
         ]);
     }
 
@@ -43,16 +35,9 @@ class PermissionController extends Controller
         exit;
     }
 
-    public function create()
-    {
-        return view('permission.create', [
-            'titulo' => 'crear permisos',
-        ]);
-    }
-
     public function store()
     {
-        $data = $this->request()->getInput();
+        $data = $_POST;
 
         $valid = $this->validate($data, [
             'per_name' => 'required',
@@ -60,18 +45,16 @@ class PermissionController extends Controller
         ]);
 
         if ($valid !== true) {
-            return back()->route('permissions.create', [
-                'err' =>  $valid,
-                'data' => $data,
-            ]);
+            //mensaje de error
+            $response = ['status' => false, 'data' => $valid];
+            //json_encode
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         } else {
-
-            session()->remove('renderView');
-            session()->remove('reserveRoute');
-
             Permissions::create($data);
-
-            return redirect()->route('permissions.index');
+            $response = ['status' => true, 'data' => 'permiso creado correctamente'];
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 
@@ -85,15 +68,14 @@ class PermissionController extends Controller
             $per = Permissions::first($id->id);
         }
 
-        return view('permission.edit', [
-            'titulo' => 'editar permisos',
-            'data' => $per,
-        ]);
+        $response = ['status' => true, 'data' => $per];
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
     }
 
     public function update()
     {
-        $data = $this->request()->getInput();
+        $data = $_POST;
 
         $valid = $this->validate($data, [
             'per_name' => 'required',
@@ -101,27 +83,25 @@ class PermissionController extends Controller
         ]);
 
         if ($valid !== true) {
-            return back()->route('permissions.edit', [
-                'err' =>  $valid,
-                'data' => $data,
-            ]);
+            //mensaje de error
+            $response = ['status' => false, 'data' => $valid];
+            //json_encode
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         } else {
-
-            session()->remove('renderView');
-            session()->remove('reserveRoute');
-
-            Permissions::update($data->id, $data);
-
-            return redirect()->route('permissions.index');
+            Permissions::update($data['id'], $data);
+            $response = ['status' => true, 'data' => 'permiso actualizado correctamente'];
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 
     public function destroy()
     {
         $data = $this->request()->getInput();
-
         Permissions::delete((int)$data->id);
-
-        return redirect()->route('permissions.index');
+        $response = ['status' => true, 'data' => 'permiso eliminado correctamente'];
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
     }
 }
