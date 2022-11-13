@@ -17,6 +17,11 @@
     <?php foreach ($linksCss as $value) : ?>
         <link href="<?= $value ?>" rel="stylesheet" />
     <?php endforeach; ?>
+    <?php if (isset($linksCss2)) : ?>
+        <?php foreach ($linksCss2 as $value) : ?>
+            <link href="<?= $value ?>" rel="stylesheet" />
+        <?php endforeach; ?>
+    <?php endif; ?>
 
     <style>
         .m-header a {
