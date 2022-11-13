@@ -6,11 +6,10 @@
             <div class="row align-items-center">
                 <div class="col d-flex flex-column flex-md-row justify-content-between align-items-center">
                     <div class="page-header-title">
-                        <h5 class="m-b-10">Permisos para: <?= $rol->rol_name ?></h5>
+                        <h5 class="m-b-10">Permisos para: <span class="text-danger"> <?= $rol->rol_name ?></span></h5>
                     </div>
                     <div class="">
-                        <button type="button" class="btn btn-primary btn-sm">Primary</button>
-                        <button type="button" class="btn btn-success btn-sm">Success</button>
+                        <a href="<?= route('roles.index') ?>" class="btn btn-primary btn-sm">Volver</a>
                     </div>
                 </div>
             </div>
@@ -26,18 +25,16 @@
                     <h5>Lista de Permisos</h5>
                 </div>
                 <div class="card-body">
-                    <!-- <h5>Form controls</h5>
-                    <hr> -->
                     <form action="<?= route('roles.permissions') ?>" method="post">
                         <div class="row">
                             <?= csrf() ?>
                             <?php foreach ($permissionsGroup as $g) : ?>
                                 <div class="col-md-3">
-                                    <div class="card h-80">
-                                        <div class="card-header p-2">
-                                            <h5 class="card-title m-0"><?= ucfirst($g[0]->title) ?></h5>
+                                    <div class="card h-100">
+                                        <div class="card-header border-dark bg-dark p-2">
+                                            <h5 class="card-title text-white m-0"><?= ucfirst($g[0]->title) ?></h5>
                                         </div>
-                                        <div class="card-body p-2">
+                                        <div class="card-body border border-dark py-2 pb-0">
                                             <?php foreach ($g as $p) : ?>
                                                 <div class="form-check">
                                                     <input class="form-check-input" id="<?= $p->id ?>" type="checkbox" name="<?= $p->per_name ?>" value="<?= $p->id ?>" id="<?= $p->id ?>" <?= in_array($p->per_name, array_column((array)$permisosRol, 'per_name')) ? 'checked' : '' ?>>
@@ -51,7 +48,7 @@
                                 </div>
                             <?php endforeach; ?>
 
-                            <div class="col-12 text-center">
+                            <div class="col-12 text-center mt-3">
                                 <input type="hidden" name="rol_id" value="<?= $rol->id ?>">
                                 <button type="submit" class="btn btn-primary">Actualizar</button>
                             </div>

@@ -16,48 +16,42 @@ class RolController extends Controller
 
     public function index()
     {
-        $roles = Roles::get();
-        // dd($roles);
+        return view('roles.index', [
+            'titulo' => 'panel de roles',
+        ]);
+    }
 
+    public function dataTable()
+    {
+        $roles = Roles::get();
         //cuando viene un solo objeto
         if (is_object($roles)) {
             $roles = [$roles];
         }
-
-        return view('roles.index', [
-            'titulo' => 'panel de roles',
-            'roles' => $roles,
-        ]);
-    }
-
-    public function create()
-    {
-        return view('roles.create', [
-            'titulo' => 'crear roles',
-        ]);
+        //json
+        echo json_encode($roles);
+        exit;
     }
 
     public function store()
     {
-        $data = $this->request()->getInput();
+        $data = $_POST;
 
         $valid = $this->validate($data, [
             'rol_name' => 'required',
         ]);
 
         if ($valid !== true) {
-            return back()->route('roles.create', [
-                'err' =>  $valid,
-                'data' => $data,
-            ]);
+            //mensaje de error
+            $response = ['status' => false, 'data' => $valid];
+            //json_encode
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         } else {
-
-            session()->remove('renderView');
-            session()->remove('reserveRoute');
-
             Roles::create($data);
-
-            return redirect()->route('roles.index');
+            $response = ['status' => true, 'data' => 'rol creado correctamente'];
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 
@@ -71,33 +65,30 @@ class RolController extends Controller
             $rol = Roles::first($id->id);
         }
 
-        return view('roles.edit', [
-            'titulo' => 'editar roles',
-            'data' => $rol,
-        ]);
+        $response = ['status' => true, 'data' => $rol];
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
     }
 
     public function update()
     {
-        $data = $this->request()->getInput();
+        $data = (object)$_POST;
 
         $valid = $this->validate($data, [
             'rol_name' => 'required',
         ]);
 
         if ($valid !== true) {
-            return back()->route('roles.edit', [
-                'err' =>  $valid,
-                'data' => $data,
-            ]);
+            //mensaje de error
+            $response = ['status' => false, 'data' => $valid];
+            //json_encode
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         } else {
-
-            session()->remove('renderView');
-            session()->remove('reserveRoute');
-
             Roles::update($data->id, $data);
-
-            return redirect()->route('roles.index');
+            $response = ['status' => true, 'data' => 'rol actualizado correctamente'];
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 
@@ -107,6 +98,8 @@ class RolController extends Controller
 
         $result = Roles::delete((int)$data->id);
 
-        return redirect()->route('roles.index');
+        $response = ['status' => true, 'data' => 'rol eliminado correctamente'];
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
     }
 }

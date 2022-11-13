@@ -32,6 +32,7 @@ Route::get('/users/destroy', [UserController::class, 'destroy'])->name('users.de
 
 //roles
 Route::get('/roles', [RolController::class, 'index'])->name('roles.index');
+Route::get('/roles/dataTable', [RolController::class, 'dataTable'])->name('roles.dataTable');
 Route::get('/roles/create', [RolController::class, 'create'])->name('roles.create');
 Route::post('/roles/create', [RolController::class, 'store']);
 Route::get('/roles/edit', [RolController::class, 'edit'])->name('roles.edit');
