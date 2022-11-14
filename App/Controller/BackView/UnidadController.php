@@ -18,7 +18,7 @@ class UnidadController extends Controller
     public function index()
     {
         return view('unidades/index', [
-            'titulo' => 'Unidades',
+            'titleGlobal' => 'Unidades',
         ]);
     }
 

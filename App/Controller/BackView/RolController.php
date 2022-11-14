@@ -17,7 +17,7 @@ class RolController extends Controller
     public function index()
     {
         return view('roles.index', [
-            'titulo' => 'panel de roles',
+            'titleGlobal' => 'Roles',
         ]);
     }
 

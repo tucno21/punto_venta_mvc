@@ -3,7 +3,7 @@
 <html lang="es">
 
 <head>
-    <title>DashboardKit Bootstrap 5 Admin Template</title>
+    <title><?= isset($titleGlobal) ? $titleGlobal : 'Punto de Venta' ?></title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />

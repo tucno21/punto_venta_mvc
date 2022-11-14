@@ -17,7 +17,7 @@ class PermissionController extends Controller
     public function index()
     {
         return view('permission.index', [
-            'titulo' => 'panel de permisos',
+            'titleGlobal' => 'Permisos',
         ]);
     }
 
