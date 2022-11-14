@@ -5,6 +5,7 @@ use App\Controller\Auth\AuthController;
 use App\Controller\BackView\RolController;
 use App\Controller\BackView\UserController;
 use App\Controller\BackView\UnidadController;
+use App\Controller\BackView\CategoriaController;
 use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\PermissionController;
 use App\Controller\BackView\RolesPermissionController;
@@ -65,3 +66,13 @@ Route::get('/unidades/edit', [UnidadController::class, 'edit'])->name('unidades.
 Route::post('/unidades/edit', [UnidadController::class, 'update']);
 Route::get('/unidades/status', [UnidadController::class, 'status'])->name('unidades.status');
 Route::get('/unidades/destroy', [UnidadController::class, 'destroy'])->name('unidades.destroy');
+
+//categorias
+Route::get('/categorias', [CategoriaController::class, 'index'])->name('categorias.index');
+Route::get('/categorias/dataTable', [CategoriaController::class, 'dataTable'])->name('categorias.dataTable');
+Route::get('/categorias/create', [CategoriaController::class, 'create'])->name('categorias.create');
+Route::post('/categorias/create', [CategoriaController::class, 'store']);
+Route::get('/categorias/edit', [CategoriaController::class, 'edit'])->name('categorias.edit');
+Route::post('/categorias/edit', [CategoriaController::class, 'update']);
+Route::get('/categorias/status', [CategoriaController::class, 'status'])->name('categorias.status');
+Route::get('/categorias/destroy', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
