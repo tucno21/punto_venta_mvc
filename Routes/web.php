@@ -4,6 +4,7 @@ use System\Route;
 use App\Controller\Auth\AuthController;
 use App\Controller\BackView\RolController;
 use App\Controller\BackView\UserController;
+use App\Controller\BackView\UnidadController;
 use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\PermissionController;
 use App\Controller\BackView\RolesPermissionController;
@@ -53,3 +54,14 @@ Route::get('/permissions/listaPermissions', [PermissionController::class, 'lista
 //role y permisos
 Route::get('/roles/permissions', [RolesPermissionController::class, 'edit'])->name('roles.permissions');
 Route::post('/roles/permissions', [RolesPermissionController::class, 'update']);
+
+
+//unidad
+Route::get('/unidades', [UnidadController::class, 'index'])->name('unidades.index');
+Route::get('/unidades/dataTable', [UnidadController::class, 'dataTable'])->name('unidades.dataTable');
+Route::get('/unidades/create', [UnidadController::class, 'create'])->name('unidades.create');
+Route::post('/unidades/create', [UnidadController::class, 'store']);
+Route::get('/unidades/edit', [UnidadController::class, 'edit'])->name('unidades.edit');
+Route::post('/unidades/edit', [UnidadController::class, 'update']);
+Route::get('/unidades/status', [UnidadController::class, 'status'])->name('unidades.status');
+Route::get('/unidades/destroy', [UnidadController::class, 'destroy'])->name('unidades.destroy');

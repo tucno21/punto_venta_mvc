@@ -57,13 +57,31 @@ $linksSidebar = [
                 ],
             ],
         ] : null,
-    // can('products.index') ?
-    //     [
-    //         'mode' => 'menu',
-    //         'text' => 'Productos',
-    //         'url'  => route('products.index'),
-    //         'icon' => 'bi bi-shop',
-    //     ] : null,
+    [
+        'mode' => 'submenu',
+        'text'    => 'Productos',
+        'url'    => '#',
+        'icon' => 'bi bi-card-checklist',
+        'submenu' => [
+
+            [
+                'text' => 'Productos',
+                'url'  => '##',
+                'icon' => 'fas fa-circle',
+            ],
+
+            [
+                'text' => 'Categorias',
+                'url'  => '##',
+                'icon' => 'fas fa-circle',
+            ],
+            [
+                'text' => 'Unidades',
+                'url'  => route('unidades.index'),
+                'icon' => 'fas fa-circle',
+            ],
+        ],
+    ],
 ];
 
 
