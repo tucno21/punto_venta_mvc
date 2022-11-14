@@ -102,7 +102,7 @@
 .dataTable-table > thead > tr > td,
 .dataTable-table > thead > tr > th {
 	vertical-align: top;
-	padding: 8px 10px;
+	padding: 8px 3px;
 }
 
 .dataTable-table > thead > tr > th {
@@ -166,7 +166,8 @@
 	text-align: center;
 }
 
-.dataTable-top::after, .dataTable-bottom::after {
+.dataTable-top::after,
+.dataTable-bottom::after {
 	clear: both;
 	content: " ";
 	display: table;

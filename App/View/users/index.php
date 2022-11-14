@@ -1,3 +1,12 @@
+<?php
+// $linksCss2 = [
+//     base_url . '/assets/plugins/dataTables/datatables.bootstrap5.css',
+// ];
+
+$linksScript2 = [
+    base_url . '/assets/js/users.js',
+];
+?>
 <?php include ext('layoutdash.head') ?>
 <div class="pcoded-content">
     <!-- [ breadcrumb ] start -->
@@ -7,10 +16,16 @@
                 <div class="col d-flex flex-column flex-md-row justify-content-between align-items-center">
                     <div class="page-header-title">
                         <h5 class="m-b-10">Panel de Usuarios</h5>
+                        <input id="urlDataTable" type="hidden" data-url="<?= route('users.dataTable') ?>">
+                        <input id="urlCreate" type="hidden" data-url="<?= route('users.create') ?>">
+                        <input id="urlEdit" type="hidden" data-url="<?= route('users.edit') ?>">
+                        <input id="urlStatus" type="hidden" data-url="<?= route('users.status') ?>">
+                        <input id="urlDestroy" type="hidden" data-url="<?= route('users.destroy') ?>">
+                        <input id="urlRoles" type="hidden" data-url="<?= route('roles.dataTable') ?>">
                     </div>
                     <div class="">
                         <?php if (can('users.create')) : ?>
-                            <a href="<?= route('users.create') ?>" class="btn btn-outline-dark btn-sm">Crear usuario</a>
+                            <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Registrar Usuario</button>
                         <?php endif;  ?>
                     </div>
                 </div>
@@ -23,50 +38,66 @@
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
-                <div class="card-header">
+                <div class="card-header p-2">
                     <h5>Lista de usuarios</h5>
                 </div>
-                <div class="card-body table-border-style">
+                <div class="card-body p-2">
                     <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Estado</th>
-                                    <th scope="col">Rol</th>
-                                    <th scope="col">Editar</th>
-                                    <th scope="col">Eliminar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($users as $user) : ?>
-                                    <tr>
-                                        <th scope="row"><?= $user->id ?></th>
-                                        <td><?= $user->name ?></td>
-                                        <td><?= $user->email ?></td>
-                                        <td>
-                                            <p class="<?= $user->status == 1  ? 'btn btn-outline-success rounded-pill  waves-effect waves-light btn-sm' : 'btn btn-outline-danger rounded-pill waves-effect waves-light btn-sm' ?>"><?= $user->status == 1  ? 'activo' : 'inactivo' ?> </p>
-                                        </td>
-                                        <td><?= $user->rol_name ?></td>
-
-                                        <?php if (can('users.edit')) : ?>
-                                            <td><a href="<?= route('users.edit') . '?id=' . $user->id ?>" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a></td>
-                                        <?php endif;  ?>
-
-                                        <?php if (can('users.destroy')) : ?>
-                                            <td><a href=<?= route('users.destroy') . '?id=' . $user->id ?>" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></a></td>
-                                        <?php endif;  ?>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                        <table class="table table-striped" id="simpleDatatable"></table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- [ Main Content ] end -->
+</div>
+
+<div class="modal fade" id="modalInputs" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title h4" id="modalLabel">Formulario Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6  mt-3">
+                        <label class="form-label mb-1">Nombre</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                            <input name="name" type="text" class="form-control" id="inputName">
+                        </div>
+                    </div>
+                    <div class="col-md-6  mt-3">
+                        <label class="form-label mb-1">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                            <input name="email" type="email" class="form-control" id="inputEmail">
+                        </div>
+                    </div>
+                    <div class="col-md-6  mt-3">
+                        <label class="form-label mb-1">Contraseña</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-key"></i></span>
+                            <input name="password" type="password" class="form-control" id="inputPassword">
+                        </div>
+                    </div>
+                    <div class="col-md-6  mt-3">
+                        <label class="form-label mb-1">Rol</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-gear"></i></span>
+                            <select id="inputRol" name="rol_id" class="form-select">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 text-center mt-3">
+                        <input name="id" type="hidden" id="listId">
+                        <button class="btn btn-primary" id="btnFormulario">Cambio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <?php include ext('layoutdash.footer') ?>

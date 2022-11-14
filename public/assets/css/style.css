@@ -2936,7 +2936,7 @@ textarea.form-control-lg {
 .input-group-text {
     display: flex;
     align-items: center;
-    padding: 0.575rem 1rem;
+    padding: 0.25rem 0.7rem;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
@@ -2944,16 +2944,16 @@ textarea.form-control-lg {
     text-align: center;
     white-space: nowrap;
     background-color: #f0f2f8;
-    border: 2px solid #ced4da;
-    border-radius: 4px;
+    border: 1px solid #ced4da;
+    border-radius: 0.2rem;
 }
 
 .input-group-lg > .form-control,
 .input-group-lg > .form-select,
 .input-group-lg > .input-group-text,
 .input-group-lg > .btn {
-    padding: 0.5rem 1rem;
-    font-size: 1.09375rem;
+    padding: 0.35rem 1rem;
+    font-size: 0.95rem;
     border-radius: 0.3rem;
 }
 
@@ -2962,8 +2962,8 @@ textarea.form-control-lg {
 .input-group-sm > .input-group-text,
 .input-group-sm > .btn {
     padding: 0.15rem 0.5rem;
-    font-size: 0.76563rem;
-    border-radius: 2px;
+    font-size: 0.75rem;
+    border-radius: 0.1rem;
 }
 
 @media (min-width: 1200px) {
@@ -27193,7 +27193,14 @@ body.anim-slip-from-top.modal-open .pc-header {
 .table .thead-dark th {
     color: #fff;
     background-color: #1c232f;
-    border-color: #090b0f;
+    border-color: #1c232f;
+}
+
+.table .thead-dark th .dataTable-sorter::before {
+    border-top: 4px solid #fff;
+}
+.table .thead-dark th .dataTable-sorter::after {
+    border-bottom: 4px solid #fff;
 }
 
 .table-dark {

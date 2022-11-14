@@ -17,6 +17,13 @@ class UserController extends Controller
 
     public function index()
     {
+        return view('users.index', [
+            'titulo' => 'lista de usuarios',
+        ]);
+    }
+
+    public function dataTable()
+    {
         $users = Users::select('users.id', 'users.email', 'users.name', 'users.status', 'roles.rol_name')
             ->join('roles', 'users.rol_id', '=', 'roles.id')
             ->get();
@@ -25,12 +32,10 @@ class UserController extends Controller
         if (is_object($users)) {
             $users = [$users];
         }
-        // dd($user);
-
-        return view('users.index', [
-            'titulo' => 'lista de usuarios',
-            'users' => $users,
-        ]);
+        // dd($users);
+        //json
+        echo json_encode($users);
+        exit;
     }
 
     public function create()
@@ -45,87 +50,87 @@ class UserController extends Controller
 
     public function store()
     {
-        $data = $this->request()->getInput();
+        $data = (object)$_POST;
 
         $valid = $this->validate($data, [
             'name' => 'required|text',
-            'email' => 'required|email|unique:Auth,email',
+            'email' => 'required|email|unique:Users,email',
             'password' => 'required|min:3|max:12',
             'rol_id' => 'required',
         ]);
 
         if ($valid !== true) {
-            return back()->route('users.create', [
-                'err' =>  $valid,
-                'data' => $data,
-            ]);
+            $response = ['status' => false, 'data' => $valid];
+            //json_encode
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         } else {
-
-            session()->remove('renderView');
-            session()->remove('reserveRoute');
-
             Users::create($data);
-
-            return redirect()->route('users.index');
+            $response = ['status' => true, 'data' => 'creado correctamente'];
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 
     public function edit()
     {
-        $roles = Roles::get();
-
         $id = $this->request()->getInput();
 
         if (empty((array)$id)) {
             $user = null;
         } else {
-            // $user = Users::first($id->id);
             $user = Users::select('id', 'name', 'email', 'status', 'rol_id')
                 ->where('id', $id->id)
                 ->get();
         }
 
-        return view('users.edit', [
-            'titulo' => 'actualizar usuarios',
-            'roles' => $roles,
-            'data' => $user,
-        ]);
+        $response = ['status' => true, 'data' => $user];
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
     }
 
     public function update()
     {
-        $data = $this->request()->getInput();
+        $data = (object)$_POST;
 
         $valid = $this->validate($data, [
             'name' => 'required|text',
-            'email' => 'required|email|not_unique:Auth,email',
+            'email' => 'required|email|not_unique:Users,email',
             'password' => 'required|min:3|max:12',
             'rol_id' => 'required',
         ]);
 
         if ($valid !== true) {
-            return back()->route('users.edit', [
-                'err' =>  $valid,
-                'data' => $data,
-            ]);
+            $response = ['status' => false, 'data' => $valid];
+            //json_encode
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         } else {
-
-            session()->remove('renderView');
-            session()->remove('reserveRoute');
-
-            // Users::create($data);
             Users::update($data->id, $data);
-
-            return redirect()->route('users.index');
+            $response = ['status' => true, 'data' => 'Actualizado correctamente'];
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 
     public function destroy()
     {
         $data = $this->request()->getInput();
-        // dd((int)$data->id);
         $result = Users::delete((int)$data->id);
-        // dd($result);
-        return redirect()->route('users.index');
+        $response = ['status' => true, 'data' => 'Eliminado correctamente'];
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    public function status()
+    {
+        $data = $this->request()->getInput();
+        $user = Users::select('id', 'status')->where('id', $data->id)->get();
+        // dd($user);
+        $status = ($user->status == 1) ? 0 : 1;
+        $result = Users::update($data->id, ['status' => $status]);
+        $response = ['status' => true, 'data' => 'Actualizado correctamente'];
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
     }
 }
