@@ -66,7 +66,7 @@ $linksSidebar = [
 
             [
                 'text' => 'Productos',
-                'url'  => '##',
+                'url'  =>  route('productos.index'),
                 'icon' => 'fas fa-circle',
             ],
 

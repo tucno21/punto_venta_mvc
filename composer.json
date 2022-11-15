@@ -9,7 +9,8 @@
     ],
     "require": {
         "php": "^8.0",
-        "vlucas/phpdotenv": "^5.4"
+        "vlucas/phpdotenv": "^5.4",
+        "intervention/image": "^2.7"
     },
     "autoload": {
         "psr-4": {

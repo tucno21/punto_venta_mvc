@@ -1,0 +1,161 @@
+<?php
+// $linksCss2 = [
+//     base_url . '/assets/plugins/dataTables/datatables.bootstrap5.css',
+// ];
+
+$linksScript2 = [
+    base_url . '/assets/js/productos.js',
+];
+?>
+<?php include ext('layoutdash.head') ?>
+<div class="pcoded-content">
+    <!-- [ breadcrumb ] start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col d-flex flex-column flex-md-row justify-content-between align-items-center">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Panel de Productos</h5>
+                        <input id="urlDataTable" type="hidden" data-url="<?= route('productos.dataTable') ?>">
+                        <input id="urlCreate" type="hidden" data-url="<?= route('productos.create') ?>">
+                        <input id="urlEdit" type="hidden" data-url="<?= route('productos.edit') ?>">
+                        <input id="urlStatus" type="hidden" data-url="<?= route('productos.status') ?>">
+                        <input id="urlDestroy" type="hidden" data-url="<?= route('productos.destroy') ?>">
+                        <input id="urlUnidades" type="hidden" data-url="<?= route('productos.unidades') ?>">
+                        <input id="urlCategorias" type="hidden" data-url="<?= route('productos.categorias') ?>">
+                        <input id="urlAfectation" type="hidden" data-url="<?= route('productos.afectacion') ?>">
+                        <input id="urlGeneral" type="hidden" data-url="<?= base_url() ?>">
+                    </div>
+                    <div class="">
+                        <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Registrar Producto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ breadcrumb ] end -->
+
+    <!-- [ Main Content ] start -->
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header p-2">
+                    <h5>Lista de Productos</h5>
+                </div>
+                <div class="card-body p-2">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="simpleDatatable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+</div>
+
+<div class="modal fade" id="modalInputs" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h5 class="modal-title h4" id="modalLabel">Formulario Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-1">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label mb-1">Código</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-upc"></i></span>
+                            <input name="codigo" type="text" class="form-control" id="inputCodigo">
+                        </div>
+                    </div>
+                    <div class="col-md-6  mb-3">
+                        <label class="form-label mb-1">Descripción</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-list-nested"></i></span>
+                            <input name="descripcion" type="text" class="form-control" id="inputDescripcion">
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label mb-1">Stock</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-9-square"></i></span>
+                            <input name="stock" type="number" class="form-control" id="inputStock">
+                        </div>
+                    </div>
+                    <div class="col-md-6  mb-3">
+                        <label class="form-label mb-1">Stock Mínimo</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-sort-numeric-down-alt"></i></span>
+                            <input name="stock_minimo" type="number" class="form-control" id="inputStockMin">
+                        </div>
+                    </div>
+                    <div class="col-md-6  mb-3">
+                        <label class="form-label mb-1">Precio de Compra</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-coin"></i></span>
+                            <input name="precio_compra" type="number" class="form-control" id="inputPC" step="0.01" min="0">
+                        </div>
+                    </div>
+                    <div class="col-md-6  mb-3">
+                        <label class="form-label mb-1">Precio de Venta</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-coin"></i></span>
+                            <input name="precio_venta" type="number" class="form-control" id="inputPV" step="0.01" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6  mb-3">
+                        <label class="form-label mb-1">Unidad</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-unity"></i></span>
+                            <select id="inputUnidad" name="unidad_id" class="form-select">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6  mb-3">
+                        <label class="form-label mb-1">Categoria</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-bookmarks"></i></span>
+                            <select id="inputCategoria" name="categoria_id" class="form-select">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6  mb-3">
+                        <label class="form-label mb-1">Tipo de Afectación</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-wallet2"></i></span>
+                            <select id="inputTipAfec" name="tipo_afectacion_id" class="form-select">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6  mb-3">
+                        <label class="form-label mb-1">Imagen</label>
+                        <div class="input-group">
+                            <span class="input-group-text">"<i class=" bi bi-card-image"></i></span>
+                            <input name="imagen" type="file" class="form-control inputFoto" id="inputImagen">
+                            <select id="inputImagen" name="imagen" class="form-select">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12  mb-3 text-center d-flex justify-content-center">
+                        <div class="" style="width: 6rem;">
+                            <img class="img-thumbnail card-img-top previsualizar" src="<?= base_url('/assets/img/producto.png') ?>" alt="Card image cap">
+                        </div>
+                        <p class="card-text">Peso máximo de 1mb</p>
+                    </div>
+
+                    <div class="col-md-12 text-center mb-2">
+                        <input name="id" type="hidden" id="listId">
+                        <button class="btn btn-primary" id="btnFormulario">Cambio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<?php include ext('layoutdash.footer') ?>

@@ -5,6 +5,7 @@ use App\Controller\Auth\AuthController;
 use App\Controller\BackView\RolController;
 use App\Controller\BackView\UserController;
 use App\Controller\BackView\UnidadController;
+use App\Controller\BackView\ProductoController;
 use App\Controller\BackView\CategoriaController;
 use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\PermissionController;
@@ -76,3 +77,16 @@ Route::get('/categorias/edit', [CategoriaController::class, 'edit'])->name('cate
 Route::post('/categorias/edit', [CategoriaController::class, 'update']);
 Route::get('/categorias/status', [CategoriaController::class, 'status'])->name('categorias.status');
 Route::get('/categorias/destroy', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
+
+//categorias
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+Route::get('/productos/dataTable', [ProductoController::class, 'dataTable'])->name('productos.dataTable');
+Route::get('/productos/create', [ProductoController::class, 'create'])->name('productos.create');
+Route::post('/productos/create', [ProductoController::class, 'store']);
+Route::get('/productos/edit', [ProductoController::class, 'edit'])->name('productos.edit');
+Route::post('/productos/edit', [ProductoController::class, 'update']);
+Route::get('/productos/status', [ProductoController::class, 'status'])->name('productos.status');
+Route::get('/productos/destroy', [ProductoController::class, 'destroy'])->name('productos.destroy');
+Route::get('/productos/unidades', [ProductoController::class, 'unidades'])->name('productos.unidades');
+Route::get('/productos/categorias', [ProductoController::class, 'categorias'])->name('productos.categorias');
+Route::get('/productos/afectacion', [ProductoController::class, 'afectacion'])->name('productos.afectacion');
