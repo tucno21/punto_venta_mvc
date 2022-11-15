@@ -45,4 +45,16 @@ class Productos extends Model
                 ORDER BY p.id DESC";
         return self::querySimple($sql);
     }
+
+    public static function getProducto($id)
+    {
+        $sql = "SELECT p.*,  c.nombre as categoria, u.descripcion as unidad, t.descripcion as tipo_afectacion, A.name as usuario 
+                FROM productos p
+                INNER JOIN categorias c ON c.id = p.categoria_id
+                INNER JOIN unidades u ON u.id = p.unidad_id
+                INNER JOIN tipo_afectacion t ON t.id = p.tipo_afectacion_id
+                INNER JOIN users A ON A.id = p.user_id
+                WHERE p.id = $id";
+        return self::querySimple($sql);
+    }
 }

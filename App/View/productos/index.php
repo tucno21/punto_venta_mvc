@@ -25,6 +25,7 @@ $linksScript2 = [
                         <input id="urlCategorias" type="hidden" data-url="<?= route('productos.categorias') ?>">
                         <input id="urlAfectation" type="hidden" data-url="<?= route('productos.afectacion') ?>">
                         <input id="urlGeneral" type="hidden" data-url="<?= base_url() ?>">
+                        <input id="urlVerData" type="hidden" data-url="<?= route('productos.verData') ?>">
                     </div>
                     <div class="">
                         <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Registrar Producto</button>
@@ -152,6 +153,106 @@ $linksScript2 = [
                     <div class="col-md-12 text-center mb-2">
                         <input name="id" type="hidden" id="listId">
                         <button class="btn btn-primary" id="btnFormulario">Cambio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalInformacion" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header p-2">
+                <h5 class="modal-title h4" id="modalLabel">Información Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body py-1">
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Código</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infoCodigo" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Detalle Producto</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infoDetalle" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Precio de Compra</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infoPC" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Precio de Venta</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infoPV" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Stock</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infoStock" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Categoria</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infoCategoria" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Unidad</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infoUnidad" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Tipo de Afectación</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infoTA" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Fecha de Creación</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infoFC" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Fecha de Modificación</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infoFM" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Registrado por:</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        <input id="infouser" class="form-control" disabled>
                     </div>
                 </div>
             </div>

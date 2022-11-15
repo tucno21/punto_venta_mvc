@@ -20,6 +20,9 @@ const urlAfectation = document
 const urlGeneral = document
   .querySelector("#urlGeneral")
   .getAttribute("data-url");
+const urlVerData = document
+  .querySelector("#urlVerData")
+  .getAttribute("data-url");
 //modal y botones
 const listaTabla = document.querySelector("#simpleDatatable");
 const modalInputs = new bootstrap.Modal("#modalInputs");
@@ -77,6 +80,9 @@ async function generarDataTable() {
         ? `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-success rounded-pill btn-sm p-0 px-1">Habilitado</button>`
         : `<p data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-danger rounded-pill btn-sm p-0 px-1">Inhabilitado</p>`;
     element["actions"] = `
+        <a href="${urlVerData}?id=${element.id}" class="btn btn-outline-success btn-sm rounded-pill btnVerData" title="Ver Datos">
+            <i class="bi bi-eye"></i>
+        </a>
         <a href="${urlEdit}?id=${element.id}" class="btn btn-outline-warning btn-sm rounded-pill btnEditar" title="Editar">
             <i class="bi bi-pencil"></i>
         </a>
@@ -168,6 +174,16 @@ function botonFormulario() {
 
 //enviar formulario para crear
 async function enviarCrearFormulario() {
+  if (parseFloat(inputPC.value) > parseFloat(inputPV.value)) {
+    toastPersonalizado(
+      "error",
+      "El precio de venta no puede ser menor al precio de compra"
+    );
+    //limpiar input
+    inputPV.value = "";
+    inputPC.value = "";
+    return;
+  }
   //crear data para enviar
   const data = new FormData();
   data.append("codigo", inputCodigo.value);
@@ -254,6 +270,19 @@ function botonesDataTable() {
 
       botonEstado(url);
     }
+
+    //en boton btnVerData
+    if (
+      e.target.classList.contains("btnVerData") ||
+      e.target.parentElement.classList.contains("btnVerData")
+    ) {
+      //traer link del boton
+      const url =
+        e.target.parentElement.getAttribute("href") ||
+        e.target.getAttribute("href");
+
+      botonVerData(url);
+    }
   });
 }
 
@@ -305,6 +334,16 @@ async function botonEditar(url) {
 
 //enviar formulario para editar
 async function enviarEditarFormulario() {
+  if (parseFloat(inputPC.value) > parseFloat(inputPV.value)) {
+    toastPersonalizado(
+      "error",
+      "El precio de venta no puede ser menor al precio de compra"
+    );
+    //limpiar input
+    inputPV.value = "";
+    inputPC.value = "";
+    return;
+  }
   //crear data para enviar
   const data = new FormData();
   data.append("id", listId.value);
@@ -456,4 +495,25 @@ async function menuTipAfectacion() {
 //ver imagen
 function verImagen() {
   imagen(".inputFoto", ".previsualizar");
+}
+
+//boton VerData
+async function botonVerData(url) {
+  const modalInformacion = new bootstrap.Modal("#modalInformacion");
+  const response = await fetch(url);
+  const data = await response.json();
+
+  document.querySelector("#infoCodigo").value = data.codigo;
+  document.querySelector("#infoDetalle").value = data.detalle;
+  document.querySelector("#infoPC").value = data.precio_compra;
+  document.querySelector("#infoPV").value = data.precio_venta;
+  document.querySelector("#infoStock").value = data.stock;
+  document.querySelector("#infoCategoria").value = data.categoria;
+  document.querySelector("#infoUnidad").value = data.unidad;
+  document.querySelector("#infoTA").value = data.tipo_afectacion;
+  document.querySelector("#infoFC").value = data.created_at;
+  document.querySelector("#infoFM").value = data.updated_at;
+  document.querySelector("#infouser").value = data.usuario;
+
+  modalInformacion.show();
 }

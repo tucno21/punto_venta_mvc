@@ -232,4 +232,13 @@ class ProductoController extends Controller
         echo json_encode($afectation);
         exit;
     }
+
+    public function verData()
+    {
+        $data = $this->request()->getInput();
+        $producto = Productos::getProducto($data->id);
+        //json
+        echo json_encode($producto);
+        exit;
+    }
 }

@@ -90,3 +90,4 @@ Route::get('/productos/destroy', [ProductoController::class, 'destroy'])->name('
 Route::get('/productos/unidades', [ProductoController::class, 'unidades'])->name('productos.unidades');
 Route::get('/productos/categorias', [ProductoController::class, 'categorias'])->name('productos.categorias');
 Route::get('/productos/afectacion', [ProductoController::class, 'afectacion'])->name('productos.afectacion');
+Route::get('/productos/verData', [ProductoController::class, 'verData'])->name('productos.verData');
