@@ -6,7 +6,7 @@ use System\Controller;
 use App\Model\Unidades;
 use App\Model\Productos;
 use App\Model\Categorias;
-use App\Model\TipoAfectacion;
+use App\Model\Factura\TipoAfectacion;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class ProductoController extends Controller
