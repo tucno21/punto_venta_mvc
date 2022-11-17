@@ -82,6 +82,20 @@ $linksSidebar = [
             ],
         ],
     ],
+    [
+        'mode' => 'submenu',
+        'text'    => 'Base Factura',
+        'url'    => '#',
+        'icon' => 'bi bi-file-binary',
+        'submenu' => [
+
+            [
+                'text' => 'Tipo Documento',
+                'url'  =>  route('tipoDocumentos.index'),
+                'icon' => 'fas fa-circle',
+            ],
+        ],
+    ],
 ];
 
 

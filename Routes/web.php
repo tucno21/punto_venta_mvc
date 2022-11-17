@@ -9,6 +9,7 @@ use App\Controller\BackView\ProductoController;
 use App\Controller\BackView\CategoriaController;
 use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\PermissionController;
+use App\Controller\Factura\TipoDocumentoController;
 use App\Controller\BackView\RolesPermissionController;
 
 /**
@@ -91,3 +92,13 @@ Route::get('/productos/unidades', [ProductoController::class, 'unidades'])->name
 Route::get('/productos/categorias', [ProductoController::class, 'categorias'])->name('productos.categorias');
 Route::get('/productos/afectacion', [ProductoController::class, 'afectacion'])->name('productos.afectacion');
 Route::get('/productos/verData', [ProductoController::class, 'verData'])->name('productos.verData');
+
+//TipoDocumentoController
+Route::get('/tipoDocumentos', [TipoDocumentoController::class, 'index'])->name('tipoDocumentos.index');
+Route::get('/tipoDocumentos/dataTable', [TipoDocumentoController::class, 'dataTable'])->name('tipoDocumentos.dataTable');
+Route::get('/tipoDocumentos/create', [TipoDocumentoController::class, 'create'])->name('tipoDocumentos.create');
+Route::post('/tipoDocumentos/create', [TipoDocumentoController::class, 'store']);
+Route::get('/tipoDocumentos/edit', [TipoDocumentoController::class, 'edit'])->name('tipoDocumentos.edit');
+Route::post('/tipoDocumentos/edit', [TipoDocumentoController::class, 'update']);
+Route::get('/tipoDocumentos/status', [TipoDocumentoController::class, 'status'])->name('tipoDocumentos.status');
+Route::get('/tipoDocumentos/destroy', [TipoDocumentoController::class, 'destroy'])->name('tipoDocumentos.destroy');
