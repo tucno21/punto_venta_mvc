@@ -88,7 +88,11 @@ $linksSidebar = [
         'url'    => '#',
         'icon' => 'bi bi-file-binary',
         'submenu' => [
-
+            [
+                'text' => 'Tipo Afectación',
+                'url'  =>  route('tipoAfectaciones.index'),
+                'icon' => 'fas fa-circle',
+            ],
             [
                 'text' => 'Tipo Documento',
                 'url'  =>  route('tipoDocumentos.index'),

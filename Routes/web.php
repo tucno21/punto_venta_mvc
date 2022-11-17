@@ -10,6 +10,7 @@ use App\Controller\BackView\CategoriaController;
 use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\PermissionController;
 use App\Controller\Factura\TipoDocumentoController;
+use App\Controller\Factura\TipoAfectacionController;
 use App\Controller\BackView\RolesPermissionController;
 
 /**
@@ -102,3 +103,13 @@ Route::get('/tipoDocumentos/edit', [TipoDocumentoController::class, 'edit'])->na
 Route::post('/tipoDocumentos/edit', [TipoDocumentoController::class, 'update']);
 Route::get('/tipoDocumentos/status', [TipoDocumentoController::class, 'status'])->name('tipoDocumentos.status');
 Route::get('/tipoDocumentos/destroy', [TipoDocumentoController::class, 'destroy'])->name('tipoDocumentos.destroy');
+
+//TipoAfectacionController
+Route::get('/tipoAfectaciones', [TipoAfectacionController::class, 'index'])->name('tipoAfectaciones.index');
+Route::get('/tipoAfectaciones/dataTable', [TipoAfectacionController::class, 'dataTable'])->name('tipoAfectaciones.dataTable');
+Route::get('/tipoAfectaciones/create', [TipoAfectacionController::class, 'create'])->name('tipoAfectaciones.create');
+Route::post('/tipoAfectaciones/create', [TipoAfectacionController::class, 'store']);
+Route::get('/tipoAfectaciones/edit', [TipoAfectacionController::class, 'edit'])->name('tipoAfectaciones.edit');
+Route::post('/tipoAfectaciones/edit', [TipoAfectacionController::class, 'update']);
+Route::get('/tipoAfectaciones/status', [TipoAfectacionController::class, 'status'])->name('tipoAfectaciones.status');
+Route::get('/tipoAfectaciones/destroy', [TipoAfectacionController::class, 'destroy'])->name('tipoAfectaciones.destroy');
