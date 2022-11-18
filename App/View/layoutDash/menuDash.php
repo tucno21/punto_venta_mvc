@@ -89,6 +89,11 @@ $linksSidebar = [
         'icon' => 'bi bi-file-binary',
         'submenu' => [
             [
+                'text' => 'Monedas',
+                'url'  =>  route('monedas.index'),
+                'icon' => 'fas fa-circle',
+            ],
+            [
                 'text' => 'Tipo Afectación',
                 'url'  =>  route('tipoAfectaciones.index'),
                 'icon' => 'fas fa-circle',

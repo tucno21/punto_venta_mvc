@@ -4,6 +4,7 @@ use System\Route;
 use App\Controller\Auth\AuthController;
 use App\Controller\BackView\RolController;
 use App\Controller\BackView\UserController;
+use App\Controller\Factura\MonedaController;
 use App\Controller\BackView\UnidadController;
 use App\Controller\BackView\ProductoController;
 use App\Controller\BackView\CategoriaController;
@@ -136,3 +137,13 @@ Route::get('/tablaParametricas/edit', [TablaParametricaController::class, 'edit'
 Route::post('/tablaParametricas/edit', [TablaParametricaController::class, 'update']);
 Route::get('/tablaParametricas/status', [TablaParametricaController::class, 'status'])->name('tablaParametricas.status');
 Route::get('/tablaParametricas/destroy', [TablaParametricaController::class, 'destroy'])->name('tablaParametricas.destroy');
+
+//MonedaController
+Route::get('/monedas', [MonedaController::class, 'index'])->name('monedas.index');
+Route::get('/monedas/dataTable', [MonedaController::class, 'dataTable'])->name('monedas.dataTable');
+Route::get('/monedas/create', [MonedaController::class, 'create'])->name('monedas.create');
+Route::post('/monedas/create', [MonedaController::class, 'store']);
+Route::get('/monedas/edit', [MonedaController::class, 'edit'])->name('monedas.edit');
+Route::post('/monedas/edit', [MonedaController::class, 'update']);
+Route::get('/monedas/status', [MonedaController::class, 'status'])->name('monedas.status');
+Route::get('/monedas/destroy', [MonedaController::class, 'destroy'])->name('monedas.destroy');
