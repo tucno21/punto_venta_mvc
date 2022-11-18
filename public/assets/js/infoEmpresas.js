@@ -1,20 +1,12 @@
-//url - enlaces
-// const urlDataTable = document
-//   .querySelector("#urlDataTable")
-//   .getAttribute("data-url");
-// const urlCreate = document.querySelector("#urlCreate").getAttribute("data-url");
 const urlEdit = document.querySelector("#urlEdit").getAttribute("data-url");
 const urlGeneral = document
   .querySelector("#urlGeneral")
   .getAttribute("data-url");
-// const urlStatus = document.querySelector("#urlStatus").getAttribute("data-url");
-// const urlDestroy = document
-//   .querySelector("#urlDestroy")
-//   .getAttribute("data-url");
-//modal y botones
-// const listaTabla = document.querySelector("#simpleDatatable");
-// const modalInputs = new bootstrap.Modal("#modalInputs");
-// const btnCrear = document.querySelector("#btnCrear");
+
+const btnFirmaDigital = document.querySelector("#btnFirmaDigital");
+const modalInputs = new bootstrap.Modal("#modalInputs");
+const btnFormularioFirma = document.querySelector("#btnFormularioFirma");
+
 const btnFormulario = document.querySelector("#btnFormulario");
 //inputs
 const listId = document.querySelector("#listId");
@@ -41,6 +33,7 @@ function cargarEventListeners() {
     inEmpresa();
     botonFormulario();
     verImagen();
+    btnFirmaDigitalShow();
   });
 }
 
@@ -163,4 +156,13 @@ function limpiarErrrorInput2(array) {
 //ver imagen
 function verImagen() {
   imagen(".inputFoto", ".previsualizar");
+}
+
+//btnbtnFirmaDigitalShow
+function btnFirmaDigitalShow() {
+  btnFirmaDigital.addEventListener("click", (e) => {
+    e.preventDefault();
+    // modalInputs
+    modalInputs.show();
+  });
 }

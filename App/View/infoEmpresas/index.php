@@ -20,7 +20,7 @@ $linksScript2 = [
                         <input id="urlGeneral" type="hidden" data-url="<?= base_url() ?>">
                     </div>
                     <div class="">
-                        <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Firma Digital</button>
+                        <button id="btnFirmaDigital" type="button" class="btn btn-primary btn-sm">Firma Digital</button>
                         <button id="" type="button" class="btn btn-danger btn-sm">Algo</button>
                     </div>
                 </div>
@@ -135,43 +135,36 @@ $linksScript2 = [
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title h4" id="modalLabel">Formulario Serie - Correlativo</h5>
+                <h5 class="modal-title h4" id="modalLabel">Actualizar Firma Digital</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-6  mt-3">
-                        <label class="form-label mb-1">Tipo de Comprobante</label>
+                    <div class="col-md-12  mt-3">
+                        <label class="form-label mb-1">Firma Digital extencion *.pfx</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-5-square"></i></span>
-                            <input name="tipo_comprobante" type="text" class="form-control" id="inputComprobante">
+                            <span class="input-group-text"><i class="bi bi-door-closed"></i></span>
+                            <input name="firma" type="file" class="form-control" id="inputComprobante" accept=".pfx">
                         </div>
                     </div>
                     <div class="col-md-6  mt-3">
-                        <label class="form-label mb-1">Serie</label>
+                        <label class="form-label mb-1">Contraseña de la firma</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-file-earmark-break"></i></span>
-                            <input name="serie" type="text" class="form-control" id="inputSerie">
+                            <span class="input-group-text"><i class="bi bi-key"></i></span>
+                            <input name="password" type="text" class="form-control" id="inputPassword">
                         </div>
                     </div>
                     <div class="col-md-6  mt-3">
-                        <label class="form-label mb-1">Correlativo</label>
+                        <label class="form-label mb-1">Fecha de vencimiento</label>
                         <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-123"></i></span>
-                            <input name="correlativo" type="number" class="form-control" id="inputCorrelativo">
-                        </div>
-                    </div>
-                    <div class="col-md-6  mt-3">
-                        <label class="form-label mb-1">Tipo</label>
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="bi bi-app"></i></span>
-                            <input name="tipo" type="text" class="form-control" id="inputTipo">
+                            <span class="input-group-text"><i class="bi bi-calendar3"></i></span>
+                            <input name="fecha" type="date" class="form-control" id="inputFechaV">
                         </div>
                     </div>
 
                     <div class="col-md-12 text-center mt-3">
                         <input name="id" type="hidden" id="listId">
-                        <button class="btn btn-primary" id="">Cambio</button>
+                        <button class="btn btn-primary" id="btnFormularioFirma">Guardar</button>
                     </div>
                 </div>
             </div>
