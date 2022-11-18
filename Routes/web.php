@@ -11,6 +11,7 @@ use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\PermissionController;
 use App\Controller\Factura\TipoDocumentoController;
 use App\Controller\Factura\TipoAfectacionController;
+use App\Controller\Factura\TipoComprobanteController;
 use App\Controller\BackView\RolesPermissionController;
 
 /**
@@ -113,3 +114,14 @@ Route::get('/tipoAfectaciones/edit', [TipoAfectacionController::class, 'edit'])-
 Route::post('/tipoAfectaciones/edit', [TipoAfectacionController::class, 'update']);
 Route::get('/tipoAfectaciones/status', [TipoAfectacionController::class, 'status'])->name('tipoAfectaciones.status');
 Route::get('/tipoAfectaciones/destroy', [TipoAfectacionController::class, 'destroy'])->name('tipoAfectaciones.destroy');
+
+
+//TipoComprobanteController
+Route::get('/tipoComprobantes', [TipoComprobanteController::class, 'index'])->name('tipoComprobantes.index');
+Route::get('/tipoComprobantes/dataTable', [TipoComprobanteController::class, 'dataTable'])->name('tipoComprobantes.dataTable');
+Route::get('/tipoComprobantes/create', [TipoComprobanteController::class, 'create'])->name('tipoComprobantes.create');
+Route::post('/tipoComprobantes/create', [TipoComprobanteController::class, 'store']);
+Route::get('/tipoComprobantes/edit', [TipoComprobanteController::class, 'edit'])->name('tipoComprobantes.edit');
+Route::post('/tipoComprobantes/edit', [TipoComprobanteController::class, 'update']);
+Route::get('/tipoComprobantes/status', [TipoComprobanteController::class, 'status'])->name('tipoComprobantes.status');
+Route::get('/tipoComprobantes/destroy', [TipoComprobanteController::class, 'destroy'])->name('tipoComprobantes.destroy');

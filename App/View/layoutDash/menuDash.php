@@ -94,6 +94,11 @@ $linksSidebar = [
                 'icon' => 'fas fa-circle',
             ],
             [
+                'text' => 'Tipo Comprobante',
+                'url'  =>  route('tipoComprobantes.index'),
+                'icon' => 'fas fa-circle',
+            ],
+            [
                 'text' => 'Tipo Documento',
                 'url'  =>  route('tipoDocumentos.index'),
                 'icon' => 'fas fa-circle',
