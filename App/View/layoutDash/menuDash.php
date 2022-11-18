@@ -94,6 +94,11 @@ $linksSidebar = [
                 'icon' => 'fas fa-circle',
             ],
             [
+                'text' => 'Series y Correlativos',
+                'url'  =>  route('serieCorrelativos.index'),
+                'icon' => 'fas fa-circle',
+            ],
+            [
                 'text' => 'Tipo Afectación',
                 'url'  =>  route('tipoAfectaciones.index'),
                 'icon' => 'fas fa-circle',

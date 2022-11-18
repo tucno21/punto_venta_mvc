@@ -14,6 +14,7 @@ use App\Controller\Factura\TipoDocumentoController;
 use App\Controller\Factura\TipoAfectacionController;
 use App\Controller\Factura\TipoComprobanteController;
 use App\Controller\BackView\RolesPermissionController;
+use App\Controller\Factura\SerieCorrelativoController;
 use App\Controller\Factura\TablaParametricaController;
 
 /**
@@ -147,3 +148,13 @@ Route::get('/monedas/edit', [MonedaController::class, 'edit'])->name('monedas.ed
 Route::post('/monedas/edit', [MonedaController::class, 'update']);
 Route::get('/monedas/status', [MonedaController::class, 'status'])->name('monedas.status');
 Route::get('/monedas/destroy', [MonedaController::class, 'destroy'])->name('monedas.destroy');
+
+//SerieCorrelativoController
+Route::get('/serieCorrelativos', [SerieCorrelativoController::class, 'index'])->name('serieCorrelativos.index');
+Route::get('/serieCorrelativos/dataTable', [SerieCorrelativoController::class, 'dataTable'])->name('serieCorrelativos.dataTable');
+Route::get('/serieCorrelativos/create', [SerieCorrelativoController::class, 'create'])->name('serieCorrelativos.create');
+Route::post('/serieCorrelativos/create', [SerieCorrelativoController::class, 'store']);
+Route::get('/serieCorrelativos/edit', [SerieCorrelativoController::class, 'edit'])->name('serieCorrelativos.edit');
+Route::post('/serieCorrelativos/edit', [SerieCorrelativoController::class, 'update']);
+Route::get('/serieCorrelativos/status', [SerieCorrelativoController::class, 'status'])->name('serieCorrelativos.status');
+Route::get('/serieCorrelativos/destroy', [SerieCorrelativoController::class, 'destroy'])->name('serieCorrelativos.destroy');
