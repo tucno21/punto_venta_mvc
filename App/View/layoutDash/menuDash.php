@@ -94,6 +94,11 @@ $linksSidebar = [
                 'icon' => 'fas fa-circle',
             ],
             [
+                'text' => 'Tabla Parametrica',
+                'url'  =>  route('tablaParametricas.index'),
+                'icon' => 'fas fa-circle',
+            ],
+            [
                 'text' => 'Tipo Comprobante',
                 'url'  =>  route('tipoComprobantes.index'),
                 'icon' => 'fas fa-circle',

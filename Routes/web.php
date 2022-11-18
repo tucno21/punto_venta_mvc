@@ -13,6 +13,7 @@ use App\Controller\Factura\TipoDocumentoController;
 use App\Controller\Factura\TipoAfectacionController;
 use App\Controller\Factura\TipoComprobanteController;
 use App\Controller\BackView\RolesPermissionController;
+use App\Controller\Factura\TablaParametricaController;
 
 /**
  * cargar el autoloader de composer Y la configuracion de la aplicacion
@@ -125,3 +126,13 @@ Route::get('/tipoComprobantes/edit', [TipoComprobanteController::class, 'edit'])
 Route::post('/tipoComprobantes/edit', [TipoComprobanteController::class, 'update']);
 Route::get('/tipoComprobantes/status', [TipoComprobanteController::class, 'status'])->name('tipoComprobantes.status');
 Route::get('/tipoComprobantes/destroy', [TipoComprobanteController::class, 'destroy'])->name('tipoComprobantes.destroy');
+
+//TablaParametricaController
+Route::get('/tablaParametricas', [TablaParametricaController::class, 'index'])->name('tablaParametricas.index');
+Route::get('/tablaParametricas/dataTable', [TablaParametricaController::class, 'dataTable'])->name('tablaParametricas.dataTable');
+Route::get('/tablaParametricas/create', [TablaParametricaController::class, 'create'])->name('tablaParametricas.create');
+Route::post('/tablaParametricas/create', [TablaParametricaController::class, 'store']);
+Route::get('/tablaParametricas/edit', [TablaParametricaController::class, 'edit'])->name('tablaParametricas.edit');
+Route::post('/tablaParametricas/edit', [TablaParametricaController::class, 'update']);
+Route::get('/tablaParametricas/status', [TablaParametricaController::class, 'status'])->name('tablaParametricas.status');
+Route::get('/tablaParametricas/destroy', [TablaParametricaController::class, 'destroy'])->name('tablaParametricas.destroy');
