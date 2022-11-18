@@ -10,6 +10,7 @@ use App\Controller\BackView\ProductoController;
 use App\Controller\BackView\CategoriaController;
 use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\PermissionController;
+use App\Controller\BackView\InfoEmpresaController;
 use App\Controller\Factura\TipoDocumentoController;
 use App\Controller\Factura\TipoAfectacionController;
 use App\Controller\Factura\TipoComprobanteController;
@@ -158,3 +159,8 @@ Route::get('/serieCorrelativos/edit', [SerieCorrelativoController::class, 'edit'
 Route::post('/serieCorrelativos/edit', [SerieCorrelativoController::class, 'update']);
 Route::get('/serieCorrelativos/status', [SerieCorrelativoController::class, 'status'])->name('serieCorrelativos.status');
 Route::get('/serieCorrelativos/destroy', [SerieCorrelativoController::class, 'destroy'])->name('serieCorrelativos.destroy');
+
+//InfoEmpresaController
+Route::get('/infoEmpresas', [InfoEmpresaController::class, 'index'])->name('infoEmpresas.index');
+Route::get('/infoEmpresas/edit', [InfoEmpresaController::class, 'edit'])->name('infoEmpresas.edit');
+Route::post('/infoEmpresas/edit', [InfoEmpresaController::class, 'update']);

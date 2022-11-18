@@ -120,6 +120,12 @@ $linksSidebar = [
             ],
         ],
     ],
+    [
+        'mode' => 'menu',
+        'text' => 'Empresa',
+        'url'  => route('infoEmpresas.index'),
+        'icon' => 'bi bi-buildings',
+    ],
 ];
 
 
