@@ -83,6 +83,18 @@ $linksSidebar = [
         ],
     ],
     [
+        'mode' => 'menu',
+        'text' => 'Clientes',
+        'url'  => route('clientes.index'),
+        'icon' => 'bi bi-people',
+    ],
+    [
+        'mode' => 'menu',
+        'text' => 'Empresa',
+        'url'  => route('infoEmpresas.index'),
+        'icon' => 'bi bi-buildings',
+    ],
+    [
         'mode' => 'submenu',
         'text'    => 'Base Factura',
         'url'    => '#',
@@ -119,12 +131,6 @@ $linksSidebar = [
                 'icon' => 'fas fa-circle',
             ],
         ],
-    ],
-    [
-        'mode' => 'menu',
-        'text' => 'Empresa',
-        'url'  => route('infoEmpresas.index'),
-        'icon' => 'bi bi-buildings',
     ],
 ];
 

@@ -6,11 +6,13 @@ use App\Controller\BackView\RolController;
 use App\Controller\BackView\UserController;
 use App\Controller\Factura\MonedaController;
 use App\Controller\BackView\UnidadController;
+use App\Controller\BackView\ClienteController;
 use App\Controller\BackView\ProductoController;
 use App\Controller\BackView\CategoriaController;
 use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\PermissionController;
 use App\Controller\BackView\InfoEmpresaController;
+use App\Controller\BackView\BuscarDniRucController;
 use App\Controller\Factura\TipoDocumentoController;
 use App\Controller\Factura\TipoAfectacionController;
 use App\Controller\Factura\TipoComprobanteController;
@@ -164,3 +166,15 @@ Route::get('/serieCorrelativos/destroy', [SerieCorrelativoController::class, 'de
 Route::get('/infoEmpresas', [InfoEmpresaController::class, 'index'])->name('infoEmpresas.index');
 Route::get('/infoEmpresas/edit', [InfoEmpresaController::class, 'edit'])->name('infoEmpresas.edit');
 Route::post('/infoEmpresas/edit', [InfoEmpresaController::class, 'update']);
+
+
+//ClienteController
+Route::get('/clientes', [ClienteController::class, 'index'])->name('clientes.index');
+Route::get('/clientes/dataTable', [ClienteController::class, 'dataTable'])->name('clientes.dataTable');
+Route::get('/clientes/create', [ClienteController::class, 'create'])->name('clientes.create');
+Route::post('/clientes/create', [ClienteController::class, 'store']);
+Route::get('/clientes/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
+Route::post('/clientes/edit', [ClienteController::class, 'update']);
+Route::get('/clientes/status', [ClienteController::class, 'status'])->name('clientes.status');
+Route::get('/clientes/destroy', [ClienteController::class, 'destroy'])->name('clientes.destroy');
+Route::get('/clientes/tipodocumento', [ClienteController::class, 'tipodocumento'])->name('clientes.tipodocumento');

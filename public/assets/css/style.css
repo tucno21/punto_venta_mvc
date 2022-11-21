@@ -7,7 +7,7 @@ Support: dashboardkit@gmail.com
 File: style.css
 =========================================================================
 =================================================================================== */
-/*!
+/*
    * Bootstrap  v5.2.0 (https://getbootstrap.com/)
    * Copyright 2011-2022 The Bootstrap Authors
    * Copyright 2011-2022 Twitter, Inc.
@@ -15478,8 +15478,10 @@ fieldset:disabled .btn {
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Regular.woff2?v=3.13") format("woff2"),
-        url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Regular.woff?v=3.13") format("woff");
+    src: url("./fonts/Inter-Regular.woff2?v=3.13") format("woff2"),
+        url("./fonts/Inter-Regular.woff?v=3.13") format("woff");
+    /* src: url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Regular.woff2?v=3.13") format("woff2"),
+        url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Regular.woff?v=3.13") format("woff"); */
 }
 
 @font-face {
@@ -15487,8 +15489,10 @@ fieldset:disabled .btn {
     font-style: normal;
     font-weight: 500;
     font-display: swap;
-    src: url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Medium.woff2?v=3.13") format("woff2"),
-        url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Medium.woff?v=3.13") format("woff");
+    src: url("./fonts/Inter-Medium.woff2?v=3.13") format("woff2"),
+        url("./fonts/Inter-Medium.woff?v=3.13") format("woff");
+    /* src: url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Medium.woff2?v=3.13") format("woff2"),
+        url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Medium.woff?v=3.13") format("woff"); */
 }
 
 @font-face {
@@ -15496,8 +15500,10 @@ fieldset:disabled .btn {
     font-style: normal;
     font-weight: 600;
     font-display: swap;
-    src: url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-SemiBold.woff2?v=3.13") format("woff2"),
-        url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-SemiBold.woff?v=3.13") format("woff");
+    src: url("./fonts/Inter-SemiBold.woff2?v=3.13") format("woff2"),
+        url("./fonts/Inter-SemiBold.woff?v=3.13") format("woff");
+    /* src: url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-SemiBold.woff2?v=3.13") format("woff2"),
+        url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-SemiBold.woff?v=3.13") format("woff"); */
 }
 
 @font-face {
@@ -15505,8 +15511,9 @@ fieldset:disabled .btn {
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Bold.woff2?v=3.13") format("woff2"),
-        url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Bold.woff?v=3.13") format("woff");
+    src: url("./fonts/Inter-Bold.woff2?v=3.13") format("woff2"), url("./fonts/Inter-Bold.woff?v=3.13") format("woff");
+    /* src: url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Bold.woff2?v=3.13") format("woff2"),
+        url("https://dashboardkit.io/bootstrap/assets/fonts/inter/Inter-Bold.woff?v=3.13") format("woff"); */
 }
 
 *:focus {

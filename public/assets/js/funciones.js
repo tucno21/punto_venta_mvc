@@ -85,3 +85,22 @@ function imagen(inputFoto, previsualizar) {
     }
   });
 }
+
+//buscar dniruc
+async function buscarDNIRUC(number, document) {
+  const url = "https://api_dni_ruc.test/consulta";
+
+  if (document == "dni") {
+    const link = `${url}?dni=${number}`;
+    const response = await fetch(link);
+    const data = await response.json();
+    return data;
+  }
+
+  if (document == "ruc") {
+    const link = `${url}?ruc=${number}`;
+    const response = await fetch(link);
+    const data = await response.json();
+    return data;
+  }
+}
