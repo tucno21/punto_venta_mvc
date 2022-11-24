@@ -201,3 +201,4 @@ Route::get('/compras/create', [CompraController::class, 'create'])->name('compra
 Route::post('/compras/create', [CompraController::class, 'store']);
 Route::get('/compras/destroy', [CompraController::class, 'destroy'])->name('compras.destroy');
 Route::get('/compras/tipocomprobante', [CompraController::class, 'tipocomprobante'])->name('compras.tipocomprobante');
+Route::get('/compras/reporte', [CompraController::class, 'reporte'])->name('compras.reporte');

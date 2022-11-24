@@ -3,7 +3,9 @@ const urlDataTable = document
   .querySelector("#urlDataTable")
   .getAttribute("data-url");
 
-const urlEdit = "www.url.com/edit";
+const urlReporte = document
+  .querySelector("#urlReporte")
+  .getAttribute("data-url");
 
 const urlDestroy = document
   .querySelector("#urlDestroy")
@@ -40,13 +42,13 @@ async function generarDataTable() {
     i++;
     element["actions"] =
       element.estado === 1
-        ? `<a href="${urlEdit}?id=${element.id}" class="btn btn-outline-success btn-sm btnEditar">
+        ? `<a href="${urlReporte}?id=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
             <i class="bi bi-file-earmark-pdf"></i>
           </a>
           <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar">
             <i class="bi bi-trash3"></i>
           </a>`
-        : `<a href="${urlEdit}?id=${element.id}" class="btn btn-outline-success btn-sm btnEditar">
+        : `<a href="${urlReporte}?id=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
             <i class="bi bi-file-earmark-pdf"></i>
           </a>`;
   });
@@ -85,17 +87,18 @@ async function generarDataTable() {
 function botonesDataTable() {
   listaTabla.addEventListener("click", (e) => {
     e.preventDefault();
-    // //en boton editar
-    // if (
-    //   e.target.classList.contains("btnEditar") ||
-    //   e.target.parentElement.classList.contains("btnEditar")
-    // ) {
-    //   //traer link del boton
-    //   const url =
-    //     e.target.parentElement.getAttribute("href") ||
-    //     e.target.getAttribute("href");
-    //   botonEditar(url);
-    // }
+    //en boton reporte
+    if (
+      e.target.classList.contains("btnReporte") ||
+      e.target.parentElement.classList.contains("btnReporte")
+    ) {
+      //traer link del boton
+      const url =
+        e.target.parentElement.getAttribute("href") ||
+        e.target.getAttribute("href");
+      botonReporte(url);
+    }
+
     //en boton eliminar
     if (
       e.target.classList.contains("btnEliminar") ||
@@ -136,4 +139,9 @@ async function botonEliminar(url) {
       toastPersonalizado("success", "Compra Anulada");
     }
   }
+}
+
+//boton reporte
+function botonReporte(url) {
+  window.open(url, "_blank");
 }

@@ -18,6 +18,7 @@ $linksScript2 = [
                         <h5 class="m-b-10">Panel de Compras</h5>
                         <input id="urlDataTable" type="hidden" data-url="<?= route('compras.dataTable') ?>">
                         <input id="urlDestroy" type="hidden" data-url="<?= route('compras.destroy') ?>">
+                        <input id="urlReporte" type="hidden" data-url="<?= route('compras.reporte') ?>">
                     </div>
                     <div class="">
                         <a a href="<?= route('compras.create') ?>" class="btn btn-primary btn-sm">Registrar Compra</a>

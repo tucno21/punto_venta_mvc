@@ -47,4 +47,14 @@ class Compras extends Model
                 ORDER BY c.id DESC";
         return self::querySimple($sql);
     }
+
+    public static function getCompra($id)
+    {
+        $sql = "SELECT c.*, tc.descripcion as tipo_comprobante, p.nombre as proveedor 
+                FROM compras c
+                INNER JOIN tipo_comprobante tc ON tc.id = c.tipo_comprobante_id
+                INNER JOIN proveedores p ON p.id = c.proveedor_id
+                WHERE c.id = $id";
+        return self::querySimple($sql);
+    }
 }

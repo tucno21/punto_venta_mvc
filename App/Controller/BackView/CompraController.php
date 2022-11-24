@@ -4,6 +4,7 @@ namespace App\Controller\BackView;
 
 use App\Model\Compras;
 use System\Controller;
+use App\Library\FPDF\FPDF;
 use App\Model\Factura\TipoComprobante;
 
 class CompraController extends Controller
@@ -99,5 +100,85 @@ class CompraController extends Controller
         $response = ['status' => true, 'data' => 'Actualizado correctamente'];
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
+    }
+
+    public function reporte()
+    {
+        $result = $this->request()->isGet();
+        if ($result) {
+            $data = $this->request()->getInput();
+            $compra = Compras::getCompra($data->id);
+
+            $compra->fecha_compra = date('d-m-Y', strtotime($compra->fecha_compra));
+
+            $pdf = new FPDF('P', 'mm', 'A4');
+            $pdf->AddPage();
+            $pdf->setMargins(10, 10, 10);
+            $pdf->setTitle('Detalle de Compra');
+            $pdf->SetFont('Arial', 'B', 12);
+
+            $pdf->Cell(190, 5, 'Entrada de Productos', 0, 1, 'C');
+
+            $pdf->Ln();
+            $pdf->Ln();
+
+            $pdf->Cell(30, 5, 'Comprobante ', 0, 0, 'L');
+            $pdf->SetFont('Arial', '', 12);
+            $pdf->Cell(10, 5,  ': ' . $compra->serie, 0, 1, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(30, 5, 'Proveedor ', 0, 0, 'L');
+            $pdf->SetFont('Arial', '', 12);
+            $pdf->Cell(10, 5,  ': ' . $compra->proveedor, 0, 1, 'L');
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(30, 5, 'Fecha ', 0, 0, 'L');
+            $pdf->SetFont('Arial', '', 12);
+            $pdf->Cell(10, 5,  ': ' . $compra->fecha_compra, 0, 1, 'L');
+
+            $pdf->Ln();
+            $pdf->Ln();
+
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->SetFillColor(0, 0, 0);
+            $pdf->SetTextColor(255, 255, 255);
+            $pdf->Cell(190, 7, 'Detalle de Compra', 1, 1, 'C', true);
+
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->Cell(10, 8, utf8_decode('N°'), 1, 0, 'L');
+            $pdf->Cell(35, 8, utf8_decode('Código'), 1, 0, 'L');
+            $pdf->Cell(63, 8, 'Nombre', 1, 0, 'L');
+            $pdf->Cell(26, 8, 'Precio', 1, 0, 'L');
+            $pdf->Cell(26, 8, 'Cantidad', 1, 0, 'L');
+            $pdf->Cell(30, 8, 'Importe', 1, 1, 'L');
+
+            $pdf->SetFont('Arial', '', 12);
+
+
+            $productos = json_decode($compra->productos);
+
+            $i = 1;
+            foreach ($productos as $value) {
+                $pdf->Cell(10, 8, $i, 1, 0, 'L');
+                $pdf->Cell(35, 8, "00001", 1, 0, 'L');
+                $pdf->Cell(63, 8, utf8_decode($value->detalle), 1, 0, 'L');
+                $pdf->Cell(26, 8, 'S/ ' . number_format($value->precio_compra, 2, '.', ''), 1, 0, 'L');
+                $pdf->Cell(26, 8, $value->cantidad, 1, 0, 'L');
+
+                $subtotal = $value->cantidad * $value->precio_compra;
+                $pdf->Cell(30, 8, 'S/ ' . number_format($subtotal, 2, '.', ''), 1, 1, 'R');
+
+                $i++;
+            }
+
+            $pdf->Cell(10, 8, '', 0, 0, 'L');
+            $pdf->Cell(35, 8, '', 0, 0, 'L');
+            $pdf->Cell(63, 8, '', 0, 0, 'L');
+            $pdf->Cell(26, 8, '', 0, 0, 'L');
+            $pdf->Cell(26, 8, 'TOTAL', 1, 0, 'L');
+            $pdf->Cell(30, 8, 'S/ ' . $compra->total, 1, 1, 'R');
+
+
+
+            $pdf->Output("Compra" . $compra->serie . "-" . $compra->fecha_compra . ".pdf", "I");
+        }
     }
 }
