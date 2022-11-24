@@ -118,6 +118,10 @@ class CompraController extends Controller
             $pdf->SetFont('Arial', 'B', 12);
 
             $pdf->Cell(190, 5, 'Entrada de Productos', 0, 1, 'C');
+            if ($compra->estado == 0) {
+                $pdf->Ln();
+                $pdf->Cell(190, 5, 'ANULADO', 0, 1, 'C');
+            }
 
             $pdf->Ln();
             $pdf->Ln();
@@ -158,7 +162,7 @@ class CompraController extends Controller
             $i = 1;
             foreach ($productos as $value) {
                 $pdf->Cell(10, 8, $i, 1, 0, 'L');
-                $pdf->Cell(35, 8, "00001", 1, 0, 'L');
+                $pdf->Cell(35, 8, utf8_decode($value->codigo), 1, 0, 'L');
                 $pdf->Cell(63, 8, utf8_decode($value->detalle), 1, 0, 'L');
                 $pdf->Cell(26, 8, 'S/ ' . number_format($value->precio_compra, 2, '.', ''), 1, 0, 'L');
                 $pdf->Cell(26, 8, $value->cantidad, 1, 0, 'L');

@@ -232,6 +232,7 @@ async function buscarBarcode(link) {
       detalle: data.data.detalle,
       precio_compra: data.data.precio_compra,
       precio_venta: data.data.precio_venta,
+      codigo: data.data.codigo,
     };
 
     // //sacar el producto del array productosCarrito
@@ -258,12 +259,13 @@ async function buscarBarcode(link) {
 
 //agregar lista de carrito
 function agregarProductoCarrito(data) {
-  console.log(data);
+  // console.log(data);
   const producto = {
     id: data.id,
     detalle: data.detalle,
     precio_compra: data.precio_compra,
     precio_venta: data.precio_venta,
+    codigo: data.codigo,
     cantidad: 1,
   };
   // console.log(producto);
