@@ -241,4 +241,37 @@ class ProductoController extends Controller
         echo json_encode($producto);
         exit;
     }
+
+    public function barcode()
+    {
+        $data = $this->request()->getInput();
+        $producto = Productos::productoCode($data->codigo);
+
+        $response = ['status' => false, 'message' => 'No se encontro el producto'];
+
+        if (!empty($producto)) {
+            $response = ['status' => true, 'data' => $producto];
+        }
+        echo json_encode($response);
+        exit;
+    }
+
+    public function inputSearch()
+    {
+        //busqueda para autocompletar
+        $data = $this->request()->getInput();
+        //obligatorio recibir ->search
+        $response = Productos::search($data->search);
+
+        if (is_object($response)) {
+            $response = [$response];
+        }
+        foreach ($response as $key => $value) {
+            //obligatorio agregar ->textItem
+            $response[$key]->textItem = $value->codigo . ' - ' . $value->detalle;
+        }
+
+        echo json_encode($response);
+        exit;
+    }
 }

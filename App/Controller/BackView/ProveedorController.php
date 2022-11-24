@@ -58,8 +58,8 @@ class ProveedorController extends Controller
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
         } else {
-            Proveedores::create($data);
-            $response = ['status' => true, 'data' => 'Creado correctamente'];
+            $result = Proveedores::create($data);
+            $response = ['status' => true, 'data' => $result->id];
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
         }
@@ -121,6 +121,24 @@ class ProveedorController extends Controller
         $estado = ($pro->estado == 1) ? 0 : 1;
         $result = Proveedores::update($data->id, ['estado' => $estado]);
         $response = ['status' => true, 'data' => 'Actualizado correctamente'];
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    public function buscar()
+    {
+        //busqueda para autocompletar
+        $data = $this->request()->getInput();
+        //obligatorio recibir ->search
+        $response = Proveedores::getBuscar($data->search);
+        if (is_object($response)) {
+            $response = [$response];
+        }
+        foreach ($response as $key => $value) {
+            //obligatorio agregar ->textItem
+            $response[$key]->textItem = $value->documento . ' - ' . $value->nombre;
+        }
+
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
     }

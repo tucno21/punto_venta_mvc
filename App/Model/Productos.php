@@ -57,4 +57,18 @@ class Productos extends Model
                 WHERE p.id = $id";
         return self::querySimple($sql);
     }
+
+    public static function productoCode($code)
+    {
+        //estado = 1
+        $sql = "SELECT * FROM productos WHERE codigo = '$code' AND estado = 1";
+        return self::querySimple($sql);
+    }
+
+    public static function search($search)
+    {
+        $sql = "SELECT * FROM productos WHERE estado = 1 AND (codigo LIKE '%{$search}%' OR detalle LIKE '%{$search}%') ORDER BY detalle ASC";
+
+        return self::querySimple($sql);
+    }
 }

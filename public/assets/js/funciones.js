@@ -104,3 +104,62 @@ async function buscarDNIRUC(number, document) {
     return data;
   }
 }
+
+//crear clase Autocomplete que solicita dos parametros(input, link) y que espero hasta que se seleccione un elemento y el metodo seleccionar me devuelve el objeto seleccionado
+class Autocomplete {
+  constructor(input, link) {
+    this.input = input;
+    this.link = link;
+    this.seleccionar = null;
+    this.elementos = [];
+    this.input.addEventListener("input", this.buscar.bind(this));
+    this.input.addEventListener("focus", this.buscar.bind(this));
+    this.input.addEventListener("blur", this.cerrar.bind(this));
+  }
+  buscar() {
+    if (this.input.value.length >= 3) {
+      const url = this.link + `?search=${this.input.value}`;
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          this.elementos = data;
+          this.render();
+        });
+    }
+  }
+  render() {
+    this.limpiar();
+    if (this.elementos.length > 0) {
+      // crear elemento ul
+      const contenedor = document.createElement("UL");
+      contenedor.classList.add("ui-menu");
+      contenedor.setAttribute("id", "listaBusqueda");
+      //agregar hermano siguiente input
+      this.input.parentElement.appendChild(contenedor);
+
+      this.elementos.forEach((elemento) => {
+        let item = document.createElement("LI");
+        item.classList.add("ui-menu-item");
+        item.innerHTML = elemento.textItem;
+        item.addEventListener("click", () => {
+          // this.input.value = elemento.nombre;
+          // this.seleccionar = elemento;
+          this.seleccionar(elemento);
+          this.limpiar();
+        });
+        contenedor.appendChild(item);
+      });
+    }
+  }
+  limpiar() {
+    let elementos = document.querySelectorAll(".ui-menu-item");
+    elementos.forEach((elemento) => {
+      elemento.remove();
+    });
+  }
+  cerrar() {
+    setTimeout(() => {
+      this.limpiar();
+    }, 200);
+  }
+}

@@ -5,6 +5,7 @@ use App\Controller\Auth\AuthController;
 use App\Controller\BackView\RolController;
 use App\Controller\BackView\UserController;
 use App\Controller\Factura\MonedaController;
+use App\Controller\BackView\CompraController;
 use App\Controller\BackView\UnidadController;
 use App\Controller\BackView\ClienteController;
 use App\Controller\BackView\ProductoController;
@@ -101,6 +102,8 @@ Route::get('/productos/unidades', [ProductoController::class, 'unidades'])->name
 Route::get('/productos/categorias', [ProductoController::class, 'categorias'])->name('productos.categorias');
 Route::get('/productos/afectacion', [ProductoController::class, 'afectacion'])->name('productos.afectacion');
 Route::get('/productos/verData', [ProductoController::class, 'verData'])->name('productos.verData');
+Route::get('/productos/barcode', [ProductoController::class, 'barcode'])->name('productos.barcode');
+Route::get('/productos/inputSearch', [ProductoController::class, 'inputSearch'])->name('productos.inputSearch');
 
 //TipoDocumentoController
 Route::get('/tipoDocumentos', [TipoDocumentoController::class, 'index'])->name('tipoDocumentos.index');
@@ -189,3 +192,12 @@ Route::get('/proveedores/edit', [ProveedorController::class, 'edit'])->name('pro
 Route::post('/proveedores/edit', [ProveedorController::class, 'update']);
 Route::get('/proveedores/status', [ProveedorController::class, 'status'])->name('proveedores.status');
 Route::get('/proveedores/destroy', [ProveedorController::class, 'destroy'])->name('proveedores.destroy');
+Route::get('/proveedores/buscar', [ProveedorController::class, 'buscar'])->name('proveedores.buscar');
+
+//CompraController
+Route::get('/compras', [CompraController::class, 'index'])->name('compras.index');
+Route::get('/compras/dataTable', [CompraController::class, 'dataTable'])->name('compras.dataTable');
+Route::get('/compras/create', [CompraController::class, 'create'])->name('compras.create');
+Route::post('/compras/create', [CompraController::class, 'store']);
+Route::get('/compras/destroy', [CompraController::class, 'destroy'])->name('compras.destroy');
+Route::get('/compras/tipocomprobante', [CompraController::class, 'tipocomprobante'])->name('compras.tipocomprobante');

@@ -96,6 +96,12 @@ $linksSidebar = [
     ],
     [
         'mode' => 'menu',
+        'text' => 'Compras',
+        'url'  => route('compras.index'),
+        'icon' => 'bi bi-cart2',
+    ],
+    [
+        'mode' => 'menu',
         'text' => 'Empresa',
         'url'  => route('infoEmpresas.index'),
         'icon' => 'bi bi-buildings',
