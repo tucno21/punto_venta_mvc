@@ -4,6 +4,7 @@ use System\Route;
 use App\Controller\Auth\AuthController;
 use App\Controller\BackView\RolController;
 use App\Controller\BackView\UserController;
+use App\Controller\BackView\VentaController;
 use App\Controller\Factura\MonedaController;
 use App\Controller\BackView\CompraController;
 use App\Controller\BackView\UnidadController;
@@ -182,6 +183,7 @@ Route::post('/clientes/edit', [ClienteController::class, 'update']);
 Route::get('/clientes/status', [ClienteController::class, 'status'])->name('clientes.status');
 Route::get('/clientes/destroy', [ClienteController::class, 'destroy'])->name('clientes.destroy');
 Route::get('/clientes/tipodocumento', [ClienteController::class, 'tipodocumento'])->name('clientes.tipodocumento');
+Route::get('/clientes/buscar', [ClienteController::class, 'buscar'])->name('clientes.buscar');
 
 //ProveedorController
 Route::get('/proveedores', [ProveedorController::class, 'index'])->name('proveedores.index');
@@ -202,3 +204,14 @@ Route::post('/compras/create', [CompraController::class, 'store']);
 Route::get('/compras/destroy', [CompraController::class, 'destroy'])->name('compras.destroy');
 Route::get('/compras/tipocomprobante', [CompraController::class, 'tipocomprobante'])->name('compras.tipocomprobante');
 Route::get('/compras/reporte', [CompraController::class, 'reporte'])->name('compras.reporte');
+
+//VentaController
+Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');
+Route::get('/ventas/dataTable', [VentaController::class, 'dataTable'])->name('ventas.dataTable');
+Route::get('/ventas/create', [VentaController::class, 'create'])->name('ventas.create');
+Route::post('/ventas/create', [VentaController::class, 'store']);
+Route::get('/ventas/destroy', [VentaController::class, 'destroy'])->name('ventas.destroy');
+Route::get('/ventas/tipocomprobante', [VentaController::class, 'tipocomprobante'])->name('ventas.tipocomprobante');
+Route::get('/ventas/serieCorrelativo', [VentaController::class, 'serieCorrelativo'])->name('ventas.serieCorrelativo');
+Route::get('/ventas/monedas', [VentaController::class, 'monedas'])->name('ventas.monedas');
+Route::get('/ventas/reporte', [VentaController::class, 'reporte'])->name('ventas.reporte');

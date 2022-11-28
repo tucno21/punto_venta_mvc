@@ -36,4 +36,12 @@ class Clientes extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
+
+    public static function getBuscar($clientes)
+    {
+        //solo con estado = 1
+        $sql = "SELECT * FROM clientes WHERE estado = 1 AND (documento LIKE '%{$clientes}%' OR nombre LIKE '%{$clientes}%') ORDER BY nombre ASC";
+
+        return self::querySimple($sql);
+    }
 }

@@ -36,4 +36,12 @@ class SerieCorrelativo extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
+
+    public static function getSerieCorrelativo($tipo_comprobante)
+    {
+
+        $sql = "SELECT * FROM serie_correlativo WHERE tipo_comprobante = '$tipo_comprobante' AND estado = 1";
+
+        return self::querySimple($sql);
+    }
 }

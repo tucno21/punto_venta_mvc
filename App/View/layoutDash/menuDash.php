@@ -102,6 +102,12 @@ $linksSidebar = [
     ],
     [
         'mode' => 'menu',
+        'text' => 'Ventas',
+        'url'  => route('ventas.index'),
+        'icon' => 'bi bi-cash-coin',
+    ],
+    [
+        'mode' => 'menu',
         'text' => 'Empresa',
         'url'  => route('infoEmpresas.index'),
         'icon' => 'bi bi-buildings',

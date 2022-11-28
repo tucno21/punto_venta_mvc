@@ -60,14 +60,25 @@ class Productos extends Model
 
     public static function productoCode($code)
     {
-        //estado = 1
-        $sql = "SELECT * FROM productos WHERE codigo = '$code' AND estado = 1";
+        //estado = 1 , tipo_afectacion_id , stock > 0
+        $sql = "SELECT p.*,  t.codigo as codigo_afectacion_alt, t.codigo_afectacion, t.nombre_afectacion, t.tipo_afectacion, u.codigo as unidad 
+                FROM productos p
+                INNER JOIN tipo_afectacion t ON t.id = p.tipo_afectacion_id
+                INNER JOIN unidades u ON u.id = p.unidad_id
+                WHERE p.codigo = '$code' AND p.estado = 1 AND p.stock > 0";
         return self::querySimple($sql);
     }
 
     public static function search($search)
     {
-        $sql = "SELECT * FROM productos WHERE estado = 1 AND (codigo LIKE '%{$search}%' OR detalle LIKE '%{$search}%') ORDER BY detalle ASC";
+        $sql = "SELECT p.*,  t.codigo as codigo_afectacion_alt, t.codigo_afectacion, t.nombre_afectacion, t.tipo_afectacion, u.codigo as unidad 
+                FROM productos p
+                INNER JOIN tipo_afectacion t ON t.id = p.tipo_afectacion_id
+                INNER JOIN unidades u ON u.id = p.unidad_id
+                WHERE p.detalle LIKE '%$search%' OR p.codigo LIKE '%$search%'
+                ORDER BY p.id DESC";
+        // productos 
+        // WHERE estado = 1 AND (codigo LIKE '%{$search}%' OR detalle LIKE '%{$search}%') ORDER BY detalle ASC";
 
         return self::querySimple($sql);
     }

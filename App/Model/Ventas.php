@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Model\Factura;
+namespace App\Model;
 
 use System\Model;
 
-class TipoComprobante extends Model
+class Ventas extends Model
 {
     /**
      * nombre de la tabla
      */
-    protected static $table       = 'tipo_comprobante';
+    protected static $table       = 'ventas';
     /**
      * nombre primary key
      */
@@ -17,7 +17,7 @@ class TipoComprobante extends Model
     /**
      * nombre de la columnas de la tabla
      */
-    protected static $allowedFields = ['codigo', 'descripcion', 'para', 'estado'];
+    protected static $allowedFields = ['usuario_id', 'tipodoc', 'serie_id', 'serie', 'correlativo', 'moneda', 'fecha_emision', 'op_gratuitas', 'op_exoneradas', 'op_inafectas', 'op_gravadas', 'igv_gratuita', 'igv_exonerada', 'igv_inafecta', 'igv_grabada', 'igv_total', 'total', 'cliente_id', 'nombre_xml', 'forma_pago', 'cuotas', 'estado', 'productos'];
     /**
      * obtener los datos de la tabla en 'array' u 'object'
      */
@@ -36,10 +36,4 @@ class TipoComprobante extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
-
-    public static function getTipoComprobante($para)
-    {
-        $sql = "SELECT * FROM tipo_comprobante WHERE para = '$para' AND estado = 1";
-        return self::querySimple($sql);
-    }
 }

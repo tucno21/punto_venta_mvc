@@ -65,8 +65,8 @@ class ClienteController extends Controller
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
         } else {
-            Clientes::create($data);
-            $response = ['status' => true, 'data' => 'Creado correctamente'];
+            $result = Clientes::create($data);
+            $response = ['status' => true, 'data' => $result->id];
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
         }
@@ -145,6 +145,24 @@ class ClienteController extends Controller
         }
         //json
         echo json_encode($tipoDoc);
+        exit;
+    }
+
+    public function buscar()
+    {
+        //busqueda para autocompletar
+        $data = $this->request()->getInput();
+        //obligatorio recibir ->search
+        $response = Clientes::getBuscar($data->search);
+        if (is_object($response)) {
+            $response = [$response];
+        }
+        foreach ($response as $key => $value) {
+            //obligatorio agregar ->textItem
+            $response[$key]->textItem = $value->documento . ' - ' . $value->nombre;
+        }
+
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
     }
 }

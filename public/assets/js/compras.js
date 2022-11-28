@@ -235,21 +235,6 @@ async function buscarBarcode(link) {
       codigo: data.data.codigo,
     };
 
-    // //sacar el producto del array productosCarrito
-    // const producto = productosCarrito.find(
-    //   (producto) => producto.id == data.data.id
-    // );
-
-    // //controlar si existe producto
-    // if (producto) {
-    //   if (producto.cantidad < data.data.stock) {
-    //     agregarProductoCarrito(result);
-    //   } else {
-    //     toastPersonalizado("error", "Stock Insuficiente");
-    //   }
-    // } else {
-    //   agregarProductoCarrito(result);
-    // }
     agregarProductoCarrito(result);
   } else {
     toastPersonalizado("error", "No se encontro el producto");
