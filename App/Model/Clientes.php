@@ -44,4 +44,15 @@ class Clientes extends Model
 
         return self::querySimple($sql);
     }
+
+    public static function getCliente($id)
+    {
+        // INNER JOIN
+        $sql = "SELECT c.*, t.codigo as tipodoc 
+                FROM clientes c
+                INNER JOIN tipo_documento t ON t.id = c.tipodoc_id
+                WHERE c.id = $id";
+
+        return self::querySimple($sql);
+    }
 }

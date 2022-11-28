@@ -17,7 +17,7 @@ class Ventas extends Model
     /**
      * nombre de la columnas de la tabla
      */
-    protected static $allowedFields = ['usuario_id', 'tipodoc', 'serie_id', 'serie', 'correlativo', 'moneda', 'fecha_emision', 'op_gratuitas', 'op_exoneradas', 'op_inafectas', 'op_gravadas', 'igv_gratuita', 'igv_exonerada', 'igv_inafecta', 'igv_grabada', 'igv_total', 'total', 'cliente_id', 'nombre_xml', 'forma_pago', 'cuotas', 'estado', 'productos'];
+    protected static $allowedFields = ['usuario_id', 'tipodoc', 'nombre_tipodoc', 'serie_id', 'serie', 'correlativo', 'moneda', 'fecha_emision', 'op_gratuitas', 'op_exoneradas', 'op_inafectas', 'op_gravadas', 'igv_gratuita', 'igv_exonerada', 'igv_inafecta', 'igv_grabada', 'igv_total', 'total', 'cliente_id', 'nombre_xml', 'forma_pago', 'cuotas', 'estado', 'productos'];
     /**
      * obtener los datos de la tabla en 'array' u 'object'
      */
@@ -36,4 +36,14 @@ class Ventas extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
+
+    public static function getVenta($id)
+    {
+        // INNER JOIN
+        $sql = "SELECT v.*, u.name as vendedor
+                FROM ventas v
+                INNER JOIN users u ON u.id = v.usuario_id
+                WHERE v.id = $id";
+        return self::querySimple($sql);
+    }
 }

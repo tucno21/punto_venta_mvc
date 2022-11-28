@@ -4,7 +4,10 @@ namespace App\Controller\BackView;
 
 use App\Model\Ventas;
 use System\Controller;
+use App\Model\Clientes;
+use App\Model\InfoEmpresa;
 use App\Model\Factura\Monedas;
+use App\Help\PrintPdf\PrintPdf;
 use App\Model\Factura\TipoComprobante;
 use App\Model\Factura\SerieCorrelativo;
 
@@ -146,5 +149,37 @@ class VentaController extends Controller
         $data = $this->request()->getInput();
         //$result = Model::delete((int)$data->id);
         //return redirect()->route('route.name');
+    }
+
+    public function reporte()
+    {
+        $data = $this->request()->getInput();
+
+        $emisor = InfoEmpresa::first();
+        $print = new PrintPdf;
+
+        if (isset($data->pdfA5)) {
+            $venta = Ventas::getVenta($data->pdfA5);
+            $cliente = Clientes::getCliente($venta->cliente_id);
+            $result = $print->ModeloA5($emisor, $venta, $cliente);
+            return;
+        }
+
+        if (isset($data->pdfA4)) {
+            $venta = Ventas::getVenta($data->pdfA4);
+            $cliente = Clientes::getCliente($venta->cliente_id);
+            $result = $print->ModeloA4($emisor, $venta, $cliente);
+            return;
+        }
+
+        if (isset($data->ticket)) {
+            $venta = Ventas::getVenta($data->ticket);
+            $cliente = Clientes::getCliente($venta->cliente_id);
+            $result = $print->ModeloTicket($emisor, $venta, $cliente);
+            return;
+        }
+
+        echo 'error al generar el reporte';
+        exit;
     }
 }

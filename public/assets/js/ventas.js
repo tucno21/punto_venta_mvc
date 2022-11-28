@@ -906,6 +906,8 @@ function generarVenta() {
     }
 
     let serie = inputSerieId.options[inputSerieId.selectedIndex].text;
+    let nombre_tipodoc =
+      inputTipoComprobante.options[inputTipoComprobante.selectedIndex].text;
 
     //crear data para enviar
     const data = new FormData();
@@ -913,6 +915,7 @@ function generarVenta() {
     data.append("tipodoc", inputTipoComprobante.value);
     data.append("serie_id", inputSerieId.value);
     data.append("serie", serie);
+    data.append("nombre_tipodoc", nombre_tipodoc);
     data.append("correlativo", inputCorrelativo.value);
     data.append("moneda", inputMoneda.value);
     data.append("fecha_emision", inputFechaVenta.value);
@@ -952,15 +955,30 @@ function generarVenta() {
         cancelButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed) {
-          window.open("compras/reporte?id=" + 15, "_blank");
+          //abrir ventana emergente
           window
-            .open("compras/reporte?id=" + 15, "_blank")
+            .open(
+              "reporte?ticket=" + dRes.id,
+              "Imprimir Comprobante",
+              "width=400, height=700"
+            )
             .print()
             .close();
+          // window.open("reporte?ticket=" + dRes.id, "_blank");
+          // window
+          //   .open(
+          //     "reporte?ticket=" + dRes.id,
+          //     // "_blank",
+          //     "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400"
+          //   )
+          //   .print()
+          //   .close();
 
-          setTimeout(() => {
-            location.reload();
-          }, 2000);
+          location.reload();
+        }
+
+        if (result.isDismissed) {
+          location.reload();
         }
       });
 
