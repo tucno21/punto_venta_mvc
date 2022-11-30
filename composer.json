@@ -10,7 +10,8 @@
     "require": {
         "php": "^8.0",
         "vlucas/phpdotenv": "^5.4",
-        "intervention/image": "^2.7"
+        "intervention/image": "^2.7",
+        "catuva/firmadigital": "^1.0"
     },
     "autoload": {
         "psr-4": {
