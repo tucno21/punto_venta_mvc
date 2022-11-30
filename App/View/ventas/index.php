@@ -19,6 +19,9 @@ $linksScript2 = [
                         <input id="urlDataTable" type="hidden" data-url="<?= route('ventas.dataTable') ?>">
                         <input id="urlDestroy" type="hidden" data-url="<?= route('ventas.destroy') ?>">
                         <input id="urlReporte" type="hidden" data-url="<?= route('ventas.reporte') ?>">
+                        <input id="urlEnviarSunat" type="hidden" data-url="<?= route('ventas.enviarSunat') ?>">
+                        <input id="urlDownloadXml" type="hidden" data-url="<?= route('ventas.downloadxml') ?>">
+                        <input id="urlDownloadCdr" type="hidden" data-url="<?= route('ventas.downloadcdr') ?>">
                     </div>
                     <div class="">
                         <a a href="<?= route('ventas.create') ?>" class="btn btn-primary btn-sm">Registrar Venta</a>

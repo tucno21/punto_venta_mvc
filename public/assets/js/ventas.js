@@ -649,6 +649,11 @@ function buscarNombreProducto(link) {
 }
 
 function sumaTotalPagar() {
+  const rowGratuita = document.querySelector(".rowGratuita");
+  const rowExonerada = document.querySelector(".rowExonerada");
+  const rowInafecta = document.querySelector(".rowInafecta");
+  const rowGravada = document.querySelector(".rowGravada");
+
   let op_gratuitas = 0;
   let op_exoneradas = 0;
   let op_inafectas = 0;
@@ -705,6 +710,32 @@ function sumaTotalPagar() {
     }
   });
 
+  if (op_gratuitas > 0) {
+    // eliminar classlist d-none rowGratuita
+    rowGratuita.classList.remove("d-none");
+  } else {
+    rowGratuita.classList.add("d-none");
+  }
+
+  if (op_exoneradas > 0) {
+    rowExonerada.classList.remove("d-none");
+  } else {
+    rowExonerada.classList.add("d-none");
+  }
+
+  if (op_inafectas > 0) {
+    rowInafecta.classList.remove("d-none");
+  } else {
+    rowInafecta.classList.add("d-none");
+  }
+
+  if (op_grabadas > 0) {
+    rowGravada.classList.remove("d-none");
+  } else {
+    rowGravada.classList.add("d-none");
+  }
+
+  // enviar para mostrar
   inputGratuita.value = op_gratuitas.toFixed(2);
   inputExonerada.value = op_exoneradas.toFixed(2);
   inputInafecta.value = op_inafectas.toFixed(2);
@@ -955,6 +986,7 @@ function generarVenta() {
         cancelButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed) {
+          location.reload();
           //abrir ventana emergente
           window
             .open(
@@ -973,8 +1005,6 @@ function generarVenta() {
           //   )
           //   .print()
           //   .close();
-
-          location.reload();
         }
 
         if (result.isDismissed) {
@@ -984,7 +1014,25 @@ function generarVenta() {
 
       //refrescar la pagina
     } else {
-      console.log(dRes);
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        icon: "error",
+        title: dRes.Message,
+        showConfirmButton: false,
+        timer: 5000,
+      });
+
+      Swal.fire({
+        icon: "error",
+        text: dRes.Message,
+        footer: "<p>la venta se registro, pero revise la lista de Ventas</p>",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          eliminarLocalStorage();
+          location.reload();
+        }
+      });
     }
   });
 }

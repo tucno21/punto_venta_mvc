@@ -131,7 +131,7 @@ $linksScript2 = [
                         </div>
                         <div class="col-md-5">
                             <!-- OP. Gratuitas -->
-                            <div class="row">
+                            <div class="row rowGratuita d-none">
                                 <div class="col-6 text-end">
                                     <label class="form-label mb-1">OP. Gratuitas</label>
                                 </div>
@@ -143,7 +143,7 @@ $linksScript2 = [
                                 </div>
                             </div>
                             <!-- OP. Exoneradas -->
-                            <div class="row">
+                            <div class="row rowExonerada d-none">
                                 <div class="col-6 text-end">
                                     <label class="form-label mb-1">OP. Exoneradas</label>
                                 </div>
@@ -155,7 +155,7 @@ $linksScript2 = [
                                 </div>
                             </div>
                             <!-- OP. Inafectas -->
-                            <div class="row">
+                            <div class="row rowInafecta d-none">
                                 <div class="col-6 text-end">
                                     <label class="form-label mb-1">OP. Inafectas</label>
                                 </div>
@@ -167,7 +167,7 @@ $linksScript2 = [
                                 </div>
                             </div>
                             <!-- OP. Gravadas -->
-                            <div class="row">
+                            <div class="row rowGravada d-none">
                                 <div class="col-6 text-end">
                                     <label class="form-label mb-1">OP. Gravadas</label>
                                 </div>

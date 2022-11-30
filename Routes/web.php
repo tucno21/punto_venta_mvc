@@ -215,3 +215,7 @@ Route::get('/ventas/tipocomprobante', [VentaController::class, 'tipocomprobante'
 Route::get('/ventas/serieCorrelativo', [VentaController::class, 'serieCorrelativo'])->name('ventas.serieCorrelativo');
 Route::get('/ventas/monedas', [VentaController::class, 'monedas'])->name('ventas.monedas');
 Route::get('/ventas/reporte', [VentaController::class, 'reporte'])->name('ventas.reporte');
+// Route::get('/ventas/generarXML', [VentaController::class, 'generarXML'])->name('ventas.generarXML');
+Route::get('/ventas/enviarSunat', [VentaController::class, 'enviarSunat'])->name('ventas.enviarSunat');
+Route::get('/ventas/downloadxml', [VentaController::class, 'downloadxml'])->name('ventas.downloadxml');
+Route::get('/ventas/downloadcdr', [VentaController::class, 'downloadcdr'])->name('ventas.downloadcdr');
