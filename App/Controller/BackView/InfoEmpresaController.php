@@ -76,7 +76,8 @@ class InfoEmpresaController extends Controller
                 //generar nombre unico para la imagen
                 $nameImagen = md5(uniqid(rand(), true)) . '.png';
                 //modificar imagen
-                $imageFoto = Image::make($data->logo['tmp_name'])->fit(200, 200);
+                // $imageFoto = Image::make($data->logo['tmp_name'])->fit(200, 200);
+                $imageFoto = Image::make($data->logo['tmp_name'])->widen(200);
                 //agregar al objeto
                 $data->logo = $nameImagen;
 

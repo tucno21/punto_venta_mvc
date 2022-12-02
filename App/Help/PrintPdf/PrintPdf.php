@@ -17,7 +17,7 @@ class PrintPdf
         $pdf->AddPage();
         $pdf->setMargins(6, 10, 6);
 
-        $pdf->Image(base_url('/assets/img/' . $emisor->logo), 1, 2, 29, 29);
+        $pdf->Image(base_url('/assets/img/' . $emisor->logo), 5, 7, 19);
 
         //DATOS DE LA EMPRESA
         $pdf->SetFont('Arial', 'B', 9);
@@ -170,6 +170,10 @@ class PrintPdf
         $pdf->Ln(4);
         $pdf->cell(137, 0, utf8_decode('Consultar en https://ww3.sunat.gob.pe/ol-ti-itconsvalicpe/ConsValiCpe.htm'), 0, 0, 'L', 0);
 
+        if ($venta->estado == 0) {
+            $pdf->Image(base_url('/assets/img/anulado.png'), 35, 70, 80);
+        }
+
         $pdf->Output('I', $nombrexml . '.pdf');
         unlink($ruta_qr);
     }
@@ -180,7 +184,7 @@ class PrintPdf
         $pdf->AddPage();
         $pdf->setMargins(6, 6, 6);
 
-        $pdf->Image(base_url('/assets/img/' . $emisor->logo), 1, 2, 35, 35);
+        $pdf->Image(base_url('/assets/img/' . $emisor->logo), 5, 5, 30);
 
         //DATOS DE LA EMPRESA
         $pdf->SetFont('Arial', 'B', 11);
@@ -319,6 +323,10 @@ class PrintPdf
         $pdf->Ln(4);
         $pdf->cell(137, 0, utf8_decode('Consultar en https://ww3.sunat.gob.pe/ol-ti-itconsvalicpe/ConsValiCpe.htm'), 0, 0, 'L', 0);
 
+        if ($venta->estado == 0) {
+            $pdf->Image(base_url('/assets/img/anulado.png'), 45, 90, 90);
+        }
+
         $pdf->Output('I', $nombrexml . '.pdf');
         unlink($ruta_qr);
     }
@@ -455,6 +463,10 @@ class PrintPdf
         // $pdf->Ln(4);
         $pdf->SetFont('Helvetica', '', 8);
         $pdf->Cell(74, 4, utf8_decode('Gracias por Compras'), 0, 1, 'C');
+
+        if ($venta->estado == 0) {
+            $pdf->Image(base_url('/assets/img/anulado.png'), 6, 90, 50);
+        }
 
         $pdf->Output('I', $nombrexml . '.pdf');
         unlink($ruta_qr);
