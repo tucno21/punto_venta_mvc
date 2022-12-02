@@ -41,6 +41,10 @@ const inputCategoria = document.querySelector("#inputCategoria");
 const inputTipAfec = document.querySelector("#inputTipAfec");
 const inputImagen = document.querySelector("#inputImagen");
 
+//input referencia de igv y ganancia
+const inputIGV = document.querySelector("#inputIGV");
+const inputGanancia = document.querySelector("#inputGanancia");
+
 //mi tabla
 let dataTable = new simpleDatatables.DataTable(listaTabla, {
   searchable: true,
@@ -64,6 +68,9 @@ function cargarEventListeners() {
     menuCategorias();
     menuTipAfectacion();
     verImagen();
+    igvGananciaPC();
+    igvGananciaPV();
+    gananciaIgvTipoAfectacion();
   });
 }
 
@@ -94,10 +101,17 @@ async function generarDataTable() {
       element.imagen == null
         ? `<img src="${urlGeneral}/assets/img/producto.png" class="img-thumbnail" width="40px">`
         : `<img src="${urlGeneral}/assets/img/${element.imagen}" class="img-thumbnail" width="40px">`;
-    element["stock"] =
-      element.stock < element.stock_minimo
-        ? `<span class="badge bg-danger rounded-pill p-1">${element.stock}</span>`
-        : `<span class="badge bg-success rounded-pill p-1">${element.stock}</span>`;
+
+    let stock = "";
+    if (element.stock < element.stock_minimo) {
+      stock = `<span class="badge bg-danger rounded-pill p-1">${element.stock}</span>`;
+    } else if (element.stock == element.stock_minimo) {
+      stock = `<span class="badge bg-warning rounded-pill p-1">${element.stock}</span>`;
+    } else {
+      stock = `<span class="badge bg-success rounded-pill p-1">${element.stock}</span>`;
+    }
+
+    element["stock"] = stock;
   });
 
   let newData = {
@@ -329,6 +343,7 @@ async function botonEditar(url) {
     imagen.src = `${urlGeneral}/assets/img/producto.png`;
   }
 
+  igvGanancia();
   modalInputs.show();
 }
 
@@ -487,7 +502,7 @@ async function menuTipAfectacion() {
 
   let html = `<option value="">Seleccione...</option>`;
   data.forEach((item) => {
-    html += `<option value="${item.id}">${item.descripcion}</option>`;
+    html += `<option value="${item.id}" data-codigo="${item.codigo}">${item.descripcion}</option>`;
   });
   inputTipAfec.innerHTML = html;
 }
@@ -516,4 +531,83 @@ async function botonVerData(url) {
   document.querySelector("#infouser").value = data.usuario;
 
   modalInformacion.show();
+}
+
+//ganancia e igv desde precio de compra
+function igvGananciaPC() {
+  inputPC.addEventListener("blur", (e) => {
+    igvGanancia();
+  });
+}
+
+//ganancia e igv desde precio de venta
+function igvGananciaPV() {
+  inputPV.addEventListener("blur", (e) => {
+    igvGanancia();
+  });
+}
+//funcion para calcular igv y ganancia
+function igvGanancia() {
+  let codigo = inputTipAfec.options[inputTipAfec.selectedIndex].dataset.codigo;
+
+  if (codigo != undefined) {
+    codigo = parseInt(codigo);
+    const compra = parseFloat(inputPC.value);
+    const venta = parseFloat(inputPV.value);
+
+    if (compra === "" || venta === "") {
+      toastPersonalizado("error", "Ingrese los precios de compra y venta");
+      return;
+    }
+
+    if (venta < compra) {
+      inputPV.value = "";
+      toastPersonalizado("error", "El precio de venta no puede ser menor");
+      return;
+    }
+    if (codigo === 10) {
+      const precioBase = venta / 1.18;
+      const igv = venta - precioBase;
+      const ganancia = precioBase - compra;
+      inputIGV.value = igv.toFixed(2);
+      inputGanancia.value = ganancia.toFixed(2);
+    } else {
+      const ganancia = venta - compra;
+      inputIGV.value = 0;
+      inputGanancia.value = ganancia.toFixed(2);
+    }
+  }
+}
+
+function gananciaIgvTipoAfectacion() {
+  inputTipAfec.addEventListener("change", (e) => {
+    // capturar data-codigo
+    const codigo = parseInt(e.target.selectedOptions[0].dataset.codigo);
+
+    const compra = parseFloat(inputPC.value);
+    const venta = parseFloat(inputPV.value);
+
+    if (compra === "" || venta === "") {
+      toastPersonalizado("error", "Ingrese los precios de compra y venta");
+      return;
+    }
+
+    if (venta < compra) {
+      inputPV.value = "";
+      toastPersonalizado("error", "El precio de venta no puede ser menor");
+      return;
+    }
+
+    if (codigo === 10) {
+      const precioBase = venta / 1.18;
+      const igv = venta - precioBase;
+      const ganancia = precioBase - compra;
+      inputIGV.value = igv.toFixed(2);
+      inputGanancia.value = ganancia.toFixed(2);
+    } else {
+      const ganancia = venta - compra;
+      inputIGV.value = 0;
+      inputGanancia.value = ganancia.toFixed(2);
+    }
+  });
 }

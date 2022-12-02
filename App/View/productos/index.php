@@ -77,32 +77,48 @@ $linksScript2 = [
                             <input name="descripcion" type="text" class="form-control" id="inputDescripcion">
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-6 col-6 mb-3">
                         <label class="form-label mb-1">Stock</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-9-square"></i></span>
-                            <input name="stock" type="number" class="form-control" id="inputStock">
+                            <input name="stock" type="number" class="form-control" id="inputStock" min="0">
                         </div>
                     </div>
-                    <div class="col-md-6  mb-3">
+                    <div class="col-md-6 col-6  mb-3">
                         <label class="form-label mb-1">Stock Mínimo</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-sort-numeric-down-alt"></i></span>
-                            <input name="stock_minimo" type="number" class="form-control" id="inputStockMin">
+                            <input name="stock_minimo" type="number" class="form-control" id="inputStockMin" min="0">
                         </div>
                     </div>
-                    <div class="col-md-6  mb-3">
+
+                    <div class="col-md-3 col-6  mb-3">
                         <label class="form-label mb-1">Precio de Compra</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-coin"></i></span>
                             <input name="precio_compra" type="number" class="form-control" id="inputPC" step="0.01" min="0">
                         </div>
                     </div>
-                    <div class="col-md-6  mb-3">
+                    <div class="col-md-3 col-6  mb-3">
                         <label class="form-label mb-1">Precio de Venta</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-coin"></i></span>
                             <input name="precio_venta" type="number" class="form-control" id="inputPV" step="0.01" min="0">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-6  mb-3">
+                        <label class="form-label mb-1 text-success">Igv18%</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-percent"></i></span>
+                            <input type="number" class="form-control" id="inputIGV" readonly disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6  mb-3">
+                        <label class="form-label mb-1 text-success">Ganancia</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-piggy-bank"></i></span>
+                            <input type="number" class="form-control" id="inputGanancia" readonly disabled>
                         </div>
                     </div>
 
