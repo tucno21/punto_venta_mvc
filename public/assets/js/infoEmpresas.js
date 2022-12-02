@@ -27,6 +27,14 @@ const inputClave = document.querySelector("#inputClave");
 const inputDescripcion = document.querySelector("#inputDescripcion");
 const inputLogo = document.querySelector("#inputLogo");
 
+//FIRMA
+const urlFirmaDigital = document
+  .querySelector("#urlFirmaDigital")
+  .getAttribute("data-url");
+const urlVerFirmaDigital = document
+  .querySelector("#urlVerFirmaDigital")
+  .getAttribute("data-url");
+
 cargarEventListeners();
 function cargarEventListeners() {
   document.addEventListener("DOMContentLoaded", () => {
@@ -34,6 +42,7 @@ function cargarEventListeners() {
     botonFormulario();
     verImagen();
     btnFirmaDigitalShow();
+    fechaVencimiento();
   });
 }
 
@@ -164,5 +173,68 @@ function btnFirmaDigitalShow() {
     e.preventDefault();
     // modalInputs
     modalInputs.show();
+    enviarFormularioFirmaDigital();
   });
+}
+
+function enviarFormularioFirmaDigital() {
+  btnFormularioFirma.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const inputComprobante = document.querySelector("#inputComprobante");
+    const inputPassword = document.querySelector("#inputPassword");
+    const inputFechaV = document.querySelector("#inputFechaV");
+
+    const data = new FormData();
+    data.append("password_firma", inputPassword.value);
+    data.append("fecha_venc", inputFechaV.value);
+    data.append("firma_digital", inputComprobante.files[0]);
+
+    //enviar data
+    const response = await fetch(urlFirmaDigital, {
+      method: "POST",
+      body: data,
+    });
+    const dRes = await response.json();
+
+    if (dRes.status) {
+      limpiarErrrorInput([inputComprobante, inputPassword, inputFechaV]);
+      toastPersonalizado("success", "datos de firma digital actualizados");
+      fechaVencimiento();
+      //cerrar modal
+      modalInputs.hide();
+    } else {
+      mensajeErrorInput(inputComprobante, dRes.data.firma_digital);
+      mensajeErrorInput(inputPassword, dRes.data.password_firma);
+      mensajeErrorInput(inputFechaV, dRes.data.fecha_venc);
+    }
+  });
+}
+
+//fecha vencimiento
+async function fechaVencimiento() {
+  const response = await fetch(urlVerFirmaDigital);
+  const dRes = await response.json();
+  //mostrar cuantos años, meses y dias faltan en letras
+  const fechaVencimiento = dRes.fecha_venc;
+  const fechaVencimientoDate = new Date(fechaVencimiento);
+  const fechaActual = new Date();
+  //restar fechaVencimientoDate - fechaActual
+  const resta = fechaVencimientoDate - fechaActual;
+
+  //mostrar cuantos años
+  const anios = Math.floor(resta / (1000 * 60 * 60 * 24 * 365));
+  //cuantos meses falta despues de quitar los años
+  const meses = Math.floor(
+    (resta % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30)
+  );
+  //cuantos dias falta despues de quitar los meses
+  const dias = Math.floor(
+    (resta % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24)
+  );
+
+  //mostrar en el html
+  const resultado = `Vence en: ${anios} años, ${meses} meses y ${dias} dias`;
+
+  const buttonMostrarFecha = document.querySelector("#buttonMostrarFecha");
+  buttonMostrarFecha.innerHTML = resultado;
 }

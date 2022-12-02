@@ -18,10 +18,12 @@ $linksScript2 = [
                         <h5 class="m-b-10">Datos de la Empresa</h5>
                         <input id="urlEdit" type="hidden" data-url="<?= route('infoEmpresas.edit') ?>">
                         <input id="urlGeneral" type="hidden" data-url="<?= base_url() ?>">
+                        <input id="urlFirmaDigital" type="hidden" data-url="<?= route('firmaDigitals.edit') ?>">
+                        <input id="urlVerFirmaDigital" type="hidden" data-url="<?= route('firmaDigitals.ver') ?>">
                     </div>
                     <div class="">
                         <button id="btnFirmaDigital" type="button" class="btn btn-primary btn-sm">Firma Digital</button>
-                        <button id="" type="button" class="btn btn-danger btn-sm">Algo</button>
+                        <button id="buttonMostrarFecha" type="button" class="btn btn-danger btn-sm">Algo</button>
                     </div>
                 </div>
             </div>

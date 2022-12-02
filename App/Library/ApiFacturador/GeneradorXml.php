@@ -18,7 +18,7 @@ class GeneradorXml
    {
       $this->numeroALetras = new NumeroALetras();
       $this->ruta_carpeta_xml = dirname(__FILE__) . '/files_factura/xml_files/';
-      $this->ruta_certificado = dirname(__FILE__) . '/Documents/certificado/certificado.pfx';
+      $this->ruta_certificado = dirname(__FILE__) . '/certificado/certificado.pfx';
 
       set_error_handler(function ($errno, $errstr, $errfile, $errline) {
          throw new Exception($errstr, $errno);

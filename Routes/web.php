@@ -16,6 +16,7 @@ use App\Controller\BackView\ProveedorController;
 use App\Controller\BackView\PermissionController;
 use App\Controller\BackView\InfoEmpresaController;
 use App\Controller\BackView\BuscarDniRucController;
+use App\Controller\BackView\FirmaDigitalController;
 use App\Controller\Factura\TipoDocumentoController;
 use App\Controller\Factura\TipoAfectacionController;
 use App\Controller\Factura\TipoComprobanteController;
@@ -171,6 +172,11 @@ Route::get('/serieCorrelativos/destroy', [SerieCorrelativoController::class, 'de
 Route::get('/infoEmpresas', [InfoEmpresaController::class, 'index'])->name('infoEmpresas.index');
 Route::get('/infoEmpresas/edit', [InfoEmpresaController::class, 'edit'])->name('infoEmpresas.edit');
 Route::post('/infoEmpresas/edit', [InfoEmpresaController::class, 'update']);
+
+//FirmaDigitalController
+Route::get('/firmaDigitals/edit', [FirmaDigitalController::class, 'edit'])->name('firmaDigitals.edit');
+Route::post('/firmaDigitals/edit', [FirmaDigitalController::class, 'update']);
+Route::get('/firmaDigitals/ver', [FirmaDigitalController::class, 'ver'])->name('firmaDigitals.ver');
 
 
 //ClienteController
