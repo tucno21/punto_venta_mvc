@@ -7,7 +7,7 @@
     list-style: none;
     display: block;
     position: absolute;
-    background: #ffffff;
+    background: #424242;
     z-index: 10000;
 }
 
@@ -16,10 +16,12 @@
     cursor: pointer;
     position: relative;
     padding: 0.2rem 0.5rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
+    /* color de texto */
+    color: #fff;
 }
 
 /* hover */
 .ui-menu .ui-menu-item:hover {
-    background: #e2e1e1;
+    background: #1c232f;
 }
