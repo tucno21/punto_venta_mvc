@@ -336,6 +336,7 @@ class VentaController extends Controller
     public function destroy()
     {
         $data = $this->request()->getInput();
+
         //$result = Model::delete((int)$data->id);
         //return redirect()->route('route.name');
     }

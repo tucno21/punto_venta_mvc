@@ -17,7 +17,7 @@ $linksScript2 = [
                     <div class="page-header-title">
                         <h5 class="m-b-10">Panel de Ventas</h5>
                         <input id="urlDataTable" type="hidden" data-url="<?= route('ventas.dataTable') ?>">
-                        <input id="urlDestroy" type="hidden" data-url="<?= route('ventas.destroy') ?>">
+                        <input id="urlDestroy" type="hidden" data-url="<?= route('notaCDs.destroy') ?>">
                         <input id="urlReporte" type="hidden" data-url="<?= route('ventas.reporte') ?>">
                         <input id="urlEnviarSunat" type="hidden" data-url="<?= route('ventas.enviarSunat') ?>">
                         <input id="urlDownloadXml" type="hidden" data-url="<?= route('ventas.downloadxml') ?>">

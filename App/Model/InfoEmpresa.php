@@ -36,4 +36,10 @@ class InfoEmpresa extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
+
+    public static function getEmpresa()
+    {
+        $sql = "SELECT * FROM info_empresa";
+        return self::querySimple($sql);
+    }
 }

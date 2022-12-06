@@ -57,4 +57,13 @@ class NotasCD extends Model
                 ORDER BY n.id DESC";
         return self::querySimple($sql);
     }
+
+    public static function getNombreXML($id)
+    {
+        // INNER JOIN users y clientes
+        $sql = "SELECT n.nombre_xml
+                FROM notas_cd n
+                WHERE n.id = $id";
+        return self::querySimple($sql);
+    }
 }

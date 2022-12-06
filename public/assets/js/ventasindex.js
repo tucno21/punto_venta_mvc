@@ -52,7 +52,6 @@ let dataTable = new simpleDatatables.DataTable(listaTabla, {
 async function generarDataTable() {
   const response = await fetch(urlDataTable);
   const data = await response.json();
-  console.log(data);
   let i = 1;
   data.forEach((element) => {
     element.orden = i;
@@ -61,7 +60,7 @@ async function generarDataTable() {
 
     if (element.estado_sunat === 0 && element.estado === 1) {
       actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
+      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
             <i class="bi bi-file-earmark-pdf"></i>
           </a>
       <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -75,11 +74,11 @@ async function generarDataTable() {
       `;
     } else if (element.estado_sunat === 1 && element.estado === 1) {
       actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
+      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
             <i class="bi bi-file-earmark-pdf"></i>
           </a>
-      <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar">
-          <i class="bi bi-trash3"></i>
+      <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar" title="Anular venta">
+          <i class="bi bi-x-circle"></i>
       </a>
       <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-three-dots"></i>
@@ -93,10 +92,10 @@ async function generarDataTable() {
       `;
     } else if (element.estado_sunat === 1 && element.estado === 0) {
       actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
+      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
         <i class="bi bi-file-earmark-pdf"></i>
       </a>
-      <a href="${urlIndexNotas}" class="btn btn-outline-primary btn-sm btnNotasVentas">
+      <a href="${urlIndexNotas}" class="btn btn-outline-primary btn-sm btnNotasVentas" title="Ir Listado de Notas">
         <i class="bi bi-sticky"></i>
       </a>
       <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -261,9 +260,10 @@ function botonesDataTable() {
 
 //boton eliminar
 async function botonEliminar(url) {
+  console.log(url);
   //preguntar si desea eliminar
   const { value: accept } = await Swal.fire({
-    title: "¿Desea Anular la Compra?",
+    title: "¿Desea Anular la Venta?",
     text: "¡No podrás revertir esto!",
     icon: "warning",
     // showDenyButton: true,
@@ -281,7 +281,9 @@ async function botonEliminar(url) {
     const data = await response.json();
     if (data.status) {
       generarDataTable();
-      toastPersonalizado("success", "Compra Anulada");
+      toastPersonalizado("success", "Venta Anulada");
+    } else {
+      toastPersonalizado("error", data.Message);
     }
   }
 }

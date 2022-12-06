@@ -175,11 +175,93 @@ class NotaCDController extends Controller
         }
     }
 
+    public function destroy()
+    {
+        $data = $this->request()->getInput();
+        //traer la venta
+        $venta = Ventas::first($data->id);
+        //traer el tipo comprobante
+        $tipoComprobante = TipoComprobante::where('codigo', '07')->get();
+        //traer serie y correlativo
+        $seriemm = SerieCorrelativo::getSerieCorrelativo($tipoComprobante->codigo);
+        if (is_object($seriemm)) {
+            $seriemm = [$seriemm];
+        }
+        //filtar por tipodoc y traer el primer elemento
+        // $serie = array_filter($serie, function ($v) use ($venta) {
+        //     return $v->tipo == $venta->tipodoc;
+        // });
+        foreach ($seriemm as $k => $v) {
+            if ($v->tipo == $venta->tipodoc) {
+                $serieCorrelativo = $v;
+            }
+        }
+
+        //array vacio para generarar NOTA DE CREDITO
+        $notaCredito = [];
+        //almacenar en $notaCredito
+        $notaCredito['usuario_id'] = session()->user()->id;
+        $notaCredito['venta_id'] = $venta->id;
+        $notaCredito['tipodoc'] = $tipoComprobante->codigo;
+        $notaCredito['nombre_tipodoc'] = $tipoComprobante->descripcion;
+        $notaCredito['serie_id'] = $serieCorrelativo->id;
+        $notaCredito['serie'] = $serieCorrelativo->serie;
+        $notaCredito['correlativo'] = $serieCorrelativo->correlativo;
+        $notaCredito['codmotivo'] = "06";
+        $notaCredito['descripcion'] = "devolucion de productos";
+        $notaCredito['moneda'] = $venta->moneda;
+        $notaCredito['fecha_emision'] = date('Y-m-d H:i:s');
+        $notaCredito['op_gratuitas'] = $venta->op_gratuitas;
+        $notaCredito['op_exoneradas'] = $venta->op_exoneradas;
+        $notaCredito['op_inafectas'] = $venta->op_inafectas;
+        $notaCredito['op_gravadas'] = $venta->op_gravadas;
+        $notaCredito['igv_gratuita'] = $venta->igv_gratuita;
+        $notaCredito['igv_exonerada'] = $venta->igv_exonerada;
+        $notaCredito['igv_inafecta'] = $venta->igv_inafecta;
+        $notaCredito['igv_grabada'] = $venta->igv_grabada;
+        $notaCredito['igv_total'] = $venta->igv_total;
+        $notaCredito['total'] = $venta->total;
+        $notaCredito['cliente_id'] = $venta->cliente_id;
+        $notaCredito['forma_pago'] = $venta->forma_pago;
+        $notaCredito['cuotas'] = $venta->cuotas;
+        $notaCredito['productos'] = $venta->productos;
+        $notaCredito['tipodoc_ref'] = $venta->tipodoc;
+        $notaCredito['serie_ref'] = $venta->serie;
+        $notaCredito['correlativo_ref'] = $venta->correlativo;
+
+        //crear nota de credito
+        $result = NotasCD::create($notaCredito);
+        //traer la nota creada
+        $nota = NotasCD::find($result->id);
+        //traer SerieCorrelativo
+        $serie = SerieCorrelativo::find($nota->serie_id);
+        //actualizar correlativo
+        $dataSerie = ['correlativo' => $serie->correlativo + 1];
+        $ff = SerieCorrelativo::update($serie->id, $dataSerie);
+
+        //crear xml y firmar
+        $estado = $this->generarXML($nota->id);
+
+        if ($estado->success) {
+            //modificar el estado de la venta
+            $estadoVenta = ['estado' => 0];
+            Ventas::update($nota->venta_id, $estadoVenta);
+
+            $response = ['status' => true, 'id' => $result->id, 'Message' => $estado->Message];
+            // $response = ['status' => true, 'id' => $result->id];
+        } else {
+            $response = ['status' => false, 'Message' => $estado->Message];
+        }
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
     public function generarXML($id)
     {
         // $id = 1;
-        $emisor = InfoEmpresa::first();
+        $emisor = InfoEmpresa::getEmpresa();
         $nota = NotasCD::getNota($id);
+
         $cliente = Clientes::getCliente($nota->cliente_id);
 
         $tipo_precio = [
@@ -254,7 +336,7 @@ class NotaCDController extends Controller
             $resp = NotasCD::update($nota->id, $data);
 
             if ($resp->status) {
-                $notaXml = NotasCD::select('nombre_xml')->where('id', $nota->id)->get();
+                $notaXml = NotasCD::getNombreXML($nota->id);
                 //enviar a sunat
                 $enviar = new EnviarSunat();
                 $result = $enviar->enviarComprobante($emisor, $notaXml->nombre_xml);
@@ -305,12 +387,7 @@ class NotaCDController extends Controller
         // }
     }
 
-    public function destroy()
-    {
-        $data = $this->request()->getInput();
-        //$result = Model::delete((int)$data->id);
-        //return redirect()->route('route.name');
-    }
+
 
     public function reporte()
     {

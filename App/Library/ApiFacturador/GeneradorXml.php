@@ -71,7 +71,8 @@ class GeneradorXml
          $ruta_archivo_xml = $ruta_carpeta_xml . $nombreXML . '.XML';
 
          $dbFirma = new FirmaDigital;
-         $dataFirmaDigital = $dbFirma->where('id', 1)->first();
+         // $dataFirmaDigital = $dbFirma->where('id', 1)->get();
+         $dataFirmaDigital = $dbFirma->getFirma();
          // $pass_firma = 'carlos'; //contraseña del certificado
          $pass_firma = $dataFirmaDigital->password_firma; //contraseña del certificado
 

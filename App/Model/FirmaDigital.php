@@ -36,4 +36,11 @@ class FirmaDigital extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
+
+    public static function getFirma()
+    {
+        //traer el id=1
+        $sql = "SELECT * FROM firma WHERE id=1";
+        return self::querySimple($sql);
+    }
 }
