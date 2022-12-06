@@ -108,6 +108,12 @@ $linksSidebar = [
     ],
     [
         'mode' => 'menu',
+        'text' => 'Notas C/D',
+        'url'  => route('notaCDs.index'),
+        'icon' => 'bi bi-sticky',
+    ],
+    [
+        'mode' => 'menu',
         'text' => 'Empresa',
         'url'  => route('infoEmpresas.index'),
         'icon' => 'bi bi-buildings',

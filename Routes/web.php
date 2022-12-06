@@ -7,6 +7,7 @@ use App\Controller\BackView\UserController;
 use App\Controller\BackView\VentaController;
 use App\Controller\Factura\MonedaController;
 use App\Controller\BackView\CompraController;
+use App\Controller\BackView\NotaCDController;
 use App\Controller\BackView\UnidadController;
 use App\Controller\BackView\ClienteController;
 use App\Controller\BackView\ProductoController;
@@ -225,3 +226,20 @@ Route::get('/ventas/reporte', [VentaController::class, 'reporte'])->name('ventas
 Route::get('/ventas/enviarSunat', [VentaController::class, 'enviarSunat'])->name('ventas.enviarSunat');
 Route::get('/ventas/downloadxml', [VentaController::class, 'downloadxml'])->name('ventas.downloadxml');
 Route::get('/ventas/downloadcdr', [VentaController::class, 'downloadcdr'])->name('ventas.downloadcdr');
+
+//NotaCDController
+Route::get('/notaCDs', [NotaCDController::class, 'index'])->name('notaCDs.index');
+Route::get('/notaCDs/dataTable', [NotaCDController::class, 'dataTable'])->name('notaCDs.dataTable');
+Route::get('/notaCDs/create', [NotaCDController::class, 'create'])->name('notaCDs.create');
+Route::post('/notaCDs/create', [NotaCDController::class, 'store']);
+Route::get('/notaCDs/destroy', [NotaCDController::class, 'destroy'])->name('notaCDs.destroy');
+Route::get('/notaCDs/tipocomprobante', [NotaCDController::class, 'tipocomprobante'])->name('notaCDs.tipocomprobante');
+Route::get('/notaCDs/serieCorrelativo', [NotaCDController::class, 'serieCorrelativo'])->name('notaCDs.serieCorrelativo');
+Route::get('/notaCDs/tiponota', [NotaCDController::class, 'tiponota'])->name('notaCDs.tiponota');
+Route::get('/notaCDs/reporte', [NotaCDController::class, 'reporte'])->name('notaCDs.reporte');
+Route::get('/notaCDs/generarXML', [NotaCDController::class, 'generarXML'])->name('notaCDs.generarXML');
+Route::get('/notaCDs/enviarSunat', [NotaCDController::class, 'enviarSunat'])->name('notaCDs.enviarSunat');
+Route::get('/notaCDs/downloadxml', [NotaCDController::class, 'downloadxml'])->name('notaCDs.downloadxml');
+Route::get('/notaCDs/downloadcdr', [NotaCDController::class, 'downloadcdr'])->name('notaCDs.downloadcdr');
+Route::get('/notaCDs/venta', [NotaCDController::class, 'venta'])->name('notaCDs.venta');
+Route::get('/notaCDs/BuscarVenta', [NotaCDController::class, 'BuscarVenta'])->name('notaCDs.BuscarVenta');

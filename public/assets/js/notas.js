@@ -1,66 +1,28 @@
-//urls
-const urlTipoComprobante = document
-  .querySelector("#urlTipoComprobante")
+const idVenta = document.querySelector("#idVenta").value;
+const urlIdVenta = document
+  .querySelector("#urlIdVenta")
   .getAttribute("data-url");
-const urlCorrelativo = document
-  .querySelector("#urlCorrelativo")
-  .getAttribute("data-url");
-const urlMonedas = document
-  .querySelector("#urlMonedas")
-  .getAttribute("data-url");
-const urlTipoDoc = document
-  .querySelector("#urlTipoDoc")
-  .getAttribute("data-url");
-const urlCreateCliente = document
-  .querySelector("#urlCreateCliente")
-  .getAttribute("data-url");
-const urlBuscarCliente = document
-  .querySelector("#urlBuscarCliente")
-  .getAttribute("data-url");
-const urlProductosId = document
-  .querySelector("#urlProductosId")
-  .getAttribute("data-url");
-const urlCreate = document.querySelector("#urlCreate").getAttribute("data-url");
-//input para ventas
-const inputTipoComprobante = document.querySelector("#inputTipoComprobante");
-const inputSerieId = document.querySelector("#inputSerieId");
-const inputCorrelativo = document.querySelector("#inputCorrelativo");
-const inputMoneda = document.querySelector("#inputMoneda");
+
+//mostrar datos del comprobante a hacer nota
+const inputComprobante = document.querySelector("#inputComprobante");
+const inputCliente = document.querySelector("#inputCliente");
 const inputFechaVenta = document.querySelector("#inputFechaVenta");
-const inputClienteId = document.querySelector("#inputClienteId");
-const inputUserId = document.querySelector("#inputUserId");
-//complemento
-const inputGratuita = document.querySelector("#inputGratuita");
-const inputExonerada = document.querySelector("#inputExonerada");
-const inputInafecta = document.querySelector("#inputInafecta");
-const inputGrabada = document.querySelector("#inputGrabada");
-const inputInpuestoTotal = document.querySelector("#inputInpuestoTotal");
-const inputTotalVenta = document.querySelector("#inputTotalVenta");
-const inputIgv_gratuita = document.querySelector("#inputIgv_gratuita");
-const inputIgv_exonerada = document.querySelector("#inputIgv_exonerada");
-const inputIgv_inafecta = document.querySelector("#inputIgv_inafecta");
-const inputIgv_grabada = document.querySelector("#inputIgv_grabada");
-
-//boton generar venta
-const btnEnviarVentas = document.querySelector("#btnEnviarVentas");
-
-//buscar cliente
-const btnRegistrar = document.querySelector("#btnRegistrar");
-const modalInputs = new bootstrap.Modal("#modalInputs");
-// const btnBuscarCliente = document.querySelector("#btnBuscarCliente");
-//inputs registrar cliente
-const inputTipoDoc = document.querySelector("#inputTipoDoc");
-const inputDocumento = document.querySelector("#inputDocumento");
-const inputPais = document.querySelector("#inputPais");
-const inputNombre = document.querySelector("#inputNombre");
-const inputDireccion = document.querySelector("#inputDireccion");
-const inputTelefono = document.querySelector("#inputTelefono");
-const inputEmail = document.querySelector("#inputEmail");
-const btnFormularioRegistrar = document.querySelector(
-  "#btnFormularioRegistrar"
+//referencia
+const inputTipoDocumentoReferencia = document.querySelector(
+  "#inputTipoDocumentoReferencia"
 );
-//entrada de busqueda de cliente
-const inputBuscarCliente = document.querySelector("#inputBuscarCliente");
+const inputSerieReferencia = document.querySelector("#inputSerieReferencia");
+const inputCorrelativoReferencia = document.querySelector(
+  "#inputCorrelativoReferencia"
+);
+
+//input buscador de comprobantes
+const inputBuscarComprobante = document.querySelector(
+  "#inputBuscarComprobante"
+);
+const urlBuscarVenta = document
+  .querySelector("#urlBuscarVenta")
+  .getAttribute("data-url");
 
 //busqueda de Producto scaner
 const checkedBarcode = document.querySelector("#checkedBarcode");
@@ -69,18 +31,58 @@ const grupoBarcode = document.getElementById("grupoBarcode");
 const grupoNombre = document.getElementById("grupoNombre");
 const inputBuscarBarcode = document.querySelector("#inputBuscarBarcode");
 const inputBuscarNombre = document.querySelector("#inputBuscarNombre");
+//urls
+const urlProductosId = document
+  .querySelector("#urlProductosId")
+  .getAttribute("data-url");
 
-//cuotas de pago
-const cuotasContainer = document.getElementById("cuotasContainer");
+//imputs de notas
+const inputTipoComprobante = document.querySelector("#inputTipoComprobante");
+const inputSerieId = document.querySelector("#inputSerieId");
+const inputTipoNota = document.querySelector("#inputTipoNota");
+const inputDescripcion = document.querySelector("#inputDescripcion");
+const inputFechaNota = document.querySelector("#inputFechaNota");
+const inputUserId = document.querySelector("#inputUserId");
+let moneda = "";
+let clienteId = "";
+let venta_id = "";
+
+//inputs de codicion de pago
+const condicion_Pago = document.querySelector("#condicion_Pago");
+const cantidadCuotas = document.querySelector("#cantidadCuotas");
+const cuotasContainer = document.querySelector("#cuotasContainer");
+
+//url para notas
+const urlTipoComprobante = document
+  .querySelector("#urlTipoComprobante")
+  .getAttribute("data-url");
+const urlSerieCorrelativo = document
+  .querySelector("#urlSerieCorrelativo")
+  .getAttribute("data-url");
+const urlTipoNota = document
+  .querySelector("#urlTipoNota")
+  .getAttribute("data-url");
+
+//boton generar venta
+const btnEnviarNotas = document.querySelector("#btnEnviarNotas");
+const urlCreate = document.querySelector("#urlCreate").getAttribute("data-url");
+
+//index notas
+const urlIndexNotas = document
+  .querySelector("#urlIndexNotas")
+  .getAttribute("data-url");
 
 //carrito de compras
 const tablaCompras = document.querySelector("#tablaventas");
 let productosCarrito = [];
 let cuotasCreditos = [];
 
-//cargar todos los documentos
 cargarEventListeners();
 function cargarEventListeners() {
+  if (idVenta !== "vacio") {
+    datosIdVenta();
+  }
+
   //cambio de checkbox
   checkedBarcode.addEventListener("click", cambioCheckedBarcode);
   checkedNombre.addEventListener("click", cambioCheckedNombre);
@@ -96,260 +98,57 @@ function cargarEventListeners() {
 
   document.addEventListener("DOMContentLoaded", () => {
     productosCarrito =
-      JSON.parse(localStorage.getItem("productocarritoventas")) || [];
+      JSON.parse(localStorage.getItem("productocarritonotas")) || [];
     carritoHTML();
 
     menuTipoComprobante();
-    menuMonedas();
-    botonRegistrarCliente();
-    selectTipoDocumento();
     cambioMenuTipoComprobante();
-    generarVenta();
+    cambioMenuSerie();
+    buscarVenta();
+    generarNota();
   });
 }
 
-//menu de tipo de comprobante
-async function menuTipoComprobante() {
-  const response = await fetch(urlTipoComprobante);
+//traer la venta segun si id
+async function datosIdVenta() {
+  //url
+  const link = urlIdVenta + "?id=" + idVenta;
+  const response = await fetch(link);
   const data = await response.json();
 
-  //si codigo=03 select por defecto
-  let html = "";
-  data.forEach((item) => {
-    if (item.codigo == 03) {
-      html += `<option value="${item.codigo}" selected>${item.descripcion}</option>`;
-    } else {
-      html += `<option value="${item.codigo}">${item.descripcion}</option>`;
+  inputComprobante.value = data.serie + "-" + data.correlativo;
+  inputCliente.value = data.cliente;
+  //data.fecha_emision  yyyy-mm-dd hh:mm:ss cambiar a yyyy-mm-dd
+  inputFechaVenta.value = data.fecha_emision.substring(0, 10);
+
+  //inputBuscarComprobante disabled
+  inputBuscarComprobante.disabled = true;
+
+  //inputs de referencia
+  inputTipoDocumentoReferencia.value = data.tipodoc;
+  inputSerieReferencia.value = data.serie;
+  inputCorrelativoReferencia.value = data.correlativo;
+  moneda = data.moneda;
+  clienteId = data.cliente_id;
+  venta_id = data.id;
+
+  //data.productos localStorage
+  // localStorage.setItem("productocarritonotas", data.productos);
+  productosCarrito = JSON.parse(data.productos);
+
+  //verificar si es factura
+  if (data.tipodoc == "01") {
+    if (data.forma_pago == "Contado") {
+      condicionPago();
     }
-  });
-  inputTipoComprobante.innerHTML = html;
-
-  //cargar correlativo
-  menuCorrelativo();
-}
-
-//serie y correlativo
-async function menuCorrelativo() {
-  const tipoComprobante = inputTipoComprobante.value;
-  const response = await fetch(`${urlCorrelativo}?tipo=${tipoComprobante}`);
-  const data = await response.json();
-
-  let html = "";
-  data.forEach((item) => {
-    html += `<option value="${item.tipo_comprobante}">${item.serie}</option>`;
-  });
-
-  inputSerieId.innerHTML = html;
-
-  // Capturamos el texto del option seleccionado
-  const texto = inputSerieId.options[inputSerieId.selectedIndex].text;
-
-  //buscar texto en data
-  const select = data.find((item) => item.serie == texto);
-
-  //agregar a inputCorrelativo
-  inputCorrelativo.value = select.correlativo;
-
-  //cambio de menu serie
-  cambioMenuSerieCorrelativo(data);
-}
-
-//cambio de menu serie
-function cambioMenuSerieCorrelativo(data) {
-  inputSerieId.addEventListener("change", () => {
-    // Capturamos el texto del option seleccionado
-    const texto = inputSerieId.options[inputSerieId.selectedIndex].text;
-
-    //buscar texto en data
-    const select = data.find((item) => item.serie == texto);
-
-    //agregar a inputCorrelativo
-    inputCorrelativo.value = select.correlativo;
-  });
-}
-
-//menu monedas
-async function menuMonedas() {
-  const response = await fetch(urlMonedas);
-  const data = await response.json();
-
-  let html = "";
-  data.forEach((item) => {
-    // if (item.codigo == "PEN") {
-    //   html += `<option value="${item.codigo}" selected>${item.descripcion}</option>`;
-    // } else {
-    html += `<option value="${item.codigo}">${item.descripcion}</option>`;
-    // }
-  });
-  inputMoneda.innerHTML = html;
-}
-
-//boton registrar proveedor
-function botonRegistrarCliente() {
-  btnRegistrar.addEventListener("click", () => {
-    inputTipoDoc.value = "";
-    inputDocumento.value = "";
-    inputPais.value = "";
-    inputNombre.value = "";
-    inputDireccion.value = "";
-    inputTelefono.value = "";
-    inputEmail.value = "";
-
-    menuTipoDocumento();
-    buscarCliente();
-
-    modalInputs.show();
-
-    formularioRegistrarCliente();
-  });
-}
-
-//menu de tipo de documento
-async function menuTipoDocumento() {
-  const response = await fetch(urlTipoDoc);
-  const data = await response.json();
-
-  let html = `<option value="">Seleccione...</option>`;
-  data.forEach((item) => {
-    html += `<option value="${item.id}">${item.descripcion}</option>`;
-  });
-  inputTipoDoc.innerHTML = html;
-}
-
-let textoSelect = "";
-//Seleccion de tipo de documento
-function selectTipoDocumento() {
-  inputTipoDoc.addEventListener("change", (e) => {
-    // Capturamos el texto del option seleccionado
-    const texto = e.target.options[e.target.selectedIndex].text;
-
-    if (texto == "DNI") {
-      inputPais.value = "PE";
-      inputDocumento.placeholder = "Ingrese 8 dígitos";
-    } else if (texto == "RUC") {
-      inputPais.value = "PE";
-      inputDocumento.placeholder = "Ingrese 11 dígitos";
-    } else {
-      inputPais.value = "";
-      inputDocumento.placeholder = "";
+    if (data.forma_pago == "Credito") {
+      condicionesCredito();
+      mostrarCuotas(data.cuotas);
     }
-
-    textoSelect = texto;
-  });
-}
-
-//buscar cliente
-function buscarCliente() {
-  const btnBuscarCliente = document.querySelector("#btnBuscarCliente");
-  btnBuscarCliente.addEventListener("click", () => {
-    const texto = textoSelect;
-    if (texto == "DNI") {
-      const dni = inputDocumento.value;
-      if (dni.length == 8) {
-        buscarDNI(dni);
-      } else {
-        toastPersonalizado("error", "Ingrese 8 dígitos");
-      }
-    } else if (texto == "RUC") {
-      const ruc = inputDocumento.value;
-      if (ruc.length == 11) {
-        buscarRUC(ruc);
-      } else {
-        toastPersonalizado("error", "Ingrese 11 dígitos");
-      }
-    } else {
-      toastPersonalizado("error", "Seleccione tipo de documento");
-    }
-  });
-}
-
-//buscar dni
-async function buscarDNI(number) {
-  let data = await buscarDNIRUC(number, "dni");
-  if (data.success) {
-    inputNombre.value = data.data.nombre;
-    inputDireccion.value = data.data.direccion;
-  } else {
-    toastPersonalizado("error", data.message);
   }
+
+  carritoHTML();
 }
-
-//buscar ruc
-async function buscarRUC(number) {
-  let data = await buscarDNIRUC(number, "ruc");
-  if (data.success) {
-    inputNombre.value = data.data.razonSocial;
-    inputDireccion.value = data.data.direccion;
-  } else {
-    toastPersonalizado("error", data.message);
-  }
-}
-
-//enviar formulario para crear
-function formularioRegistrarCliente() {
-  btnFormularioRegistrar.addEventListener("click", async () => {
-    //crear data para enviar
-    const data = new FormData();
-    data.append("tipodoc_id", inputTipoDoc.value);
-    data.append("documento", inputDocumento.value);
-    data.append("pais", inputPais.value);
-    data.append("nombre", inputNombre.value);
-    data.append("direccion", inputDireccion.value);
-    data.append("telefono", inputTelefono.value);
-    data.append("email", inputEmail.value);
-
-    //enviar data
-    const response = await fetch(urlCreateCliente, {
-      method: "POST",
-      body: data,
-    });
-    const dRes = await response.json();
-    if (dRes.status) {
-      inputBuscarCliente.value = inputNombre.value;
-      inputClienteId.value = dRes.data;
-      //limpiar inputs
-      limpiarErrrorInput([
-        inputTipoDoc,
-        inputDocumento,
-        inputPais,
-        inputNombre,
-        inputDireccion,
-        inputTelefono,
-        inputEmail,
-      ]);
-      modalInputs.hide();
-      toastPersonalizado("success", "Cliente Registrado");
-    } else {
-      mensajeErrorInput(inputTipoDoc, dRes.data.tipodoc_id);
-      mensajeErrorInput(inputDocumento, dRes.data.documento);
-      mensajeErrorInput(inputPais, dRes.data.pais);
-      mensajeErrorInput(inputNombre, dRes.data.nombre);
-      mensajeErrorInput(inputDireccion, dRes.data.direccion);
-      mensajeErrorInput(inputTelefono, dRes.data.telefono);
-      mensajeErrorInput(inputEmail, dRes.data.email);
-    }
-  });
-}
-
-//invocar clase de autocompletar
-const autocompleteCliente = new Autocomplete(
-  inputBuscarCliente,
-  urlBuscarCliente
-);
-autocompleteCliente.seleccionar = (elemento) => {
-  if (inputTipoComprobante.value == "01") {
-    if (elemento.documento.length == 11) {
-      inputClienteId.value = elemento.id;
-      inputBuscarCliente.value = elemento.nombre;
-    } else {
-      toastPersonalizado("error", "No es un RUC");
-      return;
-    }
-  } else {
-    inputClienteId.value = elemento.id;
-    inputBuscarCliente.value = elemento.nombre;
-  }
-};
 
 // cuando selecciona barcode se oculta nombre
 function cambioCheckedBarcode(e) {
@@ -539,7 +338,7 @@ function carritoHTML() {
 //pasar datos a localStorage
 function sincronizarStorage() {
   localStorage.setItem(
-    "productocarritoventas",
+    "productocarritonotas",
     JSON.stringify(productosCarrito)
   );
 }
@@ -747,33 +546,139 @@ function sumaTotalPagar() {
   inputIgv_inafecta.value = igv_inafecta.toFixed(2);
   inputIgv_grabada.value = igv_grabada.toFixed(2);
 }
-//seleccionar forma de pago al seleccionar factura
-function cambioMenuTipoComprobante() {
-  inputTipoComprobante.addEventListener("change", (e) => {
-    menuCorrelativo();
 
-    let condicionpago = document.getElementById("condicionpago");
-    if (e.target.value == "01") {
-      //placeholder inputBuscarCliente
-      inputBuscarCliente.placeholder = "Solo RUC";
-      let selected = `
+//eliminar localStorage
+function eliminarLocalStorage() {
+  //limpiar carrito
+  productosCarrito = [];
+  localStorage.removeItem("productocarritonotas");
+  carritoHTML();
+}
+
+//menu de tipo de comprobante
+async function menuTipoComprobante() {
+  const response = await fetch(urlTipoComprobante);
+  const data = await response.json();
+
+  //si codigo=03 select por defecto
+  let html = "";
+  data.forEach((item) => {
+    if (item.codigo == 03) {
+      html += `<option value="${item.codigo}" selected>${item.descripcion}</option>`;
+    } else {
+      html += `<option value="${item.codigo}">${item.descripcion}</option>`;
+    }
+  });
+  inputTipoComprobante.innerHTML = html;
+
+  //cargar correlativo
+  menuSerie();
+}
+
+//cambio del menu de tipo de comprobante
+function cambioMenuTipoComprobante() {
+  inputTipoComprobante.addEventListener("change", () => {
+    menuSerie();
+  });
+}
+
+//menu serie
+async function menuSerie() {
+  const tipoComprobante = inputTipoComprobante.value;
+  const response = await fetch(
+    `${urlSerieCorrelativo}?tipo=${tipoComprobante}`
+  );
+  const data = await response.json();
+  //filtrar nuevo array por inputTipoDocumentoReferencia
+  const dataFiltrada = data.filter(
+    (item) => item.tipo == inputTipoDocumentoReferencia.value
+  );
+
+  let html = "";
+  dataFiltrada.forEach((item) => {
+    html += `<option value="${item.id}" data-serie="${item.serie}" data-correlativo="${item.correlativo}">${item.serie}-${item.correlativo}</option>`;
+  });
+  inputSerieId.innerHTML = html;
+
+  tipoNota(inputTipoComprobante.value);
+}
+
+//CAMBIO DE MENU SERIE
+function cambioMenuSerie() {
+  inputSerieId.addEventListener("change", () => {
+    tipoNota(inputSerieId.value);
+  });
+}
+
+//function tipo de nota
+async function tipoNota(tipoDoc) {
+  const link = `${urlTipoNota}?nota=${tipoDoc}`;
+  const response = await fetch(link);
+  const data = await response.json();
+  let html = "";
+  //un seleccione ...
+  html += `<option value="">Seleccione...</option>`;
+  data.forEach((item) => {
+    html += `<option value="${item.codigo}">${item.descripcion}</option>`;
+  });
+  inputTipoNota.innerHTML = html;
+}
+
+//traer datos por nombre
+function buscarVenta() {
+  const buscarNombre = new Autocomplete(inputBuscarComprobante, urlBuscarVenta);
+  buscarNombre.seleccionar = (elemento) => {
+    inputComprobante.value = elemento.serie + "-" + elemento.correlativo;
+    inputCliente.value = elemento.cliente;
+    //data.fecha_emision  yyyy-mm-dd hh:mm:ss cambiar a yyyy-mm-dd
+    inputFechaVenta.value = elemento.fecha_emision.substring(0, 10);
+
+    //inputs de referencia
+    inputTipoDocumentoReferencia.value = elemento.tipodoc;
+    inputSerieReferencia.value = elemento.serie;
+    inputCorrelativoReferencia.value = elemento.correlativo;
+    moneda = elemento.moneda;
+    clienteId = elemento.cliente_id;
+    venta_id = elemento.id;
+
+    //data.productos localStorage
+    // localStorage.setItem("productocarritonotas", data.productos);
+    productosCarrito = JSON.parse(elemento.productos);
+
+    //verificar si es factura
+    if (elemento.tipodoc == "01") {
+      if (elemento.forma_pago == "Contado") {
+        condicionPago();
+      }
+      if (elemento.forma_pago == "Credito") {
+        condicionesCredito();
+        mostrarCuotas(elemento.cuotas);
+      }
+    }
+
+    carritoHTML();
+    menuSerie();
+
+    //limpiar
+    inputBuscarComprobante.value = "";
+  };
+}
+
+//function condision de pago
+function condicionPago() {
+  let selected = `
             <select class="form-select form-select-sm" id="selectTipoDePago" name="forma_pago">
               <option value="Contado">Contado</option>
               <option value="Credito">Credito</option>
             </select>`;
-      condicionpago.innerHTML = selected;
-      cantidad_cuotas();
-    } else {
-      inputBuscarCliente.placeholder = "";
-      condicionpago.innerHTML = "";
-    }
-  });
+  condicion_Pago.innerHTML = selected;
+  cantidad_cuotas();
 }
 
 function cantidad_cuotas() {
   let selectTipoDePago = document.getElementById("selectTipoDePago");
+  // console.log(selectTipoDePago);
   selectTipoDePago.addEventListener("change", function (e) {
-    let cantidad_cuotas = document.getElementById("cantidad_cuotas");
     if (e.target.value == "Credito") {
       let selected = `
         <div class="input-group input-group-sm">
@@ -782,10 +687,10 @@ function cantidad_cuotas() {
             +
           </button>
         </div>`;
-      cantidad_cuotas.innerHTML = selected;
+      cantidadCuotas.innerHTML = selected;
       agregarCuotas();
     } else {
-      cantidad_cuotas.innerHTML = "";
+      cantidadCuotas.innerHTML = "";
       cuotasContainer.innerHTML = "";
     }
   });
@@ -863,9 +768,77 @@ function agregarCuotasArray(e) {
   }
 }
 
-//generar VENTA
-function generarVenta() {
-  btnEnviarVentas.addEventListener("click", async (e) => {
+//condicionesCredito
+function condicionesCredito(cuotas) {
+  //dejar seleccionado credito
+  let selected = `
+            <select class="form-select form-select-sm" id="selectTipoDePago" name="forma_pago">
+              <option value="Contado">Contado</option>
+              <option value="Credito" selected>Credito</option>
+            </select>`;
+  condicion_Pago.innerHTML = selected;
+
+  //entrada de cuotas
+  let entrada = `
+        <div class="input-group input-group-sm">
+          <input min="0" type="number" class="form-control" id="inputCantidadCuotas">
+          <button class="btn btn-outline-secondary fs-5 p-0 px-2" type="button" id="agregarCuotas">
+            +
+          </button>
+        </div>`;
+  cantidadCuotas.innerHTML = entrada;
+  cantidad_cuotas();
+  agregarCuotas();
+}
+
+//mmostrar cuotas
+function mostrarCuotas(cuotas) {
+  let arrayCuotas = JSON.parse(cuotas);
+  //agregar cuotas al array
+  cuotasCreditos = arrayCuotas;
+
+  let html = "";
+  arrayCuotas.forEach((cuota) => {
+    html += `
+        <div class="col-5">
+            <input type="number" class="form-control form-control-sm  monto" data-id="${cuota.id}"  placeholder="monto ${cuota.id}" value="${cuota.monto}">
+          </div>
+          <div class="col-5">
+            <input type="date"  class="form-control form-control-sm fecha" data-id="${cuota.id}" value="${cuota.fecha}">
+          </div>
+        </div>`;
+  });
+
+  cuotasContainer.innerHTML = html;
+}
+
+function agregarCuotasArray(e) {
+  //si la clase es monto
+  if (e.target.classList.contains("monto")) {
+    //obtener data-id
+    let id = e.target.dataset.id;
+    //modificar el objeto con el id en cuotasCreditos
+    cuotasCreditos.forEach((cuota) => {
+      if (cuota.id == id) {
+        cuota.monto = e.target.value;
+      }
+    });
+  }
+  //si la clase es fecha
+  if (e.target.classList.contains("fecha")) {
+    let id = e.target.dataset.id;
+    //modificar el objeto con el id en cuotasCreditos
+    cuotasCreditos.forEach((cuota) => {
+      if (cuota.id == id) {
+        cuota.fecha = e.target.value;
+      }
+    });
+  }
+}
+
+//GENERAR NOTA DE CREDITO Y DEBITO
+function generarNota() {
+  btnEnviarNotas.addEventListener("click", async (e) => {
     e.preventDefault();
     if (productosCarrito.length === 0) {
       toastPersonalizado("error", "No hay productos en el carrito");
@@ -873,10 +846,10 @@ function generarVenta() {
     }
 
     let forma_pago = "";
-    //comprobar tipo de comprobante y forma de pago
-    if (inputTipoComprobante.value == "03") {
+    // comprobar tipo de comprobante y forma de pago
+    if (inputTipoDocumentoReferencia.value == "03") {
       forma_pago = "Contado";
-    } else if (inputTipoComprobante.value == "01") {
+    } else if (inputTipoDocumentoReferencia.value == "01") {
       let tipoPago = document.getElementById("selectTipoDePago").value;
       if (tipoPago == "Contado") {
         forma_pago = tipoPago;
@@ -932,26 +905,35 @@ function generarVenta() {
       }
     }
 
-    //verificar que el cliente este seleccionado
-    if (inputClienteId.value == "") {
-      toastPersonalizado("error", "Seleccione un cliente");
+    if (inputTipoNota.value == "") {
+      toastPersonalizado("error", "Seleccione un motivo (tipo de nota)");
       return;
     }
+    if (inputDescripcion.value == "") {
+      toastPersonalizado("error", "Ingrese una descripcion");
+      return;
+    }
+    // capturar data-serie de inputSerieId
 
-    let serie = inputSerieId.options[inputSerieId.selectedIndex].text;
     let nombre_tipodoc =
       inputTipoComprobante.options[inputTipoComprobante.selectedIndex].text;
+    let serie = inputSerieId.options[inputSerieId.selectedIndex].dataset.serie;
+    let correlativo =
+      inputSerieId.options[inputSerieId.selectedIndex].dataset.correlativo;
 
     //crear data para enviar
     const data = new FormData();
     data.append("usuario_id", inputUserId.value);
+    data.append("venta_id", venta_id);
     data.append("tipodoc", inputTipoComprobante.value);
+    data.append("nombre_tipodoc", nombre_tipodoc);
     data.append("serie_id", inputSerieId.value);
     data.append("serie", serie);
-    data.append("nombre_tipodoc", nombre_tipodoc);
-    data.append("correlativo", inputCorrelativo.value);
-    data.append("moneda", inputMoneda.value);
-    data.append("fecha_emision", inputFechaVenta.value);
+    data.append("correlativo", correlativo);
+    data.append("codmotivo", inputTipoNota.value);
+    data.append("descripcion", inputDescripcion.value);
+    data.append("moneda", moneda);
+    data.append("fecha_emision", inputFechaNota.value);
     data.append("op_gratuitas", inputGratuita.value);
     data.append("op_exoneradas", inputExonerada.value);
     data.append("op_inafectas", inputInafecta.value);
@@ -962,10 +944,13 @@ function generarVenta() {
     data.append("igv_grabada", inputIgv_grabada.value);
     data.append("igv_total", inputInpuestoTotal.value);
     data.append("total", inputTotalVenta.value);
-    data.append("cliente_id", inputClienteId.value);
+    data.append("cliente_id", clienteId);
     data.append("forma_pago", forma_pago);
     data.append("cuotas", JSON.stringify(cuotasCreditos));
     data.append("productos", JSON.stringify(productosCarrito));
+    data.append("tipodoc_ref", inputTipoDocumentoReferencia.value);
+    data.append("serie_ref", inputSerieReferencia.value);
+    data.append("correlativo_ref", inputCorrelativoReferencia.value);
 
     //enviar data
     const response = await fetch(urlCreate, {
@@ -973,12 +958,11 @@ function generarVenta() {
       body: data,
     });
     const dRes = await response.json();
+
     if (dRes.status) {
       eliminarLocalStorage();
-      // Swal.fire
-
       Swal.fire({
-        title: "Venta Generada",
+        title: "Nota Generada",
         text: "¿Desea imprimir el comprobante?",
         icon: "success",
         showCancelButton: true,
@@ -988,8 +972,7 @@ function generarVenta() {
         cancelButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed) {
-          location.reload();
-          //abrir ventana emergente
+          window.location.href = urlIndexNotas;
           window
             .open(
               "reporte?ticket=" + dRes.id,
@@ -998,23 +981,10 @@ function generarVenta() {
             )
             .print()
             .close();
-          // window.open("reporte?ticket=" + dRes.id, "_blank");
-          // window
-          //   .open(
-          //     "reporte?ticket=" + dRes.id,
-          //     // "_blank",
-          //     "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400"
-          //   )
-          //   .print()
-          //   .close();
-        }
-
-        if (result.isDismissed) {
-          location.reload();
+        } else {
+          window.location.href = urlIndexNotas;
         }
       });
-
-      //refrescar la pagina
     } else {
       Swal.fire({
         toast: true,
@@ -1024,25 +994,6 @@ function generarVenta() {
         showConfirmButton: false,
         timer: 5000,
       });
-
-      Swal.fire({
-        icon: "error",
-        text: dRes.Message,
-        footer: "<p>la venta se registro, pero revise la lista de Ventas</p>",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          eliminarLocalStorage();
-          location.reload();
-        }
-      });
     }
   });
-}
-
-//eliminar localStorage
-function eliminarLocalStorage() {
-  //limpiar carrito
-  productosCarrito = [];
-  localStorage.removeItem("productocarritoventas");
-  carritoHTML();
 }

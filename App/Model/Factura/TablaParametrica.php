@@ -36,4 +36,11 @@ class TablaParametrica extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
+
+    public static function getMotivos($tipoDoc)
+    {
+        //estado = 1 activo
+        $sql = "SELECT * FROM tabla_parametrica WHERE tipo = '$tipoDoc' AND estado = 1";
+        return self::querySimple($sql);
+    }
 }

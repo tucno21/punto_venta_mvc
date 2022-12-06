@@ -4,7 +4,7 @@
 // ];
 
 $linksScript2 = [
-    base_url . '/assets/js/ventasindex.js',
+    base_url . '/assets/js/notasindex.js',
 ];
 ?>
 <?php include ext('layoutdash.head') ?>
@@ -15,18 +15,16 @@ $linksScript2 = [
             <div class="row align-items-center">
                 <div class="col d-flex flex-column flex-md-row justify-content-between align-items-center">
                     <div class="page-header-title">
-                        <h5 class="m-b-10">Panel de Ventas</h5>
-                        <input id="urlDataTable" type="hidden" data-url="<?= route('ventas.dataTable') ?>">
-                        <input id="urlDestroy" type="hidden" data-url="<?= route('ventas.destroy') ?>">
-                        <input id="urlReporte" type="hidden" data-url="<?= route('ventas.reporte') ?>">
-                        <input id="urlEnviarSunat" type="hidden" data-url="<?= route('ventas.enviarSunat') ?>">
-                        <input id="urlDownloadXml" type="hidden" data-url="<?= route('ventas.downloadxml') ?>">
-                        <input id="urlDownloadCdr" type="hidden" data-url="<?= route('ventas.downloadcdr') ?>">
-                        <input id="urlNotasCD" type="hidden" data-url="<?= route('notaCDs.create') ?>">
-                        <input id="urlIndexNotas" type="hidden" data-url="<?= route('notaCDs.index') ?>">
+                        <h5 class="m-b-10">Panel de Notas</h5>
+                        <input id="urlDataTable" type="hidden" data-url="<?= route('notaCDs.dataTable') ?>">
+                        <input id="urlDestroy" type="hidden" data-url="<?= route('notaCDs.destroy') ?>">
+                        <input id="urlReporte" type="hidden" data-url="<?= route('notaCDs.reporte') ?>">
+                        <input id="urlEnviarSunat" type="hidden" data-url="<?= route('notaCDs.enviarSunat') ?>">
+                        <input id="urlDownloadXml" type="hidden" data-url="<?= route('notaCDs.downloadxml') ?>">
+                        <input id="urlDownloadCdr" type="hidden" data-url="<?= route('notaCDs.downloadcdr') ?>">
                     </div>
                     <div class="">
-                        <a a href="<?= route('ventas.create') ?>" class="btn btn-primary btn-sm">Registrar Venta</a>
+                        <a a href="<?= route('notaCDs.create') ?>" class="btn btn-primary btn-sm">Registrar Nota C/D</a>
                     </div>
                 </div>
             </div>
@@ -39,7 +37,7 @@ $linksScript2 = [
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header p-2">
-                    <h5>Lista de Ventas</h5>
+                    <h5>Lista de Notas de Crédito o Debito</h5>
                 </div>
                 <div class="card-body p-2">
                     <div class="table-responsive">

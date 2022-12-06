@@ -20,6 +20,13 @@ const urlDownloadXml = document
 const urlDownloadCdr = document
   .querySelector("#urlDownloadCdr")
   .getAttribute("data-url");
+const urlNotasCD = document
+  .querySelector("#urlNotasCD")
+  .getAttribute("data-url");
+const urlIndexNotas = document
+  .querySelector("#urlIndexNotas")
+  .getAttribute("data-url");
+console.log(urlIndexNotas);
 
 cargarEventListeners();
 function cargarEventListeners() {
@@ -52,33 +59,11 @@ async function generarDataTable() {
 
     let actions;
 
-    if (element.estado === 1 && element.estado_sunat === 1) {
-      //agregar a actions
+    if (element.estado_sunat === 0 && element.estado === 1) {
       actions = `
       <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
             <i class="bi bi-file-earmark-pdf"></i>
           </a>
-      <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar">
-          <i class="bi bi-trash3"></i>
-      </a>
-      <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-three-dots"></i>
-      </button>
-      <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 downloadCDR" href="${urlDownloadCdr}?xml=${element.nombre_xml}">Descargar CDR</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 generarNotaDevito" href="${urlReporte}?pdfA5=${element.id}">Nota de Crédito</a></li>
-      </ul>
-      `;
-    } else if (element.estado === 1 && element.estado_sunat === 0) {
-      actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
-            <i class="bi bi-file-earmark-pdf"></i>
-          </a>
-      <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar">
-          <i class="bi bi-trash3"></i>
-      </a>
       <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-three-dots"></i>
       </button>
@@ -88,11 +73,14 @@ async function generarDataTable() {
         <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
       </ul>
       `;
-    } else if (element.estado === 0 && element.estado_sunat === 1) {
+    } else if (element.estado_sunat === 1 && element.estado === 1) {
       actions = `
       <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
             <i class="bi bi-file-earmark-pdf"></i>
           </a>
+      <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar">
+          <i class="bi bi-trash3"></i>
+      </a>
       <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-three-dots"></i>
       </button>
@@ -100,21 +88,24 @@ async function generarDataTable() {
         <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
         <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
         <li><a class="dropdown-item p-0 py-1 px-2 downloadCDR" href="${urlDownloadCdr}?xml=${element.nombre_xml}">Descargar CDR</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 generarNotaDevito" href="${urlReporte}?pdfA5=${element.id}">Nota de Crédito</a></li>
+        <li><a class="dropdown-item p-0 py-1 px-2 generarNotas" href="${urlNotasCD}?id=${element.id}">Nota de C/D</a></li>
       </ul>
       `;
-    } else if (element.estado === 0 && element.estado_sunat === 0) {
+    } else if (element.estado_sunat === 1 && element.estado === 0) {
       actions = `
       <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
-            <i class="bi bi-file-earmark-pdf"></i>
-          </a>
+        <i class="bi bi-file-earmark-pdf"></i>
+      </a>
+      <a href="${urlIndexNotas}" class="btn btn-outline-primary btn-sm btnNotasVentas">
+        <i class="bi bi-sticky"></i>
+      </a>
       <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-three-dots"></i>
       </button>
       <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
         <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 enviarSunat" href="${urlReporte}?id=${element.id}">Enviar Sunat</a></li>
         <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
+        <li><a class="dropdown-item p-0 py-1 px-2 downloadCDR" href="${urlDownloadCdr}?xml=${element.nombre_xml}">Descargar CDR</a></li>
       </ul>
       `;
     }
@@ -239,6 +230,32 @@ function botonesDataTable() {
 
       botonPdfTicket(url);
     }
+
+    //en boton generar notas
+    if (
+      e.target.classList.contains("generarNotas") ||
+      e.target.parentElement.classList.contains("generarNotas")
+    ) {
+      //traer link del boton
+      const url =
+        e.target.parentElement.getAttribute("href") ||
+        e.target.getAttribute("href");
+
+      botonGenerarNotas(url);
+    }
+
+    //btnNotasVentas
+    if (
+      e.target.classList.contains("btnNotasVentas") ||
+      e.target.parentElement.classList.contains("btnNotasVentas")
+    ) {
+      //traer link del boton
+      const url =
+        e.target.parentElement.getAttribute("href") ||
+        e.target.getAttribute("href");
+
+      botonNotasVentas(url);
+    }
   });
 }
 
@@ -299,4 +316,15 @@ function botonDownloadCDR(url) {
 //pdf ticket
 function botonPdfTicket(url) {
   window.open(url, "_blank");
+}
+
+//generar notas
+function botonGenerarNotas(url) {
+  //abrir url sin _blanck
+  window.location.href = url;
+}
+
+//botonNotasVentas
+function botonNotasVentas(url) {
+  window.location.href = url;
 }

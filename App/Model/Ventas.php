@@ -57,4 +57,26 @@ class Ventas extends Model
                 ORDER BY v.id DESC";
         return self::querySimple($sql);
     }
+
+    public static function getVentaNota($id)
+    {
+        $sql = "SELECT v.*, c.nombre as cliente
+        FROM ventas v
+        INNER JOIN clientes c ON c.id = v.cliente_id
+        WHERE v.id = $id";
+        return self::querySimple($sql);
+    }
+
+    public static function search($search)
+    {
+        ///buscar por "serie-correlativo" estado = 1
+        $sql = "SELECT v.*, c.nombre as cliente
+                FROM ventas v
+                INNER JOIN clientes c ON c.id = v.cliente_id
+                WHERE CONCAT(v.serie, '-', v.correlativo) LIKE '%$search%'
+                AND v.estado = 1
+                AND v.estado_sunat = 1
+                ORDER BY v.id DESC";
+        return self::querySimple($sql);
+    }
 }
