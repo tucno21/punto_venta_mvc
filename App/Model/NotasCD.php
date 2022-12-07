@@ -17,7 +17,7 @@ class NotasCD extends Model
     /**
      * nombre de la columnas de la tabla
      */
-    protected static $allowedFields = ['usuario_id', 'venta_id', 'tipodoc', 'nombre_tipodoc', 'serie_id', 'serie', 'correlativo', 'codmotivo', 'descripcion', 'moneda', 'fecha_emision', 'op_gratuitas', 'op_exoneradas', 'op_inafectas', 'op_gravadas', 'igv_gratuita', 'igv_exonerada', 'igv_inafecta', 'igv_grabada', 'igv_total', 'total', 'cliente_id', 'nombre_xml', 'forma_pago', 'cuotas', 'estado', 'estado_sunat', 'productos', 'tipodoc_ref', 'serie_ref', 'correlativo_ref'];
+    protected static $allowedFields = ['usuario_id', 'venta_id', 'tipodoc', 'nombre_tipodoc', 'serie_id', 'serie', 'correlativo', 'codmotivo', 'motivo', 'descripcion', 'moneda', 'fecha_emision', 'op_gratuitas', 'op_exoneradas', 'op_inafectas', 'op_gravadas', 'igv_gratuita', 'igv_exonerada', 'igv_inafecta', 'igv_grabada', 'igv_total', 'total', 'cliente_id', 'nombre_xml', 'forma_pago', 'cuotas', 'estado', 'estado_sunat', 'productos', 'tipodoc_ref', 'serie_ref', 'correlativo_ref'];
     /**
      * obtener los datos de la tabla en 'array' u 'object'
      */

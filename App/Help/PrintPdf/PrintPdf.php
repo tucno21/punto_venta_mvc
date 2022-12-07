@@ -50,11 +50,13 @@ class PrintPdf
         $pdf->cell(60, 9, 'RUC: ' . $emisor->ruc, 'LRT', 1, 'C', 0);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->SetXY(83, 16);
-        $pdf->cell(60, 4, $venta->nombre_tipodoc . ' ELECTRONICA', 'LR', 1, 'C', 0);
+        if ($venta->tipodoc == "07" || $venta->tipodoc == "08") {
+            $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc), 'LR', 1, 'C', 0);
+        } else {
+            $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc)  . ' ELECTRONICA', 'LR', 1, 'C', 0);
+        }
         $pdf->SetXY(83, 20);
         $pdf->cell(60, 6, $venta->serie . '-' . $correlativo, 'BLR', 0, 'C', 0);
-
-
 
         $pdf->Ln(10);
 
@@ -73,6 +75,25 @@ class PrintPdf
         $pdf->cell(25, 6, utf8_decode('Dirección'), 'L', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 8);
         $pdf->cell(112, 6, ': ' . utf8_decode($cliente->direccion), 'R', 1, 'L', 0);
+
+        if ($venta->tipodoc == "07" || $venta->tipodoc == "08") {
+            $pdf->Ln(-1);
+            $pdf->SetFont('Arial', 'B', 8);
+            $pdf->cell(25, 6, utf8_decode('Doc. Afectado'), 'L', 0, 'L', 0);
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->cell(112, 6, ': ' . utf8_decode($venta->serie_ref . "-" . $venta->correlativo_ref), 'R', 1, 'L', 0);
+            $pdf->Ln(-1);
+            $pdf->SetFont('Arial', 'B', 8);
+            $pdf->cell(25, 6, utf8_decode('Tipo Nota'), 'L', 0, 'L', 0);
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->cell(112, 6, ': ' . utf8_decode($venta->motivo), 'R', 1, 'L', 0);
+            $pdf->Ln(-1);
+            $pdf->SetFont('Arial', 'B', 8);
+            $pdf->cell(25, 6, utf8_decode('Descripción'), 'L', 0, 'L', 0);
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->cell(112, 6, ': ' . utf8_decode($venta->descripcion), 'R', 1, 'L', 0);
+        }
+
         $pdf->Ln(-1);
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->cell(25, 6, utf8_decode('Fecha Emisión'), 'LB', 0, 'L', 0);
@@ -86,7 +107,7 @@ class PrintPdf
                 // 'es_ES'
             );
 
-        $pdf->cell(112, 6,  ': ' . $fecha_letra, 'RB', 1, 'L', 0);
+        $pdf->cell(112, 6,  ': ' . utf8_decode($fecha_letra), 'RB', 1, 'L', 0);
         $pdf->Ln(1);
 
         $pdf->SetFont('Arial', 'B', 7);
@@ -207,7 +228,11 @@ class PrintPdf
         $pdf->cell(60, 9, 'RUC: ' . $emisor->ruc, 'LRT', 1, 'C', 0);
         $pdf->SetFont('Arial', 'B', 11);
         $pdf->SetXY(142, 16);
-        $pdf->cell(60, 4, $venta->nombre_tipodoc . ' ELECTRONICA', 'LR', 1, 'C', 0);
+        if ($venta->tipodoc == "07" || $venta->tipodoc == "08") {
+            $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc), 'LR', 1, 'C', 0);
+        } else {
+            $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc)  . ' ELECTRONICA', 'LR', 1, 'C', 0);
+        }
         $pdf->SetXY(142, 20);
         $pdf->cell(60, 6, $venta->serie . '-' . $correlativo, 'BLR', 0, 'C', 0);
 
@@ -215,17 +240,37 @@ class PrintPdf
         $pdf->Ln(15);
         $pdf->cell(35, 6, 'Cliente', 'LT', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 9);
-        $pdf->cell(160, 6, ': ' . $cliente->nombre, 'TR', 1, 'L', 0);
+        $pdf->cell(160, 6, ': ' . utf8_decode($cliente->nombre), 'TR', 1, 'L', 0);
         $pdf->Ln(-1);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->cell(35, 7, 'RUC/DNI', 'L', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 9);
-        $pdf->cell(160, 6, ': ' . $cliente->documento, 'R', 1, 'L', 0);
+        $pdf->cell(160, 6, ': ' . utf8_decode($cliente->documento), 'R', 1, 'L', 0);
         $pdf->Ln(-1);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->cell(35, 6, utf8_decode('Dirección'), 'L', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 9);
-        $pdf->cell(160, 6, ': ' . $cliente->direccion, 'R', 1, 'L', 0);
+        $pdf->cell(160, 6, ': ' . utf8_decode($cliente->direccion), 'R', 1, 'L', 0);
+
+        if ($venta->tipodoc == "07" || $venta->tipodoc == "08") {
+            $pdf->Ln(-1);
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->cell(35, 6, utf8_decode('Doc. Afectado'), 'L', 0, 'L', 0);
+            $pdf->SetFont('Arial', '', 9);
+            $pdf->cell(160, 6, ': ' . utf8_decode($venta->serie_ref . "-" . $venta->correlativo_ref), 'R', 1, 'L', 0);
+            $pdf->Ln(-1);
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->cell(35, 6, utf8_decode('Tipo Nota'), 'L', 0, 'L', 0);
+            $pdf->SetFont('Arial', '', 9);
+            $pdf->cell(160, 6, ': ' . utf8_decode($venta->motivo), 'R', 1, 'L', 0);
+            $pdf->Ln(-1);
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->cell(35, 6, utf8_decode('Descripción'), 'L', 0, 'L', 0);
+            $pdf->SetFont('Arial', '', 9);
+            $pdf->cell(160, 6, ': ' . utf8_decode($venta->descripcion), 'R', 1, 'L', 0);
+        }
+
+
         $pdf->Ln(-1);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->cell(35, 6, utf8_decode('Fecha Emisión'), 'LB', 0, 'L', 0);
@@ -239,7 +284,7 @@ class PrintPdf
                 // 'es_ES'
             );
 
-        $pdf->cell(160, 6,  ': ' . $fecha_letra, 'RB', 1, 'L', 0);
+        $pdf->cell(160, 6,  ': ' . utf8_decode($fecha_letra), 'RB', 1, 'L', 0);
 
         $pdf->Ln(3);
 
@@ -345,7 +390,11 @@ class PrintPdf
         $pdf->Cell(74, 4, utf8_decode($emisor->direccion), 0, 1, 'C');
         $pdf->Cell(74, 4, utf8_decode($emisor->departamento . ' - ' . $emisor->provincia . ' - ' . $emisor->distrito), 0, 1, 'C');
         $pdf->Cell(74, 4, 'Cel: ' . $emisor->telefono, 0, 1, 'C');
-        $pdf->Cell(74, 4, $venta->nombre_tipodoc . ' ELECTRONICA', 0, 1, 'C');
+        if ($venta->tipodoc == "07" || $venta->tipodoc == "08") {
+            $pdf->Cell(74, 4, utf8_decode($venta->nombre_tipodoc), 0, 1, 'C');
+        } else {
+            $pdf->Cell(74, 4, utf8_decode($venta->nombre_tipodoc) . ' ELECTRONICA', 0, 1, 'C');
+        }
         $number = $venta->correlativo;
         $length = 8;
         $correlativo = substr(str_repeat(0, $length) . $number, -$length);

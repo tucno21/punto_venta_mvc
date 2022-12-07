@@ -207,8 +207,11 @@ class NotaCDController extends Controller
         $notaCredito['serie_id'] = $serieCorrelativo->id;
         $notaCredito['serie'] = $serieCorrelativo->serie;
         $notaCredito['correlativo'] = $serieCorrelativo->correlativo;
+        // $notaCredito['codmotivo'] = "01";
         $notaCredito['codmotivo'] = "06";
-        $notaCredito['descripcion'] = "devolucion de productos";
+        $notaCredito['motivo'] = "Anulación de la operación";
+        // $notaCredito['descripcion'] = "devolucion de productos";
+        $notaCredito['descripcion'] = "Anulación";
         $notaCredito['moneda'] = $venta->moneda;
         $notaCredito['fecha_emision'] = date('Y-m-d H:i:s');
         $notaCredito['op_gratuitas'] = $venta->op_gratuitas;

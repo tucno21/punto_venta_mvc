@@ -917,6 +917,9 @@ function generarNota() {
 
     let nombre_tipodoc =
       inputTipoComprobante.options[inputTipoComprobante.selectedIndex].text;
+
+    let motivo = inputTipoNota.options[inputTipoNota.selectedIndex].text;
+
     let serie = inputSerieId.options[inputSerieId.selectedIndex].dataset.serie;
     let correlativo =
       inputSerieId.options[inputSerieId.selectedIndex].dataset.correlativo;
@@ -931,6 +934,7 @@ function generarNota() {
     data.append("serie", serie);
     data.append("correlativo", correlativo);
     data.append("codmotivo", inputTipoNota.value);
+    data.append("motivo", motivo);
     data.append("descripcion", inputDescripcion.value);
     data.append("moneda", moneda);
     data.append("fecha_emision", inputFechaNota.value);

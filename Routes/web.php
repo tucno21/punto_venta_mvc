@@ -237,7 +237,7 @@ Route::get('/notaCDs/tipocomprobante', [NotaCDController::class, 'tipocomprobant
 Route::get('/notaCDs/serieCorrelativo', [NotaCDController::class, 'serieCorrelativo'])->name('notaCDs.serieCorrelativo');
 Route::get('/notaCDs/tiponota', [NotaCDController::class, 'tiponota'])->name('notaCDs.tiponota');
 Route::get('/notaCDs/reporte', [NotaCDController::class, 'reporte'])->name('notaCDs.reporte');
-Route::get('/notaCDs/generarXML', [NotaCDController::class, 'generarXML'])->name('notaCDs.generarXML');
+// Route::get('/notaCDs/generarXML', [NotaCDController::class, 'generarXML'])->name('notaCDs.generarXML');
 Route::get('/notaCDs/enviarSunat', [NotaCDController::class, 'enviarSunat'])->name('notaCDs.enviarSunat');
 Route::get('/notaCDs/downloadxml', [NotaCDController::class, 'downloadxml'])->name('notaCDs.downloadxml');
 Route::get('/notaCDs/downloadcdr', [NotaCDController::class, 'downloadcdr'])->name('notaCDs.downloadcdr');
