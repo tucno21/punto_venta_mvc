@@ -136,7 +136,7 @@ async function menuCorrelativo() {
 
   let html = "";
   data.forEach((item) => {
-    html += `<option value="${item.tipo_comprobante}">${item.serie}</option>`;
+    html += `<option value="${item.id}">${item.serie}</option>`;
   });
 
   inputSerieId.innerHTML = html;
