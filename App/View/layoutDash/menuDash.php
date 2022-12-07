@@ -108,6 +108,12 @@ $linksSidebar = [
     ],
     [
         'mode' => 'menu',
+        'text' => 'Nuevo Venta',
+        'url'  => route('ventas.create'),
+        'icon' => 'bi bi-piggy-bank',
+    ],
+    [
+        'mode' => 'menu',
         'text' => 'Notas C/D',
         'url'  => route('notaCDs.index'),
         'icon' => 'bi bi-sticky',
