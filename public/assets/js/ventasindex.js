@@ -68,7 +68,7 @@ async function generarDataTable() {
       </button>
       <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
         <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 enviarSunat" href="${urlEnviarSunat}?id=${element.id}">Enviar Sunat</a></li>
+
         <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
       </ul>
       `;
@@ -114,7 +114,7 @@ async function generarDataTable() {
     element["estadoSunat"] =
       element.estado_sunat === 1
         ? `<span  class="text-white badge rounded-pill bg-success">Aceptado</span>`
-        : `<span  class="text-white badge rounded-pill bg-danger">Sin enviar</span>`;
+        : `<span  class="text-white badge rounded-pill bg-danger enviarSunat" data-id="${element.id}">Sin enviar</span>`;
 
     i++;
   });
@@ -179,16 +179,10 @@ function botonesDataTable() {
     }
 
     //en boton enviar sunat
-    if (
-      e.target.classList.contains("enviarSunat") ||
-      e.target.parentElement.classList.contains("enviarSunat")
-    ) {
-      //traer link del boton
-      const url =
-        e.target.parentElement.getAttribute("href") ||
-        e.target.getAttribute("href");
-
-      botonEnviarSunat(url);
+    if (e.target.classList.contains("enviarSunat")) {
+      //capturar data-id
+      const id = e.target.getAttribute("data-id");
+      botonEnviarSunat(id);
     }
 
     //en boton descargar xml
@@ -294,14 +288,26 @@ function botonReporte(url) {
 }
 
 //enviar sunat
-async function botonEnviarSunat(url) {
-  const response = await fetch(url);
-  const data = await response.json();
-  if (data.success) {
-    generarDataTable();
-    toastPersonalizado("success", data.message);
-  } else {
-    toastPersonalizado("error", data.message);
+async function botonEnviarSunat(id) {
+  const { value: accept } = await Swal.fire({
+    text: "¿Desea enviar la Venta a sunat?",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí",
+    cancelButtonText: "No",
+  });
+
+  if (accept) {
+    const url = urlEnviarSunat + "?id=" + id;
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data.success) {
+      generarDataTable();
+      toastPersonalizado("success", data.message);
+    } else {
+      toastPersonalizado("error", data.message);
+    }
   }
 }
 

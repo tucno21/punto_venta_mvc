@@ -165,10 +165,10 @@ class NotaCDController extends Controller
                 $estadoVenta = ['estado' => 0];
                 Ventas::update($nota->venta_id, $estadoVenta);
 
-                $response = ['status' => true, 'id' => $result->id, 'message' => $estado->Message];
+                $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];
                 // $response = ['status' => true, 'id' => $result->id];
             } else {
-                $response = ['status' => false, 'message' => $estado->Message];
+                $response = ['status' => false, 'message' => $estado->message];
             }
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
@@ -250,10 +250,10 @@ class NotaCDController extends Controller
             $estadoVenta = ['estado' => 0];
             Ventas::update($nota->venta_id, $estadoVenta);
 
-            $response = ['status' => true, 'id' => $result->id, 'message' => $estado->Message];
+            $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];
             // $response = ['status' => true, 'id' => $result->id];
         } else {
-            $response = ['status' => false, 'message' => $estado->Message];
+            $response = ['status' => false, 'message' => $estado->message];
         }
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;

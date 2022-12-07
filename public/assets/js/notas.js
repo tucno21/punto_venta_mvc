@@ -994,7 +994,7 @@ function generarNota() {
         toast: true,
         position: "top-end",
         icon: "error",
-        title: dRes.Message,
+        title: ddRes.message,
         showConfirmButton: false,
         timer: 5000,
       });

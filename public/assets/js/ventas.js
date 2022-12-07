@@ -1020,14 +1020,14 @@ function generarVenta() {
         toast: true,
         position: "top-end",
         icon: "error",
-        title: dRes.Message,
+        title: ddRes.message,
         showConfirmButton: false,
         timer: 5000,
       });
 
       Swal.fire({
         icon: "error",
-        text: dRes.Message,
+        text: ddRes.message,
         footer: "<p>la venta se registro, pero revise la lista de Ventas</p>",
       }).then((result) => {
         if (result.isConfirmed) {

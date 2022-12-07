@@ -25,6 +25,14 @@ class EnviarSunat
         // $nombreXML = '10427691972-01-F001-7';
 
         $ruta_archivo_xml = $this->ruta_carpeta_xml . $nombreXML . '.XML';
+        //comprobar si existe el arrichivo
+        if (!file_exists($ruta_archivo_xml)) {
+            return [
+                'success' => false,
+                'message' => "El archivo XML no existe",
+            ];
+        }
+
         //PASO 03: COMPRIMIR EN ZIP - INICIO
         $zip = new ZipArchive();
         $ruta_zip =  $this->ruta_carpeta_xml . $nombreXML . '.ZIP';

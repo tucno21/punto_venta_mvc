@@ -133,9 +133,9 @@ class VentaController extends Controller
             // $estado = $this->generarXML($venta->id);
 
             // if ($estado->success) {
-            //     $response = ['status' => true, 'id' => $result->id, 'message' => $estado->Message];
+            //     $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];
             // } else {
-            //     $response = ['status' => false, 'message' => $estado->Message];
+            //     $response = ['status' => false, 'message' => $estado->message];
             // }
             // echo json_encode($response, JSON_UNESCAPED_UNICODE);
             // exit;
@@ -163,9 +163,9 @@ class VentaController extends Controller
         $estado = $this->generarXML($venta->id);
 
         if ($estado->success) {
-            $response = ['status' => true, 'id' => $result->id, 'message' => $estado->Message];
+            $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];
         } else {
-            $response = ['status' => false, 'message' => $estado->Message];
+            $response = ['status' => false, 'message' => $estado->message];
         }
         return $response;
     }
