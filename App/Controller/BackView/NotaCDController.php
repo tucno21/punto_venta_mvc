@@ -165,10 +165,10 @@ class NotaCDController extends Controller
                 $estadoVenta = ['estado' => 0];
                 Ventas::update($nota->venta_id, $estadoVenta);
 
-                $response = ['status' => true, 'id' => $result->id, 'Message' => $estado->Message];
+                $response = ['status' => true, 'id' => $result->id, 'message' => $estado->Message];
                 // $response = ['status' => true, 'id' => $result->id];
             } else {
-                $response = ['status' => false, 'Message' => $estado->Message];
+                $response = ['status' => false, 'message' => $estado->Message];
             }
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
@@ -250,10 +250,10 @@ class NotaCDController extends Controller
             $estadoVenta = ['estado' => 0];
             Ventas::update($nota->venta_id, $estadoVenta);
 
-            $response = ['status' => true, 'id' => $result->id, 'Message' => $estado->Message];
+            $response = ['status' => true, 'id' => $result->id, 'message' => $estado->Message];
             // $response = ['status' => true, 'id' => $result->id];
         } else {
-            $response = ['status' => false, 'Message' => $estado->Message];
+            $response = ['status' => false, 'message' => $estado->Message];
         }
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
@@ -348,7 +348,7 @@ class NotaCDController extends Controller
                     $mmm = ['estado_sunat' => '1'];
                     $estado = NotasCD::update($nota->id, $mmm);
 
-                    $return = ['success' => true, 'Message' => 'Se genero el XML y se envio a la SUNAT correctamente', 'nombre_xml' => $nombreXML];
+                    $return = ['success' => true, 'message' => 'Se genero el XML y se envio a la SUNAT correctamente', 'nombre_xml' => $nombreXML];
                     return (object)$return;
                 }
                 return (object)$result;

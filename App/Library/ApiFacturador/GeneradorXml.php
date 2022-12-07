@@ -78,15 +78,15 @@ class GeneradorXml
 
          $result = $objFirma->signature_xml($flg_firma, $ruta_archivo_xml, $ruta_certificado, $pass_firma);
          if ($result['respuesta'] == 'ok') {
-            $return = ['success' => true, 'Message' => 'Se firmo correctamente el XML'];
+            $return = ['success' => true, 'message' => 'Se firmo correctamente el XML'];
             return (object)$return;
          } else {
-            $return = ['success' => false, 'Message' => 'Error al firmar el XML'];
+            $return = ['success' => false, 'message' => 'Error al firmar el XML'];
             return (object)$return;
          }
       } catch (Exception $th) {
          $mensaje = 'error al firmarXML, mensaje: ' . $th->getMessage() . ' del archivo: ' . $th->getFile();
-         $return = ['success' => false, 'Message' => $mensaje];
+         $return = ['success' => false, 'message' => $mensaje];
          return (object)$return;
       }
    }
@@ -331,11 +331,11 @@ class GeneradorXml
          $doc->loadXML($xml);
          $doc->save($rutaXML . '.XML');
 
-         $return = ['success' => true, 'Message' => 'Se generó el XML correctamente'];
+         $return = ['success' => true, 'message' => 'Se generó el XML correctamente'];
          return (object)$return;
       } catch (Exception $th) {
          $mensaje = 'error al generar CrearXMLFactura, mensaje: ' . $th->getMessage() . ' del archivo: ' . $th->getFile();
-         $return = ['success' => false, 'Message' => $mensaje];
+         $return = ['success' => false, 'message' => $mensaje];
          return (object)$return;
       }
    }
@@ -580,11 +580,11 @@ class GeneradorXml
 
          $dd = $doc->loadXML($xml);
          $doc->save($rutaXML . '.XML');
-         $return = ['success' => true, 'Message' => 'Se generó el XML correctamente'];
+         $return = ['success' => true, 'message' => 'Se generó el XML correctamente'];
          return (object)$return;
       } catch (Exception $th) {
          $mensaje = 'error al generar CrearXMLFactura, mensaje: ' . $th->getMessage() . ' del archivo: ' . $th->getFile();
-         $return = ['success' => false, 'Message' => $mensaje];
+         $return = ['success' => false, 'message' => $mensaje];
          return (object)$return;
       }
    }
@@ -828,11 +828,11 @@ class GeneradorXml
 
          $dd = $doc->loadXML($xml);
          $doc->save($rutaXML . '.XML');
-         $return = ['success' => true, 'Message' => 'Se generó el XML correctamente'];
+         $return = ['success' => true, 'message' => 'Se generó el XML correctamente'];
          return (object)$return;
       } catch (Exception $th) {
          $mensaje = 'error al generar CrearXMLFactura, mensaje: ' . $th->getMessage() . ' del archivo: ' . $th->getFile();
-         $return = ['success' => false, 'Message' => $mensaje];
+         $return = ['success' => false, 'message' => $mensaje];
          return (object)$return;
       }
    }

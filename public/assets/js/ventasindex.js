@@ -283,7 +283,7 @@ async function botonEliminar(url) {
       generarDataTable();
       toastPersonalizado("success", "Venta Anulada");
     } else {
-      toastPersonalizado("error", data.Message);
+      toastPersonalizado("error", data.message);
     }
   }
 }

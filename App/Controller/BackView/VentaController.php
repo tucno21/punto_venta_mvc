@@ -133,9 +133,9 @@ class VentaController extends Controller
             // $estado = $this->generarXML($venta->id);
 
             // if ($estado->success) {
-            //     $response = ['status' => true, 'id' => $result->id, 'Message' => $estado->Message];
+            //     $response = ['status' => true, 'id' => $result->id, 'message' => $estado->Message];
             // } else {
-            //     $response = ['status' => false, 'Message' => $estado->Message];
+            //     $response = ['status' => false, 'message' => $estado->Message];
             // }
             // echo json_encode($response, JSON_UNESCAPED_UNICODE);
             // exit;
@@ -163,9 +163,9 @@ class VentaController extends Controller
         $estado = $this->generarXML($venta->id);
 
         if ($estado->success) {
-            $response = ['status' => true, 'id' => $result->id, 'Message' => $estado->Message];
+            $response = ['status' => true, 'id' => $result->id, 'message' => $estado->Message];
         } else {
-            $response = ['status' => false, 'Message' => $estado->Message];
+            $response = ['status' => false, 'message' => $estado->Message];
         }
         return $response;
     }
@@ -249,7 +249,7 @@ class VentaController extends Controller
             $result = Ventas::update($venta->id, $data);
 
             if ($result->status) {
-                $return = ['success' => true, 'Message' => 'Se genero el XML correctamente', 'nombre_xml' => $nombreXML];
+                $return = ['success' => true, 'message' => 'Se genero el XML correctamente', 'nombre_xml' => $nombreXML];
                 return (object)$return;
             }
         }

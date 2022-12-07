@@ -122,7 +122,7 @@ class EnviarSunat
 
                 return [
                     'success' => true,
-                    'Message' => 'Se envio correctamente el comprobante',
+                    'message' => 'Se envio correctamente el comprobante',
                 ];
             } else {
                 $codigo = $doc->getElementsByTagName('faultcode')->item(0)->nodeValue;
@@ -130,13 +130,13 @@ class EnviarSunat
 
                 return [
                     'success' => false,
-                    'Message' => 'Ocurrio un error con código: ' . $codigo . ' Msje: ' . $mensaje,
+                    'message' => 'Ocurrio un error con código: ' . $codigo . ' Msje: ' . $mensaje,
                 ];
             }
         } else {
             return [
                 'success' => false,
-                'Message' => 'Ocurrio un error con código: ' . $httpcode . ' Msje: ' . $response,
+                'message' => 'Ocurrio un error con código: ' . $httpcode . ' Msje: ' . $response,
             ];
         }
         curl_close($ch);
