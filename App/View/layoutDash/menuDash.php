@@ -114,6 +114,12 @@ $linksSidebar = [
     ],
     [
         'mode' => 'menu',
+        'text' => 'Ventas Internas',
+        'url'  => route('notaventas.index'),
+        'icon' => 'bi bi-receipt',
+    ],
+    [
+        'mode' => 'menu',
         'text' => 'Notas C/D',
         'url'  => route('notaCDs.index'),
         'icon' => 'bi bi-sticky',

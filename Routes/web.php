@@ -13,6 +13,7 @@ use App\Controller\BackView\ClienteController;
 use App\Controller\BackView\ProductoController;
 use App\Controller\BackView\CategoriaController;
 use App\Controller\BackView\DashboardController;
+use App\Controller\BackView\NotaVentaController;
 use App\Controller\BackView\ProveedorController;
 use App\Controller\BackView\PermissionController;
 use App\Controller\BackView\InfoEmpresaController;
@@ -226,6 +227,8 @@ Route::get('/ventas/reporte', [VentaController::class, 'reporte'])->name('ventas
 Route::get('/ventas/enviarSunat', [VentaController::class, 'enviarSunat'])->name('ventas.enviarSunat');
 Route::get('/ventas/downloadxml', [VentaController::class, 'downloadxml'])->name('ventas.downloadxml');
 Route::get('/ventas/downloadcdr', [VentaController::class, 'downloadcdr'])->name('ventas.downloadcdr');
+Route::get('/ventas/boleta', [VentaController::class, 'boleta'])->name('ventas.boleta');
+Route::get('/ventas/factura', [VentaController::class, 'factura'])->name('ventas.factura');
 
 //NotaCDController
 Route::get('/notaCDs', [NotaCDController::class, 'index'])->name('notaCDs.index');
@@ -243,3 +246,16 @@ Route::get('/notaCDs/downloadxml', [NotaCDController::class, 'downloadxml'])->na
 Route::get('/notaCDs/downloadcdr', [NotaCDController::class, 'downloadcdr'])->name('notaCDs.downloadcdr');
 Route::get('/notaCDs/venta', [NotaCDController::class, 'venta'])->name('notaCDs.venta');
 Route::get('/notaCDs/BuscarVenta', [NotaCDController::class, 'BuscarVenta'])->name('notaCDs.BuscarVenta');
+
+
+//NotaVentaController
+Route::get('/notaventas', [NotaVentaController::class, 'index'])->name('notaventas.index');
+Route::get('/notaventas/dataTable', [NotaVentaController::class, 'dataTable'])->name('notaventas.dataTable');
+Route::get('/notaventas/create', [NotaVentaController::class, 'create'])->name('notaventas.create');
+Route::post('/notaventas/create', [NotaVentaController::class, 'store']);
+Route::get('/notaventas/destroy', [NotaVentaController::class, 'destroy'])->name('notaventas.destroy');
+Route::get('/notaventas/tipocomprobante', [NotaVentaController::class, 'tipocomprobante'])->name('notaventas.tipocomprobante');
+Route::get('/notaventas/serieCorrelativo', [NotaVentaController::class, 'serieCorrelativo'])->name('notaventas.serieCorrelativo');
+Route::get('/notaventas/monedas', [NotaVentaController::class, 'monedas'])->name('notaventas.monedas');
+Route::get('/notaventas/reporte', [NotaVentaController::class, 'reporte'])->name('notaventas.reporte');
+Route::get('/notaventas/updateElectronico', [NotaVentaController::class, 'updateElectronico'])->name('notaventas.updateElectronico');

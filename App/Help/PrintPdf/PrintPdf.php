@@ -50,7 +50,7 @@ class PrintPdf
         $pdf->cell(60, 9, 'RUC: ' . $emisor->ruc, 'LRT', 1, 'C', 0);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->SetXY(83, 16);
-        if ($venta->tipodoc == "07" || $venta->tipodoc == "08") {
+        if ($venta->tipodoc == "07" || $venta->tipodoc == "08" || $venta->tipodoc == "20") {
             $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc), 'LR', 1, 'C', 0);
         } else {
             $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc)  . ' ELECTRONICA', 'LR', 1, 'C', 0);
@@ -228,7 +228,7 @@ class PrintPdf
         $pdf->cell(60, 9, 'RUC: ' . $emisor->ruc, 'LRT', 1, 'C', 0);
         $pdf->SetFont('Arial', 'B', 11);
         $pdf->SetXY(142, 16);
-        if ($venta->tipodoc == "07" || $venta->tipodoc == "08") {
+        if ($venta->tipodoc == "07" || $venta->tipodoc == "08" || $venta->tipodoc == "20") {
             $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc), 'LR', 1, 'C', 0);
         } else {
             $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc)  . ' ELECTRONICA', 'LR', 1, 'C', 0);
@@ -390,7 +390,7 @@ class PrintPdf
         $pdf->Cell(74, 4, utf8_decode($emisor->direccion), 0, 1, 'C');
         $pdf->Cell(74, 4, utf8_decode($emisor->departamento . ' - ' . $emisor->provincia . ' - ' . $emisor->distrito), 0, 1, 'C');
         $pdf->Cell(74, 4, 'Cel: ' . $emisor->telefono, 0, 1, 'C');
-        if ($venta->tipodoc == "07" || $venta->tipodoc == "08") {
+        if ($venta->tipodoc == "07" || $venta->tipodoc == "08" || $venta->tipodoc == "20") {
             $pdf->Cell(74, 4, utf8_decode($venta->nombre_tipodoc), 0, 1, 'C');
         } else {
             $pdf->Cell(74, 4, utf8_decode($venta->nombre_tipodoc) . ' ELECTRONICA', 0, 1, 'C');

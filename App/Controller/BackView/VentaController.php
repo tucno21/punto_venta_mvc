@@ -5,6 +5,7 @@ namespace App\Controller\BackView;
 use App\Model\Ventas;
 use System\Controller;
 use App\Model\Clientes;
+use App\Model\NotaVentas;
 use App\Model\InfoEmpresa;
 use App\Model\Factura\Monedas;
 use App\Help\PrintPdf\PrintPdf;
@@ -110,41 +111,72 @@ class VentaController extends Controller
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
         } else {
-            $result = Ventas::create($data);
-            //     ["status"]=>
-            //     bool(true)
-            //     ["id"]=>
-            //     string(1) "1"
-            //   }
-            //buscar  result->id
-            $venta = Ventas::find($result->id);
-            //traer SerieCorrelativo
-            $serie = SerieCorrelativo::find($venta->serie_id);
-            //actualizar correlativo
-            $dataSerie = ['correlativo' => $serie->correlativo + 1];
-            $ff = SerieCorrelativo::update($serie->id, $dataSerie);
-
-            //crear xml y firmar
-
-            $estado = $this->generarXML($venta->id);
-
-            if ($estado->success) {
-                $response = ['status' => true, 'id' => $result->id, 'Message' => $estado->Message];
-            } else {
-                $response = ['status' => false, 'Message' => $estado->Message];
-            }
+            $response = $this->guardarVenta($data);
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
+            // $result = Ventas::create($data);
+            // //     ["status"]=>
+            // //     bool(true)
+            // //     ["id"]=>
+            // //     string(1) "1"
+            // //   }
+            // //buscar  result->id
+            // $venta = Ventas::find($result->id);
+            // //traer SerieCorrelativo
+            // $serie = SerieCorrelativo::find($venta->serie_id);
+            // //actualizar correlativo
+            // $dataSerie = ['correlativo' => $serie->correlativo + 1];
+            // $ff = SerieCorrelativo::update($serie->id, $dataSerie);
+
+            // //crear xml y firmar
+
+            // $estado = $this->generarXML($venta->id);
+
+            // if ($estado->success) {
+            //     $response = ['status' => true, 'id' => $result->id, 'Message' => $estado->Message];
+            // } else {
+            //     $response = ['status' => false, 'Message' => $estado->Message];
+            // }
+            // echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            // exit;
         }
+    }
+
+    public function guardarVenta($data)
+    {
+        $result = Ventas::create($data);
+        //     ["status"]=>
+        //     bool(true)
+        //     ["id"]=>
+        //     string(1) "1"
+        //   }
+        //buscar  result->id
+        $venta = Ventas::find($result->id);
+        //traer SerieCorrelativo
+        $serie = SerieCorrelativo::find($venta->serie_id);
+        //actualizar correlativo
+        $dataSerie = ['correlativo' => $serie->correlativo + 1];
+        $ff = SerieCorrelativo::update($serie->id, $dataSerie);
+
+        //crear xml y firmar
+
+        $estado = $this->generarXML($venta->id);
+
+        if ($estado->success) {
+            $response = ['status' => true, 'id' => $result->id, 'Message' => $estado->Message];
+        } else {
+            $response = ['status' => false, 'Message' => $estado->Message];
+        }
+        return $response;
     }
 
     public function generarXML($id)
     {
         // $id = 35;
-        $emisor = InfoEmpresa::first();
+        $emisor = InfoEmpresa::getEmpresa();
+
         $venta = Ventas::getVenta($id);
         $cliente = Clientes::getCliente($venta->cliente_id);
-
         $tipo_precio = [
             '10'    =>  '01',
             '11'    =>  '02',
@@ -370,6 +402,72 @@ class VentaController extends Controller
         }
 
         echo 'error al generar el reporte';
+        exit;
+    }
+
+    public function boleta()
+    {
+        $data = $this->request()->getInput();
+        //traer notas de venta
+        $venta = NotaVentas::getVentaId($data->id);
+        //
+        $tipoComprobante = TipoComprobante::where('codigo', '03')->get();
+
+        $seriemm = SerieCorrelativo::getSerieCorrelativo($tipoComprobante->codigo);
+        if (is_object($seriemm)) {
+            $seriemm = [$seriemm];
+        }
+
+        //cambios
+        $venta->tipodoc = $tipoComprobante->codigo;
+        $venta->nombre_tipodoc = $tipoComprobante->descripcion;
+        $venta->serie_id = $seriemm[0]->id;
+        $venta->serie = $seriemm[0]->serie;
+        $venta->correlativo = $seriemm[0]->correlativo;
+        $venta->fecha_emision = date('Y-m-d H:i:s');
+        $venta->cuotas = "";
+        //eliminar $venta->estado_sunat
+        unset($venta->estado_sunat);
+        unset($venta->estado);
+        unset($venta->created_at);
+        unset($venta->updated_at);
+        unset($venta->id);
+
+        $response = $this->guardarVenta($venta);
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    public function factura()
+    {
+        $data = $this->request()->getInput();
+        //traer notas de venta
+        $venta = NotaVentas::getVentaId($data->id);
+        //
+        $tipoComprobante = TipoComprobante::where('codigo', '01')->get();
+
+        $seriemm = SerieCorrelativo::getSerieCorrelativo($tipoComprobante->codigo);
+        if (is_object($seriemm)) {
+            $seriemm = [$seriemm];
+        }
+
+        //cambios
+        $venta->tipodoc = $tipoComprobante->codigo;
+        $venta->nombre_tipodoc = $tipoComprobante->descripcion;
+        $venta->serie_id = $seriemm[0]->id;
+        $venta->serie = $seriemm[0]->serie;
+        $venta->correlativo = $seriemm[0]->correlativo;
+        $venta->fecha_emision = date('Y-m-d H:i:s');
+        $venta->cuotas = "";
+        //eliminar $venta->estado_sunat
+        unset($venta->estado_sunat);
+        unset($venta->estado);
+        unset($venta->created_at);
+        unset($venta->updated_at);
+        unset($venta->id);
+
+        $response = $this->guardarVenta($venta);
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
     }
 }
