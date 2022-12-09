@@ -98,7 +98,7 @@ function cargarEventListeners() {
     productosCarrito =
       JSON.parse(localStorage.getItem("productocarritonotaventas")) || [];
     carritoHTML();
-
+    VerEstadoCaja();
     menuTipoComprobante();
     menuMonedas();
     botonRegistrarCliente();
@@ -106,6 +106,27 @@ function cargarEventListeners() {
     cambioMenuTipoComprobante();
     generarVenta();
   });
+}
+
+//estado de caja
+async function VerEstadoCaja() {
+  const urlEstadoCajaUsuario = document
+    .querySelector("#urlEstadoCajaUsuario")
+    .getAttribute("data-url");
+
+  const panelVentas = document.querySelector("#panelVentas");
+  const panelCaja = document.querySelector("#panelCaja");
+
+  const response = await fetch(urlEstadoCajaUsuario);
+  const data = await response.json();
+
+  if (data.estado == 1) {
+    panelVentas.classList.remove("d-none");
+    panelCaja.classList.add("d-none");
+  } else {
+    panelVentas.classList.add("d-none");
+    panelCaja.classList.remove("d-none");
+  }
 }
 
 //menu de tipo de comprobante

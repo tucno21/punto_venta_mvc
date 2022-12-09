@@ -24,6 +24,7 @@ $linksScript2 = [
                         <input id="urlCreateCliente" type="hidden" data-url="<?= route('clientes.create') ?>">
                         <input id="urlProductosId" type="hidden" data-url="<?= route('productos.edit') ?>">
                         <input id="urlBuscarCliente" type="hidden" data-url="<?= route('clientes.buscar') ?>">
+                        <input id="urlEstadoCajaUsuario" type="hidden" data-url="<?= route('cajaArqueos.estadocaja') ?>">
                     </div>
                     <div class="">
                         <a href="<?= route('notaventas.index') ?>" class="btn btn-primary btn-sm">Volver</a>
@@ -37,7 +38,7 @@ $linksScript2 = [
     <!-- [ Main Content ] start -->
     <div class="row">
         <div class="col-xl-12">
-            <div class="card">
+            <div class="card" id="panelVentas">
                 <div class="card-header p-2">
                     <h5>Complete todos los Campos</h5>
                 </div>
@@ -218,6 +219,15 @@ $linksScript2 = [
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="card p-3 d-none" id="panelCaja">
+                <div class="alert alert-danger" role="alert">
+                    la caja esta cerrada, debe abrir la caja para realizar ventas
+                </div>
+                <!-- botton para abrir caja -->
+                <div class="text-center">
+                    <a href="<?= route('cajaArqueos.index') ?>" class="btn btn-dark">Ir a Panel de Caja</a>
                 </div>
             </div>
         </div>
