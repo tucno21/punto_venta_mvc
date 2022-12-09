@@ -125,6 +125,26 @@ $linksSidebar = [
         'icon' => 'bi bi-sticky',
     ],
     [
+        'mode' => 'submenu',
+        'text'    => 'Cajas',
+        'url'    => '#',
+        'icon' => 'bi bi-inboxes',
+        'submenu' => [
+
+            [
+                'text' => 'Cajas Registradoras',
+                'url'  =>  route('cajas.index'),
+                'icon' => 'fas fa-circle',
+            ],
+
+            [
+                'text' => 'Caja Aper-Cierre',
+                'url'  => route('cajaArqueos.index'),
+                'icon' => 'fas fa-circle',
+            ],
+        ],
+    ],
+    [
         'mode' => 'menu',
         'text' => 'Empresa',
         'url'  => route('infoEmpresas.index'),

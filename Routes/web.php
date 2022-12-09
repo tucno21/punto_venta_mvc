@@ -3,6 +3,7 @@
 use System\Route;
 use App\Controller\Auth\AuthController;
 use App\Controller\BackView\RolController;
+use App\Controller\BackView\CajaController;
 use App\Controller\BackView\UserController;
 use App\Controller\BackView\VentaController;
 use App\Controller\Factura\MonedaController;
@@ -15,6 +16,7 @@ use App\Controller\BackView\CategoriaController;
 use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\NotaVentaController;
 use App\Controller\BackView\ProveedorController;
+use App\Controller\BackView\CajaArqueoController;
 use App\Controller\BackView\PermissionController;
 use App\Controller\BackView\InfoEmpresaController;
 use App\Controller\BackView\BuscarDniRucController;
@@ -259,3 +261,24 @@ Route::get('/notaventas/serieCorrelativo', [NotaVentaController::class, 'serieCo
 Route::get('/notaventas/monedas', [NotaVentaController::class, 'monedas'])->name('notaventas.monedas');
 Route::get('/notaventas/reporte', [NotaVentaController::class, 'reporte'])->name('notaventas.reporte');
 Route::get('/notaventas/updateElectronico', [NotaVentaController::class, 'updateElectronico'])->name('notaventas.updateElectronico');
+
+
+//CajaController
+Route::get('/cajas', [CajaController::class, 'index'])->name('cajas.index');
+Route::get('/cajas/dataTable', [CajaController::class, 'dataTable'])->name('cajas.dataTable');
+Route::get('/cajas/create', [CajaController::class, 'create'])->name('cajas.create');
+Route::post('/cajas/create', [CajaController::class, 'store']);
+Route::get('/cajas/edit', [CajaController::class, 'edit'])->name('cajas.edit');
+Route::post('/cajas/edit', [CajaController::class, 'update']);
+Route::get('/cajas/status', [CajaController::class, 'status'])->name('cajas.status');
+Route::get('/cajas/destroy', [CajaController::class, 'destroy'])->name('cajas.destroy');
+
+//CajaArqueoController
+Route::get('/cajaArqueos', [CajaArqueoController::class, 'index'])->name('cajaArqueos.index');
+Route::get('/cajaArqueos/dataTable', [CajaArqueoController::class, 'dataTable'])->name('cajaArqueos.dataTable');
+Route::get('/cajaArqueos/create', [CajaArqueoController::class, 'create'])->name('cajaArqueos.create');
+Route::post('/cajaArqueos/create', [CajaArqueoController::class, 'store']);
+Route::get('/cajaArqueos/destroy', [CajaArqueoController::class, 'destroy'])->name('cajaArqueos.destroy');
+Route::get('/cajaArqueos/reporte', [CajaArqueoController::class, 'reporte'])->name('cajaArqueos.reporte');
+Route::get('/cajaArqueos/cajas', [CajaArqueoController::class, 'cajas'])->name('cajaArqueos.cajas');
+Route::get('/cajaArqueos/estadocaja', [CajaArqueoController::class, 'estadocajaarqueo'])->name('cajaArqueos.estadocaja');

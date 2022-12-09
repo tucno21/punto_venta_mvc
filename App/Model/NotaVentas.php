@@ -63,4 +63,26 @@ class NotaVentas extends Model
         $sql = "SELECT * FROM nota_ventas WHERE id = $id";
         return self::querySimple($sql);
     }
+
+    public static function TotalVentas($fecha_apertura, $fecha_cierre, $usuarioCaja)
+    {
+        $sql = "SELECT SUM(total) as total 
+                FROM nota_ventas 
+                WHERE fecha_emision BETWEEN '$fecha_apertura' AND '$fecha_cierre'
+                AND estado_sunat = 0
+                AND usuario_id = $usuarioCaja";
+        return self::querySimple($sql);
+    }
+
+    public static function ventasGeneradas($fecha_apertura, $fecha_cierre, $usuarioCaja)
+    {
+        $sql = "SELECT v.*, c.nombre as cliente
+                FROM nota_ventas v
+                INNER JOIN clientes c ON c.id = v.cliente_id
+                WHERE fecha_emision BETWEEN '$fecha_apertura' AND '$fecha_cierre'
+                AND v.estado_sunat = 0
+                AND v.usuario_id = $usuarioCaja
+                ORDER BY v.id DESC";
+        return self::querySimple($sql);
+    }
 }

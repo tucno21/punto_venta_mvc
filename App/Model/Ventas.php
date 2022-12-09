@@ -79,4 +79,29 @@ class Ventas extends Model
                 ORDER BY v.id DESC";
         return self::querySimple($sql);
     }
+
+    public static function TotalVentas($fecha_apertura, $fecha_cierre, $usuarioCaja)
+    {
+        //estado = 1
+        $sql = "SELECT SUM(total) as total
+                FROM ventas
+                WHERE fecha_emision BETWEEN '$fecha_apertura' AND '$fecha_cierre'
+                AND estado = 1
+                AND usuario_id = $usuarioCaja";
+        return self::querySimple($sql);
+    }
+
+    public static function ventasGeneradas($fecha_apertura, $fecha_cierre, $usuarioCaja)
+    {
+        //estado = 1
+        $sql = "SELECT v.*, c.nombre as cliente
+                FROM ventas v
+                INNER JOIN clientes c ON c.id = v.cliente_id
+                WHERE fecha_emision BETWEEN '$fecha_apertura' AND '$fecha_cierre'
+                AND v.estado = 1
+                AND v.usuario_id = $usuarioCaja
+                ORDER BY v.id DESC";
+
+        return self::querySimple($sql);
+    }
 }
