@@ -10,9 +10,13 @@ class AuthController extends Controller
 {
     public function index()
     {
-        return view('auth/index', [
-            'title' => 'Login Mini Framework',
-        ]);
+        if (auth()->has()) {
+            return redirect()->route('dashboard.index');
+        } else {
+            return view('auth/index', [
+                'title' => 'Login Mini Framework',
+            ]);
+        }
     }
 
     public function store()
