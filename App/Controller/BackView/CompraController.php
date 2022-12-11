@@ -4,7 +4,9 @@ namespace App\Controller\BackView;
 
 use App\Model\Compras;
 use System\Controller;
+use App\Model\Productos;
 use App\Library\FPDF\FPDF;
+use App\Model\Inventarios;
 use App\Model\Factura\TipoComprobante;
 
 class CompraController extends Controller
@@ -84,6 +86,39 @@ class CompraController extends Controller
             //     ["id"]=>
             //     string(1) "1"
             //   }
+            //traer la compra
+            $compra = Compras::find($result->id);
+
+            // $productos =  json_decode($compra->productos, true);//true para que sea array
+            $productos =  json_decode($compra->productos);
+            foreach ($productos as $producto) {
+                //actualiza el stock de los productos
+                //buscar el producto
+                $pro = Productos::where('id', $producto->id)->first();
+
+                $actualizar = [
+                    'precio_compra' => $producto->precio_compra,
+                    'precio_venta' => $producto->precio_venta,
+                    'stock' => $pro->stock + $producto->cantidad,
+                ];
+
+                Productos::update($producto->id, $actualizar);
+
+                //regitrar en el inventario
+                $inventario = [
+                    'producto_id' => $producto->id,
+                    'comprobante' => $compra->serie,
+                    'cantidad' => $producto->cantidad,
+                    'fecha' => $compra->fecha_compra,
+                    'tipo' => 'entrada',
+                    'accion' => 'Compra',
+                    'stock_actual' => $pro->stock + $producto->cantidad,
+                    'user_id' => $compra->user_id,
+                ];
+                Inventarios::create($inventario);
+            }
+
+
             $response = ['status' => true, 'data' => 'Creado correctamente'];
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
@@ -93,11 +128,39 @@ class CompraController extends Controller
     public function destroy()
     {
         $data = $this->request()->getInput();
-        $pro = Compras::select('id', 'estado')->where('id', $data->id)->get();
+        $compra = Compras::select('id', 'estado', 'productos', 'serie')->where('id', $data->id)->get();
+
+        $productos =  json_decode($compra->productos);
+        foreach ($productos as $producto) {
+            //actualiza el stock de los productos
+            //buscar el producto
+            $pro = Productos::where('id', $producto->id)->first();
+
+            $actualizar = [
+                'stock' => $pro->stock - $producto->cantidad,
+            ];
+
+            Productos::update($producto->id, $actualizar);
+
+            //regitrar en el inventario
+            $inventario = [
+                'producto_id' => $producto->id,
+                'comprobante' => $compra->serie,
+                'cantidad' => $producto->cantidad,
+                'fecha' => date('Y-m-d H:i:s'),
+                'tipo' => 'salida',
+                'accion' => 'C. Anulada',
+                'stock_actual' => $pro->stock - $producto->cantidad,
+                'user_id' => session()->user()->id,
+            ];
+            Inventarios::create($inventario);
+        }
+
+
         // dd($user);
-        $estado = ($pro->estado == 1) ? 0 : 1;
+        $estado = ($compra->estado == 1) ? 0 : 1;
         $result = Compras::update($data->id, ['estado' => $estado]);
-        $response = ['status' => true, 'data' => 'Actualizado correctamente'];
+        $response = ['status' => true, 'data' => 'Anulado correctamente'];
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
     }

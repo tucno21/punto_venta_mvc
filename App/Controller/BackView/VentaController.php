@@ -5,8 +5,10 @@ namespace App\Controller\BackView;
 use App\Model\Ventas;
 use System\Controller;
 use App\Model\Clientes;
+use App\Model\Productos;
 use App\Model\NotaVentas;
 use App\Model\InfoEmpresa;
+use App\Model\Inventarios;
 use App\Model\Factura\Monedas;
 use App\Help\PrintPdf\PrintPdf;
 use App\Model\Factura\TipoComprobante;
@@ -111,34 +113,61 @@ class VentaController extends Controller
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
         } else {
-            $response = $this->guardarVenta($data);
-            echo json_encode($response, JSON_UNESCAPED_UNICODE);
-            exit;
-            // $result = Ventas::create($data);
-            // //     ["status"]=>
-            // //     bool(true)
-            // //     ["id"]=>
-            // //     string(1) "1"
-            // //   }
-            // //buscar  result->id
-            // $venta = Ventas::find($result->id);
-            // //traer SerieCorrelativo
-            // $serie = SerieCorrelativo::find($venta->serie_id);
-            // //actualizar correlativo
-            // $dataSerie = ['correlativo' => $serie->correlativo + 1];
-            // $ff = SerieCorrelativo::update($serie->id, $dataSerie);
-
-            // //crear xml y firmar
-
-            // $estado = $this->generarXML($venta->id);
-
-            // if ($estado->success) {
-            //     $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];
-            // } else {
-            //     $response = ['status' => false, 'message' => $estado->message];
-            // }
+            // $response = $this->guardarVenta($data);
             // echo json_encode($response, JSON_UNESCAPED_UNICODE);
             // exit;
+            $result = Ventas::create($data);
+            //     ["status"]=>
+            //     bool(true)
+            //     ["id"]=>
+            //     string(1) "1"
+            //   }
+            //buscar  result->id
+            $venta = Ventas::find($result->id);
+            //traer SerieCorrelativo
+            $serie = SerieCorrelativo::find($venta->serie_id);
+            //actualizar correlativo
+            $dataSerie = ['correlativo' => $serie->correlativo + 1];
+            $ff = SerieCorrelativo::update($serie->id, $dataSerie);
+
+            //crear xml y firmar
+
+            $estado = $this->generarXML($venta->id);
+
+            if ($estado->success) {
+                $productos =  json_decode($venta->productos);
+                foreach ($productos as $producto) {
+                    //actualiza el stock de los productos
+                    //buscar el producto
+                    $pro = Productos::where('id', $producto->id)->first();
+
+                    $actualizar = [
+                        'stock' => $pro->stock - $producto->cantidad,
+                    ];
+
+                    Productos::update($producto->id, $actualizar);
+
+                    //regitrar en el inventario
+                    $inventario = [
+                        'producto_id' => $producto->id,
+                        'comprobante' => $venta->serie . '-' . $venta->correlativo,
+                        'cantidad' => $producto->cantidad,
+                        'fecha' => $venta->fecha_emision,
+                        'tipo' => 'salida',
+                        'accion' => 'Venta',
+                        'stock_actual' => $pro->stock - $producto->cantidad,
+                        'user_id' => $venta->usuario_id,
+                    ];
+                    Inventarios::create($inventario);
+                }
+
+
+                $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];
+            } else {
+                $response = ['status' => false, 'message' => $estado->message];
+            }
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
         }
     }
 
@@ -411,6 +440,9 @@ class VentaController extends Controller
         //traer notas de venta
         $venta = NotaVentas::getVentaId($data->id);
         //
+        //buscar inventario
+        $inventario = Inventarios::getInventarioComprobante($venta->serie . "-" . $venta->correlativo);
+
         $tipoComprobante = TipoComprobante::where('codigo', '03')->get();
 
         $seriemm = SerieCorrelativo::getSerieCorrelativo($tipoComprobante->codigo);
@@ -433,6 +465,12 @@ class VentaController extends Controller
         unset($venta->updated_at);
         unset($venta->id);
 
+        //actualizar el inventario
+        Inventarios::update($inventario->id, [
+            'comprobante' => $venta->serie . "-" . $venta->correlativo,
+            'fecha' => $venta->fecha_emision,
+        ]);
+
         $response = $this->guardarVenta($venta);
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
@@ -444,6 +482,9 @@ class VentaController extends Controller
         //traer notas de venta
         $venta = NotaVentas::getVentaId($data->id);
         //
+        //buscar inventario
+        $inventario = Inventarios::getInventarioComprobante($venta->serie . "-" . $venta->correlativo);
+
         $tipoComprobante = TipoComprobante::where('codigo', '01')->get();
 
         $seriemm = SerieCorrelativo::getSerieCorrelativo($tipoComprobante->codigo);
@@ -465,6 +506,12 @@ class VentaController extends Controller
         unset($venta->created_at);
         unset($venta->updated_at);
         unset($venta->id);
+
+        //actualizar el inventario
+        Inventarios::update($inventario->id, [
+            'comprobante' => $venta->serie . "-" . $venta->correlativo,
+            'fecha' => $venta->fecha_emision,
+        ]);
 
         $response = $this->guardarVenta($venta);
         echo json_encode($response, JSON_UNESCAPED_UNICODE);

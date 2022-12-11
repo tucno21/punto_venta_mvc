@@ -96,6 +96,18 @@ async function generarDataTable() {
         <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
       </ul>
       `;
+    } else if (element.estado === 0) {
+      actions = `
+      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
+            <i class="bi bi-file-earmark-pdf"></i>
+      </a>
+      <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-three-dots"></i>
+      </button>
+      <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
+        <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
+      </ul>
+      `;
     }
 
     element["actions"] = actions;
@@ -103,6 +115,8 @@ async function generarDataTable() {
     element["estadoSunat"] =
       element.estado_sunat === 1
         ? `<span  class="text-white badge rounded-pill bg-success">Género XML</span>`
+        : element.estado === 0
+        ? `<span  class="text-white badge rounded-pill bg-danger">V. Anulado</span>`
         : `<span  class="text-white badge rounded-pill bg-primary">Venta Interna</span>`;
 
     i++;

@@ -17,6 +17,7 @@ use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\NotaVentaController;
 use App\Controller\BackView\ProveedorController;
 use App\Controller\BackView\CajaArqueoController;
+use App\Controller\BackView\InventarioController;
 use App\Controller\BackView\PermissionController;
 use App\Controller\BackView\InfoEmpresaController;
 use App\Controller\BackView\BuscarDniRucController;
@@ -282,3 +283,7 @@ Route::get('/cajaArqueos/destroy', [CajaArqueoController::class, 'destroy'])->na
 Route::get('/cajaArqueos/reporte', [CajaArqueoController::class, 'reporte'])->name('cajaArqueos.reporte');
 Route::get('/cajaArqueos/cajas', [CajaArqueoController::class, 'cajas'])->name('cajaArqueos.cajas');
 Route::get('/cajaArqueos/estadocaja', [CajaArqueoController::class, 'estadocajaarqueo'])->name('cajaArqueos.estadocaja');
+
+//InventarioController
+Route::get('/inventarios', [InventarioController::class, 'index'])->name('inventarios.index');
+Route::get('/inventarios/dataTable', [InventarioController::class, 'dataTable'])->name('inventarios.dataTable');

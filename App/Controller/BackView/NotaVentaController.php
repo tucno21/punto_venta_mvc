@@ -4,8 +4,10 @@ namespace App\Controller\BackView;
 
 use System\Controller;
 use App\Model\Clientes;
+use App\Model\Productos;
 use App\Model\NotaVentas;
 use App\Model\InfoEmpresa;
+use App\Model\Inventarios;
 use App\Model\Factura\Monedas;
 use App\Help\PrintPdf\PrintPdf;
 use App\Model\Factura\TipoComprobante;
@@ -124,6 +126,33 @@ class NotaVentaController extends Controller
             $ff = SerieCorrelativo::update($serie->id, $dataSerie);
 
 
+            $productos =  json_decode($venta->productos);
+            foreach ($productos as $producto) {
+                //actualiza el stock de los productos
+                //buscar el producto
+                $pro = Productos::where('id', $producto->id)->first();
+
+                $actualizar = [
+                    'stock' => $pro->stock - $producto->cantidad,
+                ];
+
+                Productos::update($producto->id, $actualizar);
+
+                //regitrar en el inventario
+                $inventario = [
+                    'producto_id' => $producto->id,
+                    'comprobante' => $venta->serie . '-' . $venta->correlativo,
+                    'cantidad' => $producto->cantidad,
+                    'fecha' => $venta->fecha_emision,
+                    'tipo' => 'salida',
+                    'accion' => 'Venta',
+                    'stock_actual' => $pro->stock - $producto->cantidad,
+                    'user_id' => $venta->usuario_id,
+                ];
+                Inventarios::create($inventario);
+            }
+
+
             $response = ['status' => true, 'id' => $result->id];
 
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -166,7 +195,39 @@ class NotaVentaController extends Controller
     public function destroy()
     {
         $data = $this->request()->getInput();
-        $result = NotaVentas::delete((int)$data->id);
+        // $result = NotaVentas::delete((int)$data->id);
+        $notaVentas = NotaVentas::select('id', 'estado', 'productos', 'serie', 'correlativo')->where('id', $data->id)->get();
+
+        $productos =  json_decode($notaVentas->productos);
+        foreach ($productos as $producto) {
+            //actualiza el stock de los productos
+            //buscar el producto
+            $pro = Productos::where('id', $producto->id)->first();
+
+            $actualizar = [
+                'stock' => $pro->stock + $producto->cantidad,
+            ];
+
+            Productos::update($producto->id, $actualizar);
+
+            //regitrar en el inventario
+            $inventario = [
+                'producto_id' => $producto->id,
+                'comprobante' => $notaVentas->serie . '-' . $notaVentas->correlativo,
+                'cantidad' => $producto->cantidad,
+                'fecha' => date('Y-m-d H:i:s'),
+                'tipo' => 'entrada',
+                'accion' => 'V. Anulada',
+                'stock_actual' => $pro->stock + $producto->cantidad,
+                'user_id' => session()->user()->id,
+            ];
+            Inventarios::create($inventario);
+        }
+
+        // $mmm = ['estado' => '0'];
+        // $result = NotaVentas::update($data->id, $mmm);
+        $estado = ($notaVentas->estado == 1) ? 0 : 1;
+        $result = NotaVentas::update($data->id, ['estado' => $estado]);
 
         if ($result->status) {
             $response = ['status' => true, 'message' => 'Se elimino correctamente'];

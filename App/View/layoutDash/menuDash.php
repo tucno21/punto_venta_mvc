@@ -146,6 +146,12 @@ $linksSidebar = [
     ],
     [
         'mode' => 'menu',
+        'text' => 'Inventario',
+        'url'  => route('inventarios.index'),
+        'icon' => 'bi bi-list-ol',
+    ],
+    [
+        'mode' => 'menu',
         'text' => 'Empresa',
         'url'  => route('infoEmpresas.index'),
         'icon' => 'bi bi-buildings',

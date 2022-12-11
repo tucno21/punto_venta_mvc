@@ -82,4 +82,12 @@ class Productos extends Model
 
         return self::querySimple($sql);
     }
+
+    public static function getProd($id)
+    {
+        $sql = "SELECT p.* 
+                FROM productos p
+                WHERE p.id = $id";
+        return self::querySimple($sql);
+    }
 }

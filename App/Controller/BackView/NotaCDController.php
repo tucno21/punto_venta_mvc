@@ -7,7 +7,9 @@ use App\Model\Ventas;
 use App\Model\NotasCD;
 use System\Controller;
 use App\Model\Clientes;
+use App\Model\Productos;
 use App\Model\InfoEmpresa;
+use App\Model\Inventarios;
 use App\Help\PrintPdf\PrintPdf;
 use App\Model\Factura\TipoComprobante;
 use App\Model\Factura\SerieCorrelativo;
@@ -249,6 +251,31 @@ class NotaCDController extends Controller
             //modificar el estado de la venta
             $estadoVenta = ['estado' => 0];
             Ventas::update($nota->venta_id, $estadoVenta);
+
+            $productos =  json_decode($venta->productos);
+            foreach ($productos as $producto) {
+                //actualiza el stock de los productos
+                //buscar el producto
+                $pro = Productos::getProd($producto->id);
+
+                $actualizar = [
+                    'stock' => $pro->stock + $producto->cantidad,
+                ];
+                Productos::update($producto->id, $actualizar);
+
+                //regitrar en el inventario
+                $inventario = [
+                    'producto_id' => $producto->id,
+                    'comprobante' => $notaCredito['serie'] . '-' . $notaCredito['correlativo'],
+                    'cantidad' => $producto->cantidad,
+                    'fecha' => $notaCredito['fecha_emision'],
+                    'tipo' => 'entrada',
+                    'accion' => 'V. Anulada',
+                    'stock_actual' => $pro->stock + $producto->cantidad,
+                    'user_id' => $notaCredito['usuario_id'],
+                ];
+                Inventarios::create($inventario);
+            }
 
             $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];
             // $response = ['status' => true, 'id' => $result->id];
