@@ -17,6 +17,8 @@ $linksScript2 = [
                     <div class="page-header-title">
                         <h5 class="m-b-10">Panel de Inventarios</h5>
                         <input id="urlDataTable" type="hidden" data-url="<?= route('inventarios.dataTable') ?>">
+                        <input id="urlBusquedaMes" type="hidden" data-url="<?= route('inventarios.searchmonth') ?>">
+                        <input id="urlInventarioMesPdf" type="hidden" data-url="<?= route('inventarios.monthpdf') ?>">
                     </div>
                     <!-- <div class="">
                         <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Registrar Unidad</button>
@@ -35,6 +37,24 @@ $linksScript2 = [
                     <h5>Lista de Inventarios</h5>
                 </div>
                 <div class="card-body p-2">
+                    <div class="row">
+                        <label for="mes" class="form-label">Mes Inventario</label>
+                        <div class="d-flex align-items-baseline">
+                            <div class="">
+
+                                <div class="input-group input-group-sm  mb-3">
+                                    <input type="month" class="form-control" aria-describedby="btnBusquedaMes" id="inputMes">
+                                    <button class="btn btn-outline-success" type="button" id="btnBusquedaMes"><i class="bi bi-search"></i></button>
+                                </div>
+                            </div>
+                            <!-- Hover added -->
+                            <div class="">
+                                <button type="button" class="btn btn-sm btn-danger mx-1" id="inventarioMesPDF"><i class="bi bi-file-earmark-pdf"></i></button>
+                                <button type="button" class="btn btn-sm btn-info"><i class="bi bi-gear"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table table-striped" id="simpleDatatable"></table>
                     </div>

@@ -2,9 +2,20 @@
 const urlDataTable = document
   .querySelector("#urlDataTable")
   .getAttribute("data-url");
+const urlBusquedaMes = document
+  .querySelector("#urlBusquedaMes")
+  .getAttribute("data-url");
+const urlInventarioMesPdf = document
+  .querySelector("#urlInventarioMesPdf")
+  .getAttribute("data-url");
 
 //modal y botones
 const listaTabla = document.querySelector("#simpleDatatable");
+
+//botones y entradas
+const inputMes = document.querySelector("#inputMes");
+const btnBusquedaMes = document.querySelector("#btnBusquedaMes");
+const inventarioMesPDF = document.querySelector("#inventarioMesPDF");
 
 //mi tabla
 let dataTable = new simpleDatatables.DataTable(listaTabla, {
@@ -21,18 +32,26 @@ let dataTable = new simpleDatatables.DataTable(listaTabla, {
 cargarEventListeners();
 function cargarEventListeners() {
   document.addEventListener("DOMContentLoaded", () => {
-    generarDataTable();
+    // generarDataTable();
+    listaDeInventarios();
     // botonCrear();
     // botonFormulario();
     // botonesDataTable();
+    busquedaInventarioMes();
+    botonInventarioMesPDF();
   });
 }
 
-//Traer los datos de la tabla
-async function generarDataTable() {
+//lista de inventarios
+async function listaDeInventarios() {
   const response = await fetch(urlDataTable);
   const data = await response.json();
-  console.log(data);
+  //pasar los datos a la tabla
+  generarDataTable(data);
+}
+
+//Traer los datos de la tabla
+async function generarDataTable(data) {
   let i = 1;
   data.forEach((element) => {
     element.orden = i;
@@ -104,4 +123,58 @@ function colorThead() {
   const thead = listaTabla.firstElementChild;
   //agregar clase
   thead.classList.add("thead-dark");
+}
+
+//busquedaInventarioMes
+function busquedaInventarioMes() {
+  btnBusquedaMes.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const mes = inputMes.value;
+    if (mes === "") {
+      toastPersonalizado("error", "Seleccione un mes");
+      return;
+    }
+    //no seleccionar un mes superior al actual
+    const fechaActual = new Date();
+    //fechaActual en formato yyyy-mm
+    // const mesActual = fechaActual.getMonth() + 1;
+    const anoMesActual = fechaActual.toISOString().slice(0, 7);
+
+    if (mes > anoMesActual) {
+      toastPersonalizado("error", "Seleccione el mes actual o inferior");
+      return;
+    }
+
+    //
+    const link = urlBusquedaMes + "?mes=" + mes;
+    const response = await fetch(link);
+    const data = await response.json();
+
+    generarDataTable(data);
+  });
+}
+
+//botonInventarioMesPDF
+function botonInventarioMesPDF() {
+  inventarioMesPDF.addEventListener("click", (e) => {
+    e.preventDefault();
+    const mes = inputMes.value;
+    if (mes === "") {
+      toastPersonalizado("error", "Seleccione un mes");
+      return;
+    }
+    //no seleccionar un mes superior al actual
+    const fechaActual = new Date();
+    //fechaActual en formato yyyy-mm
+    // const mesActual = fechaActual.getMonth() + 1;
+    const anoMesActual = fechaActual.toISOString().slice(0, 7);
+
+    if (mes > anoMesActual) {
+      toastPersonalizado("error", "Seleccione el mes actual o inferior");
+      return;
+    }
+
+    const link = urlInventarioMesPdf + "?mes=" + mes;
+    window.open(link, "_blank");
+  });
 }

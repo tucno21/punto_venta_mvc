@@ -43,4 +43,14 @@ class Inventarios extends Model
         $sql = "SELECT * FROM inventario WHERE comprobante = '$comprobante'";
         return self::querySimple($sql);
     }
+
+    public static function getInventarioMes($mes, $ano)
+    {
+        $sql = "SELECT i.*, p.detalle as producto, p.codigo as codigo
+                FROM inventario i
+                INNER JOIN productos p ON p.id = i.producto_id
+                WHERE MONTH(i.fecha) = '$mes' AND YEAR(i.fecha) = '$ano'
+                ORDER BY i.id DESC";
+        return self::querySimple($sql);
+    }
 }

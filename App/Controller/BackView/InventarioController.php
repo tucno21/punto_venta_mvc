@@ -2,8 +2,9 @@
 
 namespace App\Controller\BackView;
 
-use App\Model\Inventarios;
 use System\Controller;
+use App\Library\FPDF\FPDF;
+use App\Model\Inventarios;
 
 class InventarioController extends Controller
 {
@@ -100,5 +101,73 @@ class InventarioController extends Controller
         $data = $this->request()->getInput();
         //$result = Model::delete((int)$data->id);
         //return redirect()->route('route.name');
+    }
+
+    public function searchmonth()
+    {
+        $data = $this->request()->getInput();
+        //separar el mes y el año
+        $mes = explode('-', $data->mes)[1];
+        $ano = explode('-', $data->mes)[0];
+
+        $inventarios = Inventarios::getInventarioMes($mes, $ano);
+        if (is_object($inventarios)) {
+            $inventarios = [$inventarios];
+        }
+        foreach ($inventarios as $inventario) {
+            $inventario->fecha = date('d-m-Y', strtotime($inventario->fecha));
+        }
+
+        echo json_encode($inventarios);
+        exit;
+    }
+
+    public function monthpdf()
+    {
+        $data = $this->request()->getInput();
+        $mes = explode('-', $data->mes)[1];
+        $ano = explode('-', $data->mes)[0];
+
+        $inventarios = Inventarios::getInventarioMes($mes, $ano);
+        if (is_object($inventarios)) {
+            $inventarios = [$inventarios];
+        }
+
+        $pdf = new FPDF('P', 'mm', 'A4');
+        $pdf->AddPage();
+        $pdf->setMargins(10, 10, 10);
+        $pdf->setTitle('Reporte de inventario');
+
+        //fecha de hoy de gerara el inventario
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 10, 'Fecha: ' . date('d-m-Y'), 0, 1, 'R');
+
+        //titulo
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(0, 10, 'Reporte de inventario', 0, 1, 'C');
+
+        //mes
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 10, 'Mes: ' . $data->mes, 0, 1, 'C');
+
+        //cabecera
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(60, 10, 'Producto', 1, 0, 'C');
+        $pdf->Cell(35, 10, 'Comprobante', 1, 0, 'C');
+        $pdf->Cell(35, 10, 'Fecha', 1, 0, 'C');
+        $pdf->Cell(25, 10, 'Cantidad', 1, 0, 'C');
+        $pdf->Cell(30, 10, 'Tipo', 1, 1, 'C');
+
+        // cuerpo
+        $pdf->SetFont('Arial', '', 10);
+        foreach ($inventarios as $inventario) {
+            $pdf->Cell(60, 10, utf8_decode($inventario->codigo . "-" . $inventario->producto), 1, 0, 'L');
+            $pdf->Cell(35, 10, $inventario->comprobante, 1, 0, 'C');
+            $pdf->Cell(35, 10, date('d-m-Y', strtotime($inventario->fecha)), 1, 0, 'C');
+            $pdf->Cell(25, 10, $inventario->cantidad, 1, 0, 'C');
+            $pdf->Cell(30, 10, $inventario->accion, 1, 1, 'C');
+        }
+
+        $pdf->Output("Inventario-" . $mes . "-" . $ano . ".pdf", "I");
     }
 }

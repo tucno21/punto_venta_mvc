@@ -287,3 +287,5 @@ Route::get('/cajaArqueos/estadocaja', [CajaArqueoController::class, 'estadocajaa
 //InventarioController
 Route::get('/inventarios', [InventarioController::class, 'index'])->name('inventarios.index');
 Route::get('/inventarios/dataTable', [InventarioController::class, 'dataTable'])->name('inventarios.dataTable');
+Route::get('/inventarios/searchmonth', [InventarioController::class, 'searchmonth'])->name('inventarios.searchmonth');
+Route::get('/inventarios/monthpdf', [InventarioController::class, 'monthpdf'])->name('inventarios.monthpdf');
