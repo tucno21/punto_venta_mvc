@@ -261,6 +261,8 @@ Route::get('/notaCDs/downloadxml', [NotaCDController::class, 'downloadxml'])->na
 Route::get('/notaCDs/downloadcdr', [NotaCDController::class, 'downloadcdr'])->name('notaCDs.downloadcdr');
 Route::get('/notaCDs/venta', [NotaCDController::class, 'venta'])->name('notaCDs.venta');
 Route::get('/notaCDs/BuscarVenta', [NotaCDController::class, 'BuscarVenta'])->name('notaCDs.BuscarVenta');
+Route::get('/notaCDs/notaspdf', [NotaCDController::class, 'notaspdf'])->name('notaCDs.notaspdf');
+Route::get('/notaCDs/notasexcel', [NotaCDController::class, 'notasexcel'])->name('notaCDs.notasexcel');
 
 
 //NotaVentaController

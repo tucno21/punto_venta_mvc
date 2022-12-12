@@ -66,4 +66,16 @@ class NotasCD extends Model
                 WHERE n.id = $id";
         return self::querySimple($sql);
     }
+
+    public static function getNotasFechas($fecha_inicio, $fecha_fin)
+    {
+        // INNER JOIN users y clientes
+        $sql = "SELECT n.*, u.name as vendedor, c.nombre as cliente
+                FROM notas_cd n
+                INNER JOIN users u ON u.id = n.usuario_id
+                INNER JOIN clientes c ON c.id = n.cliente_id
+                WHERE n.fecha_emision BETWEEN '$fecha_inicio' AND '$fecha_fin'
+                ORDER BY n.id DESC";
+        return self::querySimple($sql);
+    }
 }

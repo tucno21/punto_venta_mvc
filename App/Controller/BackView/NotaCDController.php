@@ -8,12 +8,15 @@ use App\Model\NotasCD;
 use System\Controller;
 use App\Model\Clientes;
 use App\Model\Productos;
+use App\Library\FPDF\FPDF;
 use App\Model\InfoEmpresa;
 use App\Model\Inventarios;
 use App\Help\PrintPdf\PrintPdf;
 use App\Model\Factura\TipoComprobante;
 use App\Model\Factura\SerieCorrelativo;
 use App\Model\Factura\TablaParametrica;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use App\Library\ApiFacturador\EnviarSunat;
 use App\Library\ApiFacturador\GeneradorXml;
 
@@ -505,5 +508,152 @@ class NotaCDController extends Controller
         } else {
             echo 'No existe el archivo';
         }
+    }
+
+    public function notaspdf()
+    {
+        $data = $this->request()->getInput();
+        $notas = NotasCD::getNotasFechas($data->fecha_inicio, $data->fecha_fin);
+        if (is_object($notas)) {
+            $notas = [$notas];
+        }
+        //$notas si es un array vacio
+        if (empty($notas)) {
+            echo "No hay datos para mostrar";
+            exit;
+        }
+        // dd($notas);
+
+        $pdf = new FPDF('P', 'mm', 'A4');
+        $pdf->AddPage();
+        $pdf->setMargins(10, 10, 10);
+        $pdf->setTitle('Reporte de notas');
+
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 5, 'Reporte: Notas Debito o Credito', 0, 1, 'C');
+        $pdf->Ln(5);
+
+        //subtitulo fecha_inicio - fecha_fin
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(0, 5, 'Fecha Inicio: ' . $data->fecha_inicio . ' - Fecha Fin: ' . $data->fecha_fin, 0, 1, 'C');
+        $pdf->Ln(5);
+
+        $pdf->SetAutoPageBreak('auto', 2); // 2 es el margen inferior
+        $pdf->SetDisplayMode(75); // zoom 75% (opcional)
+
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(8, 5, utf8_decode('N°'), 1, 0, 'C');
+        $pdf->Cell(30, 5, utf8_decode('Comprobante'), 1, 0, 'C');
+        $pdf->Cell(30, 5, utf8_decode('Referente'), 1, 0, 'C');
+        $pdf->Cell(40, 5, utf8_decode('F. Emisión'), 1, 0, 'C');
+        $pdf->Cell(25, 5, utf8_decode('Total'), 1, 0, 'C');
+        $pdf->Cell(25, 5, utf8_decode('Vendedor'), 1, 0, 'C');
+        $pdf->Cell(30, 5, utf8_decode('Sunat'), 1, 0, 'C');
+        $pdf->Ln(5);
+
+        $i = 1;
+        foreach ($notas as $nota) {
+            if ($nota->estado == 1)
+                $nota->condicion = 'Aceptado';
+            if ($nota->estado == 0)
+                $nota->condicion = 'Error';
+
+            $pdf->SetFont('Arial', '', 10);
+            $pdf->Cell(8, 5, $i, 1, 0, 'C');
+            $pdf->Cell(30, 5, $nota->serie . '-' . $nota->correlativo, 1, 0, 'C');
+            $pdf->Cell(30, 5, $nota->serie_ref . '-' . $nota->correlativo_ref, 1, 0, 'C');
+            $pdf->Cell(40, 5, $nota->fecha_emision, 1, 0, 'C');
+            $pdf->Cell(25, 5, $nota->total, 1, 0, 'C');
+            $pdf->Cell(25, 5, $nota->vendedor, 1, 0, 'C');
+            $pdf->Cell(30, 5, $nota->condicion, 1, 0, 'C');
+            $pdf->Ln(5);
+            $i++;
+        }
+
+        $pdf->Output("Reporte-notas" . ".pdf", "I");
+    }
+
+    public function notasexcel()
+    {
+        $data = $this->request()->getInput();
+        $notas = NotasCD::getNotasFechas($data->fecha_inicio, $data->fecha_fin);
+        if (is_object($notas)) {
+            $notas = [$notas];
+        }
+        //$notas si es un array vacio
+        if (empty($notas)) {
+            echo "No hay datos para mostrar";
+            exit;
+        }
+
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->getProperties()->setCreator(session()->user()->name);
+        $spreadsheet->getProperties()->setTitle("Reporte de notas");
+
+        $hojaActiva = $spreadsheet->getActiveSheet();
+        $hojaActiva->setTitle("notas");
+        $hojaActiva->getColumnDimension('A')->setWidth(5); //orden
+        $hojaActiva->getColumnDimension('B')->setWidth(15); //comprobante
+        $hojaActiva->getColumnDimension('C')->setWidth(15); //referente
+        $hojaActiva->getColumnDimension('D')->setWidth(30); //fecha
+        $hojaActiva->getColumnDimension('E')->setWidth(10); //total
+        $hojaActiva->getColumnDimension('F')->setWidth(15); //vendedor
+        $hojaActiva->getColumnDimension('G')->setWidth(20); //estado
+
+        //unir celda para el titulo
+        $hojaActiva->mergeCells('A1:G1');
+        $hojaActiva->mergeCells('A2:G2');
+        $hojaActiva->mergeCells('A3:G3');
+        //centrar titulo
+        $hojaActiva->getStyle('A1:G1')->getAlignment()->setHorizontal('center');
+        $hojaActiva->getStyle('A2:G2')->getAlignment()->setHorizontal('center');
+        //font
+        $hojaActiva->getStyle('A1:G1')->getFont()->setBold(true);
+        $hojaActiva->getStyle('A1:G1')->getFont()->setSize(16);
+
+        //titulo
+        $hojaActiva->setCellValue('A1', 'Reporte: Notas Credito / Debito');
+        $hojaActiva->setCellValue('A2', 'Fecha Inicio: ' . $data->fecha_inicio . ' - Fecha Fin: ' . $data->fecha_fin);
+        $hojaActiva->setCellValue('A3', 'Fecha de emision: ' . date('Y-m-d H:i:s'));
+
+        //cabecera
+        $hojaActiva->setCellValue('A5', 'N°');
+        $hojaActiva->setCellValue('B5', 'Comprobante');
+        $hojaActiva->setCellValue('C5', 'Referente');
+        $hojaActiva->setCellValue('D5', 'Fecha');
+        $hojaActiva->setCellValue('E5', 'Total');
+        $hojaActiva->setCellValue('F5', 'Vendedor');
+        $hojaActiva->setCellValue('G5', 'Estado');
+        //centrar
+        $hojaActiva->getStyle('A5:G5')->getAlignment()->setHorizontal('center');
+        $hojaActiva->getStyle('A5:G5')->getFont()->setBold(true);
+        $hojaActiva->getStyle('A5:G5')->getBorders()->getAllBorders()->setBorderStyle('thin');
+
+        $i = 1;
+        foreach ($notas as $nota) {
+            if ($nota->estado == 1)
+                $nota->condicion = 'Aceptado';
+            if ($nota->estado == 0)
+                $nota->condicion = 'Error';
+
+            $hojaActiva->setCellValue('A' . ($i + 5), $i);
+            $hojaActiva->setCellValue('B' . ($i + 5), $nota->serie . '-' . $nota->correlativo);
+            $hojaActiva->setCellValue('C' . ($i + 5), $nota->serie_ref . '-' . $nota->correlativo_ref);
+            $hojaActiva->setCellValue('D' . ($i + 5), $nota->fecha_emision);
+            $hojaActiva->setCellValue('E' . ($i + 5), $nota->total);
+            $hojaActiva->setCellValue('F' . ($i + 5), $nota->vendedor);
+            $hojaActiva->setCellValue('G' . ($i + 5), $nota->condicion);
+            //borde
+            $hojaActiva->getStyle('A' . ($i + 5) . ':G' . ($i + 5))->getBorders()->getAllBorders()->setBorderStyle('thin');
+            $i++;
+        }
+
+        $filename = 'notas-' . date('YmdHis');
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
     }
 }
