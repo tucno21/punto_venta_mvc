@@ -295,3 +295,4 @@ Route::get('/inventarios/kardex', [InventarioController::class, 'kardex'])->name
 Route::get('/inventarios/tablekardex', [InventarioController::class, 'tablekardex'])->name('inventarios.tablekardex');
 Route::get('/inventarios/searchdate', [InventarioController::class, 'searchdate'])->name('inventarios.searchdate');
 Route::get('/inventarios/kardexpdf', [InventarioController::class, 'kardexpdf'])->name('inventarios.kardexpdf');
+Route::get('/inventarios/kardexexcel', [InventarioController::class, 'kardexexcel'])->name('inventarios.kardexexcel');

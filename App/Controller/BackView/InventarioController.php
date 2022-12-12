@@ -5,6 +5,10 @@ namespace App\Controller\BackView;
 use System\Controller;
 use App\Library\FPDF\FPDF;
 use App\Model\Inventarios;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
 class InventarioController extends Controller
 {
@@ -276,5 +280,91 @@ class InventarioController extends Controller
         }
 
         $pdf->Output("Kardex-" . $listaInventario[0]->codigo . ".pdf", "I");
+    }
+
+    public function kardexexcel()
+    {
+        $data = $this->request()->getInput();
+        $productoID = $data->productoid;
+        $fechaInicio = $data->fecha_inicio;
+        $fechaFin = $data->fecha_fin;
+
+        $inventarios = Inventarios::getInventarioFecha($productoID, $fechaInicio, $fechaFin);
+        if (is_object($inventarios)) {
+            $inventarios = [$inventarios];
+        }
+
+        if (empty($inventarios)) {
+            echo "No hay datos para mostrar";
+            exit;
+        }
+
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->getProperties()->setCreator(session()->user()->name);
+        $spreadsheet->getProperties()->setTitle("Reporte de Kardex");
+
+        $hojaActiva = $spreadsheet->getActiveSheet();
+        $hojaActiva->setTitle("Kardex");
+        $hojaActiva->getColumnDimension('A')->setWidth(5);
+        $hojaActiva->getColumnDimension('B')->setWidth(40);
+        $hojaActiva->getColumnDimension('C')->setWidth(20);
+        $hojaActiva->getColumnDimension('D')->setWidth(10);
+        $hojaActiva->getColumnDimension('E')->setWidth(10);
+        $hojaActiva->getColumnDimension('F')->setWidth(20);
+        $hojaActiva->getColumnDimension('G')->setWidth(10);
+
+        //texto bold
+        $spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFont()->setBold(true);
+        //centrar cabecera
+        $spreadsheet->getActiveSheet()->getStyle('A1:G1')->getAlignment()->setHorizontal('center');
+        //color cabecera
+        $spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFill()->setFillType(Fill::FILL_SOLID);
+        $spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFill()->getStartColor()->setARGB('FF808080');
+        //color letras cabecera
+        $spreadsheet->getActiveSheet()->getStyle('A1:G1')->getFont()->getColor()->setARGB('FFFFFFFF');
+        //bordes
+        $spreadsheet->getActiveSheet()->getStyle('A1:G1')->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+
+
+        $hojaActiva->setCellValue('A1', 'N°');
+        $hojaActiva->setCellValue('B1', 'Producto');
+        $hojaActiva->setCellValue('C1', 'Comprobante');
+        $hojaActiva->setCellValue('D1', 'Entrada');
+        $hojaActiva->setCellValue('E1', 'Salida');
+        $hojaActiva->setCellValue('F1', 'Fecha');
+        $hojaActiva->setCellValue('G1', 'Saldo');
+
+        $i = 2;
+        foreach ($inventarios as $inventario) {
+            //borde
+            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':G' . $i)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+            //centrar
+            $spreadsheet->getActiveSheet()->getStyle('A' . $i . ':G' . $i)->getAlignment()->setHorizontal('center');
+            if ($inventario->tipo == "entrada") {
+                $inventario->entrada = $inventario->cantidad;
+                $inventario->salida = 0;
+            }
+            if ($inventario->tipo == "salida") {
+                $inventario->entrada = 0;
+                $inventario->salida = $inventario->cantidad;
+            }
+            $hojaActiva->setCellValue('A' . $i, $i - 1);
+            $hojaActiva->setCellValue('B' . $i, $inventario->codigo . "-" . $inventario->producto);
+            $hojaActiva->setCellValue('C' . $i, $inventario->comprobante);
+            $hojaActiva->setCellValue('D' . $i, $inventario->entrada);
+            $hojaActiva->setCellValue('E' . $i, $inventario->salida);
+            $hojaActiva->setCellValue('F' . $i, date('d-m-Y', strtotime($inventario->fecha)));
+            $hojaActiva->setCellValue('G' . $i, $inventario->stock_actual);
+            $i++;
+        }
+
+        $filename = "Kardex-" . $inventarios[0]->codigo . ".xlsx";
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
     }
 }

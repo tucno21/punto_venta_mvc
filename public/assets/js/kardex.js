@@ -14,6 +14,7 @@ const inputFechaInicio = document.querySelector("#inputFechaInicio");
 const inputFechaFin = document.querySelector("#inputFechaFin");
 const btnBuscarFecha = document.querySelector("#btnBuscarFecha");
 const btnReportePdf = document.querySelector("#btnReportePdf");
+const btnReporteExcel = document.querySelector("#btnReporteExcel");
 
 //url de producto kardex
 const urlProductokardex = document
@@ -39,6 +40,7 @@ function cargarEventListeners() {
   //buscar por fechas
   btnBuscarFecha.addEventListener("click", buscarPorFecha);
   btnReportePdf.addEventListener("click", generarReportePDF);
+  btnReporteExcel.addEventListener("click", generarReporteExcel);
 
   document.addEventListener("DOMContentLoaded", () => {});
 }
@@ -257,4 +259,62 @@ function generarReportePDF() {
 
   const link = urlKardexPDF + "?productoid=" + productoID.value;
   window.open(link, "_blank");
+}
+
+//generarReporteExcel
+async function generarReporteExcel() {
+  const urlKardexExcel = document
+    .querySelector("#urlKardexExcel")
+    .getAttribute("data-url");
+
+  if (productoID.value == "") {
+    toastPersonalizado("error", "Debe seleccionar un producto");
+    return;
+  }
+  if (inputFechaInicio.value == "") {
+    toastPersonalizado("error", "Debe seleccionar una fecha de inicio");
+    return;
+  }
+  if (inputFechaFin.value == "") {
+    toastPersonalizado("error", "Debe seleccionar una fecha de término");
+    return;
+  }
+
+  //las fechas no deben ser mayores a la fecha actual
+  let fechaActual = new Date();
+  let fechaInicio = new Date(inputFechaInicio.value);
+  let fechaFin = new Date(inputFechaFin.value);
+  if (fechaInicio > fechaActual) {
+    toastPersonalizado(
+      "error",
+      "La fecha de inicio no debe ser mayor a la fecha actual"
+    );
+    return;
+  }
+  if (fechaFin > fechaActual) {
+    toastPersonalizado(
+      "error",
+      "La fecha de término no debe ser mayor a la fecha actual"
+    );
+    return;
+  }
+
+  if (inputFechaInicio.value > inputFechaFin.value) {
+    toastPersonalizado(
+      "error",
+      "La fecha de inicio debe ser menor a la fecha de término"
+    );
+    return;
+  }
+
+  let link =
+    urlKardexExcel +
+    "?productoid=" +
+    productoID.value +
+    "&fecha_inicio=" +
+    inputFechaInicio.value +
+    "&fecha_fin=" +
+    inputFechaFin.value;
+
+  window.open(link);
 }

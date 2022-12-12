@@ -20,6 +20,7 @@ $linksScript2 = [
                         <input id="urlProductokardex" type="hidden" data-url="<?= route('inventarios.tablekardex') ?>">
                         <input id="urlBuscarFechas" type="hidden" data-url="<?= route('inventarios.searchdate') ?>">
                         <input id="urlKardexPDF" type="hidden" data-url="<?= route('inventarios.kardexpdf') ?>">
+                        <input id="urlKardexExcel" type="hidden" data-url="<?= route('inventarios.kardexexcel') ?>">
                     </div>
                     <!-- <div class="">
                         <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Registrar Unidad</button>
