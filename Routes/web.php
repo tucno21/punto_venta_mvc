@@ -217,6 +217,8 @@ Route::post('/compras/create', [CompraController::class, 'store']);
 Route::get('/compras/destroy', [CompraController::class, 'destroy'])->name('compras.destroy');
 Route::get('/compras/tipocomprobante', [CompraController::class, 'tipocomprobante'])->name('compras.tipocomprobante');
 Route::get('/compras/reporte', [CompraController::class, 'reporte'])->name('compras.reporte');
+Route::get('/compras/compraspdf', [CompraController::class, 'compraspdf'])->name('compras.compraspdf');
+Route::get('/compras/comprasexcel', [CompraController::class, 'comprasexcel'])->name('compras.comprasexcel');
 
 //VentaController
 Route::get('/ventas', [VentaController::class, 'index'])->name('ventas.index');
