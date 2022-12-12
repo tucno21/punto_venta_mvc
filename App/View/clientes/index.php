@@ -22,6 +22,8 @@ $linksScript2 = [
                         <input id="urlStatus" type="hidden" data-url="<?= route('clientes.status') ?>">
                         <input id="urlDestroy" type="hidden" data-url="<?= route('clientes.destroy') ?>">
                         <input id="urlTipoDoc" type="hidden" data-url="<?= route('clientes.tipodocumento') ?>">
+                        <input id="urlReportePdf" type="hidden" data-url="<?= route('clientes.pdf') ?>">
+                        <input id="urlReporteExcel" type="hidden" data-url="<?= route('clientes.excel') ?>">
                     </div>
                     <div class="">
                         <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Registrar Cliente</button>
@@ -37,7 +39,20 @@ $linksScript2 = [
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header p-2">
-                    <h5>Lista de Clientes</h5>
+                    <div class="row">
+                        <!-- <div class="d-flex align-items-baseline"> -->
+                        <div class="col-md-2 text-center">
+                            Lista de Clientes
+                        </div>
+                        <div class="col-md-2 text-center mt-1">
+                            <button id="btnReportePdf" type="button" class="btn btn-danger btn-sm p-0 px-1">
+                                <i class="bi bi-file-pdf fs-5"></i>
+                            </button>
+                            <button id="btnReporteExcel" type="button" class="btn btn-success btn-sm p-0 px-1">
+                                <i class="bi bi-file-earmark-excel fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body p-2">
                     <div class="table-responsive">

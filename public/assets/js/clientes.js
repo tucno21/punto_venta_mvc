@@ -26,6 +26,16 @@ const inputDireccion = document.querySelector("#inputDireccion");
 const inputTelefono = document.querySelector("#inputTelefono");
 const inputEmail = document.querySelector("#inputEmail");
 
+//para reoporte excel y pdf
+const urlReportePdf = document
+  .querySelector("#urlReportePdf")
+  .getAttribute("data-url");
+const urlReporteExcel = document
+  .querySelector("#urlReporteExcel")
+  .getAttribute("data-url");
+const btnReportePdf = document.querySelector("#btnReportePdf");
+const btnReporteExcel = document.querySelector("#btnReporteExcel");
+
 //mi tabla
 let dataTable = new simpleDatatables.DataTable(listaTabla, {
   searchable: true,
@@ -40,6 +50,8 @@ let dataTable = new simpleDatatables.DataTable(listaTabla, {
 
 cargarEventListeners();
 function cargarEventListeners() {
+  btnReportePdf.addEventListener("click", generarReportePdf);
+  btnReporteExcel.addEventListener("click", generarReporteExcel);
   document.addEventListener("DOMContentLoaded", () => {
     generarDataTable();
     botonCrear();
@@ -425,4 +437,14 @@ async function buscarRUC(number) {
   } else {
     toastPersonalizado("error", data.message);
   }
+}
+
+//genererarReportePdf
+function generarReportePdf(e) {
+  window.open(urlReportePdf, "_blank");
+}
+
+//generarReporteExcel
+function generarReporteExcel(e) {
+  window.open(urlReporteExcel);
 }

@@ -197,6 +197,8 @@ Route::get('/clientes/status', [ClienteController::class, 'status'])->name('clie
 Route::get('/clientes/destroy', [ClienteController::class, 'destroy'])->name('clientes.destroy');
 Route::get('/clientes/tipodocumento', [ClienteController::class, 'tipodocumento'])->name('clientes.tipodocumento');
 Route::get('/clientes/buscar', [ClienteController::class, 'buscar'])->name('clientes.buscar');
+Route::get('/clientes/pdf', [ClienteController::class, 'pdf'])->name('clientes.pdf');
+Route::get('/clientes/excel', [ClienteController::class, 'excel'])->name('clientes.excel');
 
 //ProveedorController
 Route::get('/proveedores', [ProveedorController::class, 'index'])->name('proveedores.index');
