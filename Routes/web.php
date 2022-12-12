@@ -264,6 +264,8 @@ Route::get('/notaventas/serieCorrelativo', [NotaVentaController::class, 'serieCo
 Route::get('/notaventas/monedas', [NotaVentaController::class, 'monedas'])->name('notaventas.monedas');
 Route::get('/notaventas/reporte', [NotaVentaController::class, 'reporte'])->name('notaventas.reporte');
 Route::get('/notaventas/updateElectronico', [NotaVentaController::class, 'updateElectronico'])->name('notaventas.updateElectronico');
+Route::get('/notaventas/ventaspdf', [NotaVentaController::class, 'ventaspdf'])->name('notaventas.ventaspdf');
+Route::get('/notaventas/ventasexcel', [NotaVentaController::class, 'ventasexcel'])->name('notaventas.ventasexcel');
 
 
 //CajaController

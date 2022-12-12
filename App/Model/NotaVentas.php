@@ -85,4 +85,15 @@ class NotaVentas extends Model
                 ORDER BY v.id DESC";
         return self::querySimple($sql);
     }
+
+    public static function getVentasFechas($fecha_inicio, $fecha_fin)
+    {
+        $sql = "SELECT v.*, u.name as vendedor, c.nombre as cliente, c.documento as documentocliente
+                FROM nota_ventas v
+                INNER JOIN users u ON u.id = v.usuario_id
+                INNER JOIN clientes c ON c.id = v.cliente_id
+                WHERE v.fecha_emision BETWEEN '$fecha_inicio' AND '$fecha_fin'
+                ORDER BY v.id ASC";
+        return self::querySimple($sql);
+    }
 }
