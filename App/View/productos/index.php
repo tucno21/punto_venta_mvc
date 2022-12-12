@@ -26,6 +26,8 @@ $linksScript2 = [
                         <input id="urlAfectation" type="hidden" data-url="<?= route('productos.afectacion') ?>">
                         <input id="urlGeneral" type="hidden" data-url="<?= base_url() ?>">
                         <input id="urlVerData" type="hidden" data-url="<?= route('productos.verData') ?>">
+                        <input id="urlReportePdf" type="hidden" data-url="<?= route('productos.pdf') ?>">
+                        <input id="urlReporteExcel" type="hidden" data-url="<?= route('productos.excel') ?>">
                     </div>
                     <div class="">
                         <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Registrar Producto</button>
@@ -41,7 +43,20 @@ $linksScript2 = [
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header p-2">
-                    <h5>Lista de Productos</h5>
+                    <div class="row">
+                        <!-- <div class="d-flex align-items-baseline"> -->
+                        <div class="col-md-2 text-center">
+                            Lista de Productos
+                        </div>
+                        <div class="col-md-2 text-center mt-1">
+                            <button id="btnReportePdf" type="button" class="btn btn-danger btn-sm p-0 px-1">
+                                <i class="bi bi-file-pdf fs-5"></i>
+                            </button>
+                            <button id="btnReporteExcel" type="button" class="btn btn-success btn-sm p-0 px-1">
+                                <i class="bi bi-file-earmark-excel fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body p-2">
                     <div class="table-responsive">
