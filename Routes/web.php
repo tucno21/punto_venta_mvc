@@ -208,6 +208,8 @@ Route::post('/proveedores/edit', [ProveedorController::class, 'update']);
 Route::get('/proveedores/status', [ProveedorController::class, 'status'])->name('proveedores.status');
 Route::get('/proveedores/destroy', [ProveedorController::class, 'destroy'])->name('proveedores.destroy');
 Route::get('/proveedores/buscar', [ProveedorController::class, 'buscar'])->name('proveedores.buscar');
+Route::get('/proveedores/pdf', [ProveedorController::class, 'pdf'])->name('proveedores.pdf');
+Route::get('/proveedores/excel', [ProveedorController::class, 'excel'])->name('proveedores.excel');
 
 //CompraController
 Route::get('/compras', [CompraController::class, 'index'])->name('compras.index');
