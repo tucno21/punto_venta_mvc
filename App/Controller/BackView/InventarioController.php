@@ -170,4 +170,111 @@ class InventarioController extends Controller
 
         $pdf->Output("Inventario-" . $mes . "-" . $ano . ".pdf", "I");
     }
+
+    public function kardex()
+    {
+        return view('inventarios.kardex', [
+            'titleGlobal' => 'Kardex',
+        ]);
+    }
+
+    public function tablekardex()
+    {
+        $data = $this->request()->getInput();
+        $inventarios = Inventarios::getKardex($data->productoid);
+        if (is_object($inventarios)) {
+            $inventarios = [$inventarios];
+        }
+        echo json_encode($inventarios);
+        exit;
+    }
+
+    public function searchdate()
+    {
+        $data = $this->request()->getInput();
+        $productoID = $data->productoid;
+        $fechaInicio = $data->fecha_inicio;
+        $fechaFin = $data->fecha_fin;
+
+        $inventarios = Inventarios::getInventarioFecha($productoID, $fechaInicio, $fechaFin);
+        if (is_object($inventarios)) {
+            $inventarios = [$inventarios];
+        }
+        echo json_encode($inventarios);
+        exit;
+    }
+
+    public function kardexpdf()
+    {
+        $data = $this->request()->getInput();
+
+        $listaInventario;
+
+        //existe variable fecha
+        if (isset($data->fecha_inicio) && isset($data->fecha_fin)) {
+            $inventarios = Inventarios::getInventarioFecha($data->productoid, $data->fecha_inicio, $data->fecha_fin);
+            if (is_object($inventarios)) {
+                $inventarios = [$inventarios];
+            }
+            $listaInventario = $inventarios;
+        } else {
+            $inventarios = Inventarios::getKardex($data->productoid);
+            if (is_object($inventarios)) {
+                $inventarios = [$inventarios];
+            }
+            $listaInventario = $inventarios;
+        }
+        //$listaInventario si es un array vacio
+        if (empty($listaInventario)) {
+            echo "No hay datos para mostrar";
+            exit;
+        }
+
+        $pdf = new FPDF('P', 'mm', 'A4');
+        $pdf->AddPage();
+        $pdf->setMargins(10, 10, 10);
+        $pdf->setTitle('Reporte de Kardex');
+
+        //fecha de hoy de gerara el inventario
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 10, 'Fecha: ' . date('d-m-Y'), 0, 1, 'R');
+
+        //titulo
+        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->Cell(0, 10, 'Reporte de Kardex', 0, 1, 'C');
+
+        //cabecera
+        $pdf->SetFont('Arial', 'B', 11);
+        $pdf->Cell(8, 10, '#', 1, 0, 'C');
+        $pdf->Cell(50, 10, 'Producto', 1, 0, 'C');
+        $pdf->Cell(30, 10, 'Comprobante', 1, 0, 'C');
+        $pdf->Cell(18, 10, 'Entrada', 1, 0, 'C');
+        $pdf->Cell(18, 10, 'Salida', 1, 0, 'C');
+        $pdf->Cell(45, 10, 'Fecha', 1, 0, 'C');
+        $pdf->Cell(25, 10, 'Saldo', 1, 1, 'C');
+        // dd($listaInventario);
+        // cuerpo
+        $i = 1;
+        $pdf->SetFont('Arial', '', 10);
+        foreach ($listaInventario as $inventario) {
+            if ($inventario->tipo == "entrada") {
+                $inventario->entrada = $inventario->cantidad;
+                $inventario->salida = 0;
+            }
+            if ($inventario->tipo == "salida") {
+                $inventario->entrada = 0;
+                $inventario->salida = $inventario->cantidad;
+            }
+            $pdf->Cell(8, 10, $i, 1, 0, 'C');
+            $pdf->Cell(50, 10, utf8_decode($inventario->codigo . "-" . $inventario->producto), 1, 0, 'L');
+            $pdf->Cell(30, 10, $inventario->comprobante, 1, 0, 'C');
+            $pdf->Cell(18, 10, $inventario->entrada, 1, 0, 'C');
+            $pdf->Cell(18, 10, $inventario->salida, 1, 0, 'C');
+            $pdf->Cell(45, 10, date('d-m-Y', strtotime($inventario->fecha)), 1, 0, 'C');
+            $pdf->Cell(25, 10, $inventario->stock_actual, 1, 1, 'C');
+            $i++;
+        }
+
+        $pdf->Output("Kardex-" . $listaInventario[0]->codigo . ".pdf", "I");
+    }
 }

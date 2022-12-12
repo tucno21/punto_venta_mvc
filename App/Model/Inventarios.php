@@ -53,4 +53,22 @@ class Inventarios extends Model
                 ORDER BY i.id DESC";
         return self::querySimple($sql);
     }
+
+    public static function getKardex($productoid)
+    {
+        $sql = "SELECT i.*, p.detalle as producto, p.codigo as codigo
+                FROM inventario i
+                INNER JOIN productos p ON p.id = i.producto_id
+                WHERE i.producto_id = $productoid";
+        return self::querySimple($sql);
+    }
+
+    public static function getInventarioFecha($productoID, $fechaInicio, $fechaFin)
+    {
+        $sql = "SELECT i.*, p.detalle as producto, p.codigo as codigo
+                FROM inventario i
+                INNER JOIN productos p ON p.id = i.producto_id
+                WHERE i.producto_id = $productoID AND i.fecha BETWEEN '$fechaInicio' AND '$fechaFin'";
+        return self::querySimple($sql);
+    }
 }

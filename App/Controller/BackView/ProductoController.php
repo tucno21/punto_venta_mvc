@@ -274,4 +274,37 @@ class ProductoController extends Controller
         echo json_encode($response);
         exit;
     }
+
+    public function barcodekardex()
+    {
+        $data = $this->request()->getInput();
+        $producto = Productos::productoCodeKardex($data->codigo);
+
+        $response = ['status' => false, 'message' => 'No se encontro el producto'];
+
+        if (!empty($producto)) {
+            $response = ['status' => true, 'data' => $producto];
+        }
+        echo json_encode($response);
+        exit;
+    }
+
+    public function inputSearchkardex()
+    {
+        //busqueda para autocompletar
+        $data = $this->request()->getInput();
+        //obligatorio recibir ->search
+        $response = Productos::searchKardex($data->search);
+
+        if (is_object($response)) {
+            $response = [$response];
+        }
+        foreach ($response as $key => $value) {
+            //obligatorio agregar ->textItem
+            $response[$key]->textItem = $value->codigo . ' - ' . $value->detalle;
+        }
+
+        echo json_encode($response);
+        exit;
+    }
 }

@@ -90,4 +90,23 @@ class Productos extends Model
                 WHERE p.id = $id";
         return self::querySimple($sql);
     }
+
+    public static function productoCodeKardex($code)
+    {
+        //estado = 1 , tipo_afectacion_id , stock > 0
+        $sql = "SELECT id, codigo 
+                FROM productos 
+                WHERE codigo = '$code'";
+        return self::querySimple($sql);
+    }
+
+    public static function searchKardex($search)
+    {
+        $sql = "SELECT id, codigo, detalle 
+                FROM productos
+                WHERE detalle LIKE '%$search%' OR codigo LIKE '%$search%'
+                ORDER BY id DESC";
+
+        return self::querySimple($sql);
+    }
 }

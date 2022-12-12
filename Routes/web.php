@@ -111,6 +111,8 @@ Route::get('/productos/afectacion', [ProductoController::class, 'afectacion'])->
 Route::get('/productos/verData', [ProductoController::class, 'verData'])->name('productos.verData');
 Route::get('/productos/barcode', [ProductoController::class, 'barcode'])->name('productos.barcode');
 Route::get('/productos/inputSearch', [ProductoController::class, 'inputSearch'])->name('productos.inputSearch');
+Route::get('/productos/barcodekardex', [ProductoController::class, 'barcodekardex'])->name('productos.barcodekardex');
+Route::get('/productos/inputSearchkardex', [ProductoController::class, 'inputSearchkardex'])->name('productos.inputSearchkardex');
 
 //TipoDocumentoController
 Route::get('/tipoDocumentos', [TipoDocumentoController::class, 'index'])->name('tipoDocumentos.index');
@@ -289,3 +291,7 @@ Route::get('/inventarios', [InventarioController::class, 'index'])->name('invent
 Route::get('/inventarios/dataTable', [InventarioController::class, 'dataTable'])->name('inventarios.dataTable');
 Route::get('/inventarios/searchmonth', [InventarioController::class, 'searchmonth'])->name('inventarios.searchmonth');
 Route::get('/inventarios/monthpdf', [InventarioController::class, 'monthpdf'])->name('inventarios.monthpdf');
+Route::get('/inventarios/kardex', [InventarioController::class, 'kardex'])->name('inventarios.kardex');
+Route::get('/inventarios/tablekardex', [InventarioController::class, 'tablekardex'])->name('inventarios.tablekardex');
+Route::get('/inventarios/searchdate', [InventarioController::class, 'searchdate'])->name('inventarios.searchdate');
+Route::get('/inventarios/kardexpdf', [InventarioController::class, 'kardexpdf'])->name('inventarios.kardexpdf');

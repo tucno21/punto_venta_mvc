@@ -145,11 +145,31 @@ $linksSidebar = [
         ],
     ],
     [
-        'mode' => 'menu',
-        'text' => 'Inventario',
-        'url'  => route('inventarios.index'),
-        'icon' => 'bi bi-list-ol',
+        'mode' => 'submenu',
+        'text'    => 'Inventario & Kardex',
+        'url'    => '#',
+        'icon' => 'bi bi-inboxes',
+        'submenu' => [
+
+            [
+                'text' => 'Inventario',
+                'url'  => route('inventarios.index'),
+                'icon' => 'fas fa-circle',
+            ],
+
+            [
+                'text' => 'Kardex',
+                'url'  => route('inventarios.kardex'),
+                'icon' => 'fas fa-circle',
+            ],
+        ],
     ],
+    // [
+    //     'mode' => 'menu',
+    //     'text' => 'Inventario',
+    //     'url'  => route('inventarios.index'),
+    //     'icon' => 'bi bi-list-ol',
+    // ],
     [
         'mode' => 'menu',
         'text' => 'Empresa',
