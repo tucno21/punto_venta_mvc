@@ -175,6 +175,83 @@ class InventarioController extends Controller
         $pdf->Output("Inventario-" . $mes . "-" . $ano . ".pdf", "I");
     }
 
+    public function monthexcel()
+    {
+        $data = $this->request()->getInput();
+        $mes = explode('-', $data->mes)[1];
+        $ano = explode('-', $data->mes)[0];
+
+        $inventarios = Inventarios::getInventarioMes($mes, $ano);
+        if (is_object($inventarios)) {
+            $inventarios = [$inventarios];
+        }
+        if (empty($inventarios)) {
+            echo "No hay datos para mostrar";
+            exit;
+        }
+
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->getProperties()->setCreator(session()->user()->name);
+        $spreadsheet->getProperties()->setTitle("Reporte de Inventario");
+
+        $hojaActiva = $spreadsheet->getActiveSheet();
+        $hojaActiva->setTitle("Inventario");
+        $hojaActiva->getColumnDimension('A')->setWidth(5); //orden
+        $hojaActiva->getColumnDimension('B')->setWidth(40); //producto
+        $hojaActiva->getColumnDimension('C')->setWidth(20); //comprobante
+        $hojaActiva->getColumnDimension('D')->setWidth(20); //fecha
+        $hojaActiva->getColumnDimension('E')->setWidth(30); //tipo
+
+        //unir celda para el titulo
+        $hojaActiva->mergeCells('A1:E1');
+        $hojaActiva->setCellValue('A1', 'Reporte de inventario');
+        $hojaActiva->getStyle('A1')->getFont()->setBold(true);
+        $hojaActiva->getStyle('A1')->getFont()->setSize(16);
+        $hojaActiva->getStyle('A1')->getAlignment()->setHorizontal('center');
+
+        //unir celas para el mes
+        $hojaActiva->mergeCells('A2:E2');
+        $hojaActiva->setCellValue('A2', 'Mes: ' . $data->mes);
+        $hojaActiva->getStyle('A2')->getFont()->setBold(true);
+        $hojaActiva->getStyle('A2')->getFont()->setSize(12);
+        $hojaActiva->getStyle('A2')->getAlignment()->setHorizontal('center');
+
+
+        //cabecera
+        $hojaActiva->setCellValue('A3', 'N°');
+        $hojaActiva->setCellValue('B3', 'Producto');
+        $hojaActiva->setCellValue('C3', 'Comprobante');
+        $hojaActiva->setCellValue('D3', 'Fecha');
+        $hojaActiva->setCellValue('E3', 'Tipo');
+
+        $hojaActiva->getStyle('A3:E3')->getFont()->setBold(true);
+        $hojaActiva->getStyle('A3:E3')->getAlignment()->setHorizontal('center');
+        $hojaActiva->getStyle('A3:E3')->getAlignment()->setVertical('center');
+        $hojaActiva->getStyle('A3:E3')->getBorders()->getAllBorders()->setBorderStyle('thin');
+
+        $i = 4;
+        foreach ($inventarios as $inventario) {
+            $hojaActiva->setCellValue('A' . $i, $i - 3);
+            $hojaActiva->setCellValue('B' . $i, $inventario->codigo . "-" . $inventario->producto);
+            $hojaActiva->setCellValue('C' . $i, $inventario->comprobante);
+            $hojaActiva->setCellValue('D' . $i, date('d-m-Y', strtotime($inventario->fecha)));
+            $hojaActiva->setCellValue('E' . $i, $inventario->accion);
+
+            $hojaActiva->getStyle('A' . $i . ':E' . $i)->getAlignment()->setHorizontal('center');
+            $hojaActiva->getStyle('A' . $i . ':E' . $i)->getAlignment()->setVertical('center');
+            $hojaActiva->getStyle('A' . $i . ':E' . $i)->getBorders()->getAllBorders()->setBorderStyle('thin');
+            $i++;
+        }
+
+        $filename = 'Inventario-' . $mes . '-' . $ano;
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="' . $filename . '.xlsx"');
+        header('Cache-Control: max-age=0');
+        $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
+
     public function kardex()
     {
         return view('inventarios.kardex', [

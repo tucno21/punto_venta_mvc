@@ -8,6 +8,9 @@ const urlBusquedaMes = document
 const urlInventarioMesPdf = document
   .querySelector("#urlInventarioMesPdf")
   .getAttribute("data-url");
+const urlInventarioMesExcel = document
+  .querySelector("#urlInventarioMesExcel")
+  .getAttribute("data-url");
 
 //modal y botones
 const listaTabla = document.querySelector("#simpleDatatable");
@@ -16,6 +19,7 @@ const listaTabla = document.querySelector("#simpleDatatable");
 const inputMes = document.querySelector("#inputMes");
 const btnBusquedaMes = document.querySelector("#btnBusquedaMes");
 const inventarioMesPDF = document.querySelector("#inventarioMesPDF");
+const inventarioMesExcel = document.querySelector("#inventarioMesExcel");
 
 //mi tabla
 let dataTable = new simpleDatatables.DataTable(listaTabla, {
@@ -39,6 +43,7 @@ function cargarEventListeners() {
     // botonesDataTable();
     busquedaInventarioMes();
     botonInventarioMesPDF();
+    botonInventarioMesExcel();
   });
 }
 
@@ -176,5 +181,30 @@ function botonInventarioMesPDF() {
 
     const link = urlInventarioMesPdf + "?mes=" + mes;
     window.open(link, "_blank");
+  });
+}
+
+//botonInventarioMesExcel
+function botonInventarioMesExcel() {
+  inventarioMesExcel.addEventListener("click", (e) => {
+    e.preventDefault();
+    const mes = inputMes.value;
+    if (mes === "") {
+      toastPersonalizado("error", "Seleccione un mes");
+      return;
+    }
+    //no seleccionar un mes superior al actual
+    const fechaActual = new Date();
+    //fechaActual en formato yyyy-mm
+    // const mesActual = fechaActual.getMonth() + 1;
+    const anoMesActual = fechaActual.toISOString().slice(0, 7);
+
+    if (mes > anoMesActual) {
+      toastPersonalizado("error", "Seleccione el mes actual o inferior");
+      return;
+    }
+
+    const link = urlInventarioMesExcel + "?mes=" + mes;
+    window.open(link);
   });
 }

@@ -291,6 +291,7 @@ Route::get('/inventarios', [InventarioController::class, 'index'])->name('invent
 Route::get('/inventarios/dataTable', [InventarioController::class, 'dataTable'])->name('inventarios.dataTable');
 Route::get('/inventarios/searchmonth', [InventarioController::class, 'searchmonth'])->name('inventarios.searchmonth');
 Route::get('/inventarios/monthpdf', [InventarioController::class, 'monthpdf'])->name('inventarios.monthpdf');
+Route::get('/inventarios/monthexcel', [InventarioController::class, 'monthexcel'])->name('inventarios.monthexcel');
 Route::get('/inventarios/kardex', [InventarioController::class, 'kardex'])->name('inventarios.kardex');
 Route::get('/inventarios/tablekardex', [InventarioController::class, 'tablekardex'])->name('inventarios.tablekardex');
 Route::get('/inventarios/searchdate', [InventarioController::class, 'searchdate'])->name('inventarios.searchdate');
