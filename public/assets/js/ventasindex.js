@@ -28,8 +28,22 @@ const urlIndexNotas = document
   .getAttribute("data-url");
 console.log(urlIndexNotas);
 
+//para reoporte excel y pdf
+const urlReportePdf = document
+  .querySelector("#urlReportePdf")
+  .getAttribute("data-url");
+const urlReporteExcel = document
+  .querySelector("#urlReporteExcel")
+  .getAttribute("data-url");
+const inputFechaInicio = document.querySelector("#inputFechaInicio");
+const inputFechaFin = document.querySelector("#inputFechaFin");
+const btnReportePdf = document.querySelector("#btnReportePdf");
+const btnReporteExcel = document.querySelector("#btnReporteExcel");
+
 cargarEventListeners();
 function cargarEventListeners() {
+  btnReportePdf.addEventListener("click", generarReportePdf);
+  btnReporteExcel.addEventListener("click", generarReporteExcel);
   document.addEventListener("DOMContentLoaded", () => {
     generarDataTable();
     botonesDataTable();
@@ -335,4 +349,86 @@ function botonGenerarNotas(url) {
 //botonNotasVentas
 function botonNotasVentas(url) {
   window.location.href = url;
+}
+
+//genererarReportePdf
+function generarReportePdf(e) {
+  if (inputFechaInicio.value === "" || inputFechaFin.value === "") {
+    toastPersonalizado("error", "Debe ingresar las fechas");
+    return;
+  }
+  let fechaActual = new Date();
+  let fechaInicio = new Date(inputFechaInicio.value);
+  let fechaFin = new Date(inputFechaFin.value);
+  if (fechaInicio > fechaActual) {
+    toastPersonalizado(
+      "error",
+      "La fecha de inicio no debe ser mayor a la fecha actual"
+    );
+    return;
+  }
+  if (fechaFin > fechaActual) {
+    toastPersonalizado(
+      "error",
+      "La fecha de término no debe ser mayor a la fecha actual"
+    );
+    return;
+  }
+
+  if (inputFechaInicio.value > inputFechaFin.value) {
+    toastPersonalizado(
+      "error",
+      "La fecha de inicio debe ser menor a la fecha de término"
+    );
+    return;
+  }
+
+  let url =
+    urlReportePdf +
+    "?fecha_inicio=" +
+    inputFechaInicio.value +
+    "&fecha_fin=" +
+    inputFechaFin.value;
+  window.open(url, "_blank");
+}
+
+//generarReporteExcel
+function generarReporteExcel(e) {
+  if (inputFechaInicio.value === "" || inputFechaFin.value === "") {
+    toastPersonalizado("error", "Debe ingresar las fechas");
+    return;
+  }
+  let fechaActual = new Date();
+  let fechaInicio = new Date(inputFechaInicio.value);
+  let fechaFin = new Date(inputFechaFin.value);
+  if (fechaInicio > fechaActual) {
+    toastPersonalizado(
+      "error",
+      "La fecha de inicio no debe ser mayor a la fecha actual"
+    );
+    return;
+  }
+  if (fechaFin > fechaActual) {
+    toastPersonalizado(
+      "error",
+      "La fecha de término no debe ser mayor a la fecha actual"
+    );
+    return;
+  }
+
+  if (inputFechaInicio.value > inputFechaFin.value) {
+    toastPersonalizado(
+      "error",
+      "La fecha de inicio debe ser menor a la fecha de término"
+    );
+    return;
+  }
+
+  let url =
+    urlReporteExcel +
+    "?fecha_inicio=" +
+    inputFechaInicio.value +
+    "&fecha_fin=" +
+    inputFechaFin.value;
+  window.open(url);
 }
