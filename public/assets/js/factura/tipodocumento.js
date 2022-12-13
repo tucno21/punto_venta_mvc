@@ -51,7 +51,7 @@ async function generarDataTable() {
     element["estado"] =
       element.estado == 1
         ? `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-success rounded-pill btn-sm p-0 px-1">Habilitado</button>`
-        : `<p data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-danger rounded-pill btn-sm p-0 px-1">Inhabilitado</p>`;
+        : `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-danger rounded-pill btn-sm p-0 px-1">Inhabilitado</button>`;
     element["actions"] = `
         <a href="${urlEdit}?id=${element.id}" class="btn btn-outline-warning btn-sm btnEditar">
             <i class="bi bi-pencil"></i>
