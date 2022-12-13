@@ -14,9 +14,14 @@ $userName = session()->user()->name;
 //MENU CERRAR O PERFIL DE ADMINISTRADOR
 $menuSession = [
     [
-        'text' => 'Logout',
+        'text' => 'Cerrar Sesión',
         'url'  => route('login.logout'),
         'icon' => 'bi bi-box-arrow-right',
+    ],
+    [
+        'text' => 'Cambiar Contraseña',
+        'url'  => route('users.changePassword'),
+        'icon' => 'bi bi-key',
     ],
 ];
 

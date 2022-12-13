@@ -133,4 +133,32 @@ class UserController extends Controller
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
     }
+
+    public function changePassword()
+    {
+        return view('users/changePassword', [
+            'titleGlobal' => 'Cambiar Contraseña',
+        ]);
+    }
+
+    public function changePasswordPost()
+    {
+        $data = (object)$_POST;
+
+        $valid = $this->validate($data, [
+            'password' => 'required',
+        ]);
+
+        if ($valid !== true) {
+            $response = ['status' => false, 'data' => $valid];
+            //json_encode
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
+        } else {
+            Users::update($data->id, $data);
+            $response = ['status' => true, 'message' => 'Actualizado correctamente'];
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+    }
 }

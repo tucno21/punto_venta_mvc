@@ -247,9 +247,9 @@
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
-                            <div class=" dropdown-header">
+                            <!-- <div class=" dropdown-header">
                                 <h5 class="text-overflow m-0"><span class="badge bg-light-success">Pro</span></h5>
-                            </div>
+                            </div> -->
 
                             <?php foreach ($menuSession as $ms) : ?>
                                 <a href="<?= $ms['url'] ?>" class="dropdown-item">

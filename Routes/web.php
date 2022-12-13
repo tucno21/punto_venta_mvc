@@ -61,6 +61,8 @@ Route::get('/users/edit', [UserController::class, 'edit'])->name('users.edit');
 Route::post('/users/edit', [UserController::class, 'update']);
 Route::get('/users/status', [UserController::class, 'status'])->name('users.status');
 Route::get('/users/destroy', [UserController::class, 'destroy'])->name('users.destroy');
+Route::get('/users/changePassword', [UserController::class, 'changePassword'])->name('users.changePassword');
+Route::post('/users/changePassword', [UserController::class, 'changePasswordPost']);
 
 //roles
 Route::get('/roles', [RolController::class, 'index'])->name('roles.index');
