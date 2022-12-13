@@ -124,6 +124,8 @@ Route::get('/productos/barcodekardex', [ProductoController::class, 'barcodekarde
 Route::get('/productos/inputSearchkardex', [ProductoController::class, 'inputSearchkardex'])->name('productos.inputSearchkardex');
 Route::get('/productos/pdf', [ProductoController::class, 'pdf'])->name('productos.pdf');
 Route::get('/productos/excel', [ProductoController::class, 'excel'])->name('productos.excel');
+Route::get('/productos/barcodecompra', [ProductoController::class, 'barcodecompra'])->name('productos.barcodecompra');
+Route::get('/productos/inputSearchcompra', [ProductoController::class, 'inputSearchcompra'])->name('productos.inputSearchcompra');
 
 //TipoDocumentoController
 Route::get('/tipoDocumentos', [TipoDocumentoController::class, 'index'])->name('tipoDocumentos.index');

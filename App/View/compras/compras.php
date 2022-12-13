@@ -69,10 +69,10 @@ $linksScript2 = [
                         <div class="col">
                             <div class="btn-group btn-group-togle btn-group-sm">
                                 <label class="btn btn-warning">
-                                    <input id="checkedBarcode" class="form-check-input checkCompra" type="radio" name="opcion" checked="" data-link="<?= route('productos.barcode') ?>"><i class="bi bi-upc"></i> Barcode
+                                    <input id="checkedBarcode" class="form-check-input checkCompra" type="radio" name="opcion" checked="" data-link="<?= route('productos.barcodecompra') ?>"><i class="bi bi-upc"></i> Barcode
                                 </label>
                                 <label class="btn btn-success">
-                                    <input id="checkedNombre" class="form-check-input checkCompra" type="radio" name="opcion" data-link="<?= route('productos.inputSearch') ?>"><i class="bi bi-list-task"></i> Nombre
+                                    <input id="checkedNombre" class="form-check-input checkCompra" type="radio" name="opcion" data-link="<?= route('productos.inputSearchcompra') ?>"><i class="bi bi-list-task"></i> Nombre
                                 </label>
                             </div>
                         </div>

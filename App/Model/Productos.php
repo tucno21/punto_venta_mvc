@@ -71,14 +71,36 @@ class Productos extends Model
 
     public static function search($search)
     {
+        //estado = 1 , tipo_afectacion_id , stock > 0
         $sql = "SELECT p.*,  t.codigo as codigo_afectacion_alt, t.codigo_afectacion, t.nombre_afectacion, t.tipo_afectacion, u.codigo as unidad 
                 FROM productos p
                 INNER JOIN tipo_afectacion t ON t.id = p.tipo_afectacion_id
                 INNER JOIN unidades u ON u.id = p.unidad_id
-                WHERE p.detalle LIKE '%$search%' OR p.codigo LIKE '%$search%'
+                WHERE p.estado = 1 AND p.stock > 0 AND p.detalle LIKE '%$search%' OR p.codigo LIKE '%$search%'
                 ORDER BY p.id DESC";
-        // productos 
-        // WHERE estado = 1 AND (codigo LIKE '%{$search}%' OR detalle LIKE '%{$search}%') ORDER BY detalle ASC";
+
+        return self::querySimple($sql);
+    }
+    public static function productoCodeCompra($code)
+    {
+        //estado = 1 , tipo_afectacion_id , stock > 0
+        $sql = "SELECT p.*,  t.codigo as codigo_afectacion_alt, t.codigo_afectacion, t.nombre_afectacion, t.tipo_afectacion, u.codigo as unidad 
+                FROM productos p
+                INNER JOIN tipo_afectacion t ON t.id = p.tipo_afectacion_id
+                INNER JOIN unidades u ON u.id = p.unidad_id
+                WHERE p.codigo = '$code' AND p.estado = 1";
+        return self::querySimple($sql);
+    }
+
+    public static function searchCompra($search)
+    {
+        //estado = 1 , tipo_afectacion_id , stock > 0
+        $sql = "SELECT p.*,  t.codigo as codigo_afectacion_alt, t.codigo_afectacion, t.nombre_afectacion, t.tipo_afectacion, u.codigo as unidad 
+                FROM productos p
+                INNER JOIN tipo_afectacion t ON t.id = p.tipo_afectacion_id
+                INNER JOIN unidades u ON u.id = p.unidad_id
+                WHERE p.estado = 1 AND p.detalle LIKE '%$search%' OR p.codigo LIKE '%$search%'
+                ORDER BY p.id DESC";
 
         return self::querySimple($sql);
     }
