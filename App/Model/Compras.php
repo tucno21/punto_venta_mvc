@@ -68,4 +68,23 @@ class Compras extends Model
                 ORDER BY c.id ASC";
         return self::querySimple($sql);
     }
+
+    public static function comprasTotalPorMes()
+    {
+        $sql = "SELECT SUM(IF(MONTH(fecha_compra) = 1, total,0)) AS ene,
+                SUM(IF(MONTH(fecha_compra) = 2, total,0)) AS feb,
+                SUM(IF(MONTH(fecha_compra) = 3, total,0)) AS mar,
+                SUM(IF(MONTH(fecha_compra) = 4, total,0)) AS abr,
+                SUM(IF(MONTH(fecha_compra) = 5, total,0)) AS may,
+                SUM(IF(MONTH(fecha_compra) = 6, total,0)) AS jun,
+                SUM(IF(MONTH(fecha_compra) = 7, total,0)) AS jul,
+                SUM(IF(MONTH(fecha_compra) = 8, total,0)) AS ago,
+                SUM(IF(MONTH(fecha_compra) = 9, total,0)) AS sep,
+                SUM(IF(MONTH(fecha_compra) = 10, total,0)) AS oct,
+                SUM(IF(MONTH(fecha_compra) = 11, total,0)) AS nov,
+                SUM(IF(MONTH(fecha_compra) = 12, total,0)) AS dic
+                FROM compras
+                WHERE estado = 1 AND YEAR(fecha_compra) = YEAR(NOW())";
+        return self::querySimple($sql);
+    }
 }

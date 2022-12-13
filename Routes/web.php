@@ -42,6 +42,9 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('login.logout');
 
 // BackView
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::get('/dashboard/cantidades', [DashboardController::class, 'cantidades'])->name('dashboard.cantidades');
+Route::get('/dashboard/ventacompra', [DashboardController::class, 'ventacompra'])->name('dashboard.ventacompra');
+Route::get('/dashboard/productostock', [DashboardController::class, 'productostock'])->name('dashboard.productostock');
 
 //usuarios
 Route::get('/users', [UserController::class, 'index'])->name('users.index');

@@ -96,4 +96,29 @@ class NotaVentas extends Model
                 ORDER BY v.id ASC";
         return self::querySimple($sql);
     }
+
+    public static function ventaTotalPorMes()
+    {
+        // $sql = "SELECT SUM(total) as total, MONTH(fecha_emision) as mes
+        //         FROM nota_ventas
+        //         WHERE estado_sunat = 0 AND estado = 1 AND YEAR(fecha_emision) = YEAR(NOW())
+        //         GROUP BY MONTH(fecha_emision)";
+
+        $sql = "SELECT SUM(IF(MONTH(fecha_emision) = 1, total,0)) AS ene,
+        SUM(IF(MONTH(fecha_emision) = 2, total,0)) AS feb,
+        SUM(IF(MONTH(fecha_emision) = 3, total,0)) AS mar,
+        SUM(IF(MONTH(fecha_emision) = 4, total,0)) AS abr,
+        SUM(IF(MONTH(fecha_emision) = 5, total,0)) AS may,
+        SUM(IF(MONTH(fecha_emision) = 6, total,0)) AS jun,
+        SUM(IF(MONTH(fecha_emision) = 7, total,0)) AS jul,
+        SUM(IF(MONTH(fecha_emision) = 8, total,0)) AS ago,
+        SUM(IF(MONTH(fecha_emision) = 9, total,0)) AS sep,
+        SUM(IF(MONTH(fecha_emision) = 10, total,0)) AS oct,
+        SUM(IF(MONTH(fecha_emision) = 11, total,0)) AS nov,
+        SUM(IF(MONTH(fecha_emision) = 12, total,0)) AS dic
+        FROM nota_ventas
+        WHERE estado_sunat = 0 AND estado = 1 AND YEAR(fecha_emision) = YEAR(NOW())";
+
+        return self::querySimple($sql);
+    }
 }

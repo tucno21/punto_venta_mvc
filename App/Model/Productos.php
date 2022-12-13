@@ -109,4 +109,26 @@ class Productos extends Model
 
         return self::querySimple($sql);
     }
+
+    public static function stockDebajoMinimo()
+    {
+        // stock debajo del minimo pero no cero
+        $sql = "SELECT p.id, p.codigo, p.detalle ,p.stock, p.stock_minimo,  c.nombre as categoria 
+                FROM productos p
+                INNER JOIN categorias c ON c.id = p.categoria_id
+                WHERE p.stock <= p.stock_minimo AND p.stock > 0 AND p.estado = 1
+                ORDER BY p.id DESC";
+        return self::querySimple($sql);
+    }
+
+    public static function stockCero()
+    {
+        // stock cero
+        $sql = "SELECT p.id, p.codigo, p.detalle ,p.stock, p.stock_minimo,  c.nombre as categoria 
+                FROM productos p
+                INNER JOIN categorias c ON c.id = p.categoria_id
+                WHERE p.stock = 0 AND p.estado = 1
+                ORDER BY p.id DESC";
+        return self::querySimple($sql);
+    }
 }
