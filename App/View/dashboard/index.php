@@ -20,6 +20,11 @@ $linksScript2 = [
 						<input id="urlVentaCompra" type="hidden" data-url="<?= route('dashboard.ventacompra') ?>">
 						<input id="urlProductoStock" type="hidden" data-url="<?= route('dashboard.productostock') ?>">
 						<input id="urlProductoTop" type="hidden" data-url="<?= route('dashboard.topventas') ?>">
+
+						<input id="urlExcelComprasVentas" type="hidden" data-url="<?= route('dashboard.excelcompraventa') ?>">
+						<input id="urlExcelTopVentas" type="hidden" data-url="<?= route('dashboard.exceltopventas') ?>">
+						<input id="urlStockMin" type="hidden" data-url="<?= route('dashboard.excelstockmin') ?>">
+						<input id="urlStockCero" type="hidden" data-url="<?= route('dashboard.excelstockcero') ?>">
 					</div>
 					<!-- <div class="">
 						<button type="button" class="btn btn-primary btn-sm">Primary</button>
@@ -99,8 +104,11 @@ $linksScript2 = [
 	<div class="row">
 		<div class="col-xl-6 col-md-12">
 			<div class="card">
-				<div class="card-header">
+				<div class="card-header d-flex justify-content-between">
 					<h5>Ventas y Compras <?= date("Y") ?></h5>
+					<button class="btn btn-success btn-sm p-0 px-1" title="descargar ventas compras" id="btnVentasCompras">
+						<i class="bi bi-file-earmark-excel fs-5"></i>
+					</button>
 				</div>
 				<div class="card-body">
 					<!-- <div class="row pb-2">
@@ -119,8 +127,11 @@ $linksScript2 = [
 		</div>
 		<div class="col-xl-6 col-md-12">
 			<div class="card">
-				<div class="card-header">
+				<div class="card-header d-flex justify-content-between">
 					<h5>5 Productos más Vendidos</h5>
+					<button class="btn btn-success btn-sm p-0 px-1" title="descargar ventas top" id="btnVentasTop">
+						<i class="bi bi-file-earmark-excel fs-5"></i>
+					</button>
 				</div>
 				<div class="card-body">
 					<div class="row ">
@@ -146,33 +157,39 @@ $linksScript2 = [
 				</div>
 			</div>
 		</div>
-		<!-- Lista de productos con stock minimo y productos sin stock -->
-		<div class="row">
-			<div class="col-xl-6 col-md-12">
-				<div class="card">
-					<div class="card-header">
-						<h5>Productos debajo del stock Mínimo</h5>
-					</div>
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table table-striped" id="simpleDatatableStockMin"></table>
-						</div>
-					</div>
+		<!-- [ Main Content ] end -->
+	</div>
+	<!-- Lista de productos con stock minimo y productos sin stock -->
+	<div class="row">
+		<div class="col-xl-6 col-md-12">
+			<div class="card">
+				<div class="card-header d-flex justify-content-between">
+					<h5>Productos debajo del stock Mínimo</h5>
+					<button class="btn btn-success btn-sm p-0 px-1" title="descargar Productos Min" id="btnProductosMin">
+						<i class="bi bi-file-earmark-excel fs-5"></i>
+					</button>
 				</div>
-			</div>
-			<div class="col-xl-6 col-md-12">
-				<div class="card">
-					<div class="card-header">
-						<h5>Productos Sin stock</h5>
-					</div>
-					<div class="card-body">
-						<div class="table-responsive">
-							<table class="table table-striped" id="simpleDatatableCeroStock"></table>
-						</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-striped" id="simpleDatatableStockMin"></table>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- [ Main Content ] end -->
+		<div class="col-xl-6 col-md-12">
+			<div class="card">
+				<div class="card-header d-flex justify-content-between">
+					<h5>Productos Sin stock</h5>
+					<button class="btn btn-success btn-sm p-0 px-1" title="descargar Productos sin stock" id="btnProductosCero">
+						<i class="bi bi-file-earmark-excel fs-5"></i>
+					</button>
+				</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table table-striped" id="simpleDatatableCeroStock"></table>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	<?php include ext('layoutdash.footer') ?>

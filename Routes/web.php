@@ -46,6 +46,11 @@ Route::get('/dashboard/cantidades', [DashboardController::class, 'cantidades'])-
 Route::get('/dashboard/ventacompra', [DashboardController::class, 'ventacompra'])->name('dashboard.ventacompra');
 Route::get('/dashboard/productostock', [DashboardController::class, 'productostock'])->name('dashboard.productostock');
 Route::get('/dashboard/topventas', [DashboardController::class, 'topventas'])->name('dashboard.topventas');
+Route::get('/dashboard/excelcompraventa', [DashboardController::class, 'excelcompraventa'])->name('dashboard.excelcompraventa');
+Route::get('/dashboard/exceltopventas', [DashboardController::class, 'exceltopventas'])->name('dashboard.exceltopventas');
+Route::get('/dashboard/excelstockmin', [DashboardController::class, 'excelstockmin'])->name('dashboard.excelstockmin');
+Route::get('/dashboard/excelstockcero', [DashboardController::class, 'excelstockcero'])->name('dashboard.excelstockcero');
+
 
 //usuarios
 Route::get('/users', [UserController::class, 'index'])->name('users.index');

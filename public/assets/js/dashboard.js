@@ -297,3 +297,20 @@ async function productosStockCero(productosCero) {
   dataTable.init();
   dataTable.insert(newData);
 }
+
+//funcion generar excel
+function generarExcel(boton, url) {
+  const btn = document.querySelector(boton);
+  btn.addEventListener("click", () => {
+    const link = document.querySelector(url).getAttribute("data-url");
+    window.open(link);
+  });
+}
+
+const excelVentasCompras = generarExcel(
+  "#btnVentasCompras",
+  "#urlExcelComprasVentas"
+);
+const excelTopVentas = generarExcel("#btnVentasTop", "#urlExcelTopVentas");
+const excelStockMin = generarExcel("#btnProductosMin", "#urlStockMin");
+const excelStockCero = generarExcel("#btnProductosCero", "#urlStockCero");
