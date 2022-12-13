@@ -73,7 +73,7 @@ $linksScript2 = [
                             <input type="hidden" id="inputUserId" value="<?= session()->user()->id ?>">
                             <div class=" input-group">
                                 <span class="input-group-text"><i class="bi bi-search"></i></span>
-                                <input type="text" id="inputBuscarCliente" class="form-control">
+                                <input type="text" id="inputBuscarCliente" class="form-control" autocomplete="off">
                             </div>
                         </div>
                     </div>
@@ -93,14 +93,14 @@ $linksScript2 = [
                             <!-- <label class="form-label mb-1">Buscar</label> -->
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-search"></i></span>
-                                <input id="inputBuscarBarcode" type="text" class="form-control" value="" placeholder="Buscar Barcode - enter">
+                                <input id="inputBuscarBarcode" type="text" class="form-control" value="" placeholder="Buscar Barcode - enter" autocomplete="off">
                             </div>
                         </div>
                         <div class="col-12 position-relative d-none" id="grupoNombre">
                             <!-- <label class="form-label mb-1">Buscar</label> -->
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-search"></i></span>
-                                <input id="inputBuscarNombre" type="text" class="form-control" value="" placeholder="Buscar Nombre">
+                                <input id="inputBuscarNombre" type="text" class="form-control" value="" placeholder="Buscar Nombre" autocomplete="off">
                             </div>
                         </div>
 
