@@ -12,6 +12,7 @@ use App\Library\FPDF\FPDF;
 use App\Model\InfoEmpresa;
 use App\Model\Inventarios;
 use App\Help\PrintPdf\PrintPdf;
+use App\Model\ProductosVentasTop;
 use App\Model\Factura\TipoComprobante;
 use App\Model\Factura\SerieCorrelativo;
 use App\Model\Factura\TablaParametrica;
@@ -278,6 +279,13 @@ class NotaCDController extends Controller
                     'user_id' => $notaCredito['usuario_id'],
                 ];
                 Inventarios::create($inventario);
+
+                //productos top ventas
+                $topVentas = ProductosVentasTop::getProducto($producto->id);
+                $topVentas = [
+                    'cant_ventas' => $topVentas->cant_ventas - $producto->cantidad,
+                ];
+                ProductosVentasTop::actualizar($producto->id, (object)$topVentas);
             }
 
             $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];

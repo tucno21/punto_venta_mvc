@@ -45,6 +45,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/dashboard/cantidades', [DashboardController::class, 'cantidades'])->name('dashboard.cantidades');
 Route::get('/dashboard/ventacompra', [DashboardController::class, 'ventacompra'])->name('dashboard.ventacompra');
 Route::get('/dashboard/productostock', [DashboardController::class, 'productostock'])->name('dashboard.productostock');
+Route::get('/dashboard/topventas', [DashboardController::class, 'topventas'])->name('dashboard.topventas');
 
 //usuarios
 Route::get('/users', [UserController::class, 'index'])->name('users.index');

@@ -7,6 +7,9 @@ const urlVentaCompra = document
 const urlProductoStock = document
   .getElementById("urlProductoStock")
   .getAttribute("data-url");
+const urlProductoTop = document
+  .getElementById("urlProductoTop")
+  .getAttribute("data-url");
 
 //lugares de cambio
 const totalUsuarios = document.querySelector(".totalUsuarios");
@@ -21,7 +24,7 @@ function cargarEventListeners() {
     cargarDatos();
     datosVentaCompra();
     datosProductoStock();
-    // cargarGraficoBarra();
+    datosTopProductoVentas();
   });
 }
 
@@ -120,6 +123,85 @@ async function cargarGraficoBarra(ventas, compras) {
     options
   );
   chart.render();
+}
+
+async function datosTopProductoVentas() {
+  const topProductoVentas = await fetch(urlProductoTop);
+  const datos = await topProductoVentas.json();
+  cargarGraficoCircular(datos);
+  generarListaProductos(datos);
+}
+
+async function cargarGraficoCircular(data) {
+  //array de detalle
+  let detalle = [];
+  //array de cantidad
+  let cantidad = [];
+  //recorrer el array de datos
+  data.forEach((dato) => {
+    detalle.push(dato.detalle);
+    cantidad.push(dato.cant_ventas);
+  });
+
+  console.log(detalle);
+
+  let options = {
+    chart: {
+      height: 260,
+      type: "pie",
+    },
+    series: cantidad, //[106, 50, 40, 30]
+    labels: detalle, //["cama", "silla", "mesa", "cocina"],
+    legend: {
+      show: true,
+      offsetY: 50,
+    },
+    dataLabels: {
+      enabled: true,
+      dropShadow: {
+        enabled: false,
+      },
+    },
+    theme: {
+      monochrome: {
+        enabled: false, //toma el color de la serie
+        color: "#2A4F72",
+      },
+    },
+    responsive: [
+      {
+        breakpoint: 768,
+        options: {
+          chart: {
+            height: 320,
+          },
+          legend: {
+            position: "bottom",
+            offsetY: 0,
+          },
+        },
+      },
+    ],
+  };
+  let chart = new ApexCharts(
+    document.querySelector("#productoMasVendidos"),
+    options
+  );
+  chart.render();
+}
+
+async function generarListaProductos(data) {
+  const tablasTopVentas = document.querySelector("#tablasTopVentas");
+  let html = "";
+  data.forEach((dato) => {
+    html += `
+        <tr>
+          <td class="text-center p-0 m-0">${dato.detalle}</td>
+          <td class="text-center p-0 m-0">${dato.cant_ventas}</td>
+        </tr>
+      `;
+  });
+  tablasTopVentas.innerHTML = html;
 }
 
 //obtener datos de productos stock

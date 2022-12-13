@@ -19,6 +19,7 @@ $linksScript2 = [
 						<input id="urlCantidades" type="hidden" data-url="<?= route('dashboard.cantidades') ?>">
 						<input id="urlVentaCompra" type="hidden" data-url="<?= route('dashboard.ventacompra') ?>">
 						<input id="urlProductoStock" type="hidden" data-url="<?= route('dashboard.productostock') ?>">
+						<input id="urlProductoTop" type="hidden" data-url="<?= route('dashboard.topventas') ?>">
 					</div>
 					<!-- <div class="">
 						<button type="button" class="btn btn-primary btn-sm">Primary</button>
@@ -94,7 +95,7 @@ $linksScript2 = [
 			</div>
 		</div>
 	</div>
-	<!-- grafico de compra y venta -->
+	<!-- grafico de compra y venta y top productos mas vendidos-->
 	<div class="row">
 		<div class="col-xl-6 col-md-12">
 			<div class="card">
@@ -119,51 +120,59 @@ $linksScript2 = [
 		<div class="col-xl-6 col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<h5>Department wise monthly sales report</h5>
+					<h5>5 Productos más Vendidos</h5>
 				</div>
 				<div class="card-body">
-					<div class="row pb-2">
-						<div class="col-auto m-b-10">
-							<h3 class="mb-1">$21,356.46</h3>
-							<span>Total ventas</span>
+					<div class="row ">
+						<div class="col-12">
+							<div id="productoMasVendidos"></div>
 						</div>
-						<div class="col-auto m-b-10">
-							<h3 class="mb-1">$1935.6</h3>
-							<span>Total Compras</span>
+						<div class="col-12">
+							<!-- <div id="tablasTopVentas"></div> -->
+							<div class="table-responsive">
+								<table class="table table-hover table-sm table-bordered border-dark">
+									<thead class="">
+										<tr class="">
+											<th class="text-center p-0 m-0 bg-dark text-white">Producto</th>
+											<th class="text-center p-0 m-0 bg-dark text-white">Cant Ventas</th>
+										</tr>
+									</thead>
+									<tbody id="tablasTopVentas">
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
-					<div id="account-chartXX"></div>
 				</div>
 			</div>
 		</div>
-	</div>
-	<!-- Lista de productos con stock minimo y productos sin stock -->
-	<div class="row">
-		<div class="col-xl-6 col-md-12">
-			<div class="card">
-				<div class="card-header">
-					<h5>Productos debajo del stock Mínimo</h5>
+		<!-- Lista de productos con stock minimo y productos sin stock -->
+		<div class="row">
+			<div class="col-xl-6 col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<h5>Productos debajo del stock Mínimo</h5>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-striped" id="simpleDatatableStockMin"></table>
+						</div>
+					</div>
 				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-						<table class="table table-striped" id="simpleDatatableStockMin"></table>
+			</div>
+			<div class="col-xl-6 col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<h5>Productos Sin stock</h5>
+					</div>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-striped" id="simpleDatatableCeroStock"></table>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-xl-6 col-md-12">
-			<div class="card">
-				<div class="card-header">
-					<h5>Productos Sin stock</h5>
-				</div>
-				<div class="card-body">
-					<div class="table-responsive">
-						<table class="table table-striped" id="simpleDatatableCeroStock"></table>
-					</div>
-				</div>
-			</div>
-		</div>
+		<!-- [ Main Content ] end -->
 	</div>
-	<!-- [ Main Content ] end -->
-</div>
-<?php include ext('layoutdash.footer') ?>
+	<?php include ext('layoutdash.footer') ?>

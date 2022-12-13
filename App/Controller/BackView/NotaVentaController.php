@@ -11,6 +11,7 @@ use App\Model\InfoEmpresa;
 use App\Model\Inventarios;
 use App\Model\Factura\Monedas;
 use App\Help\PrintPdf\PrintPdf;
+use App\Model\ProductosVentasTop;
 use App\Model\Factura\TipoComprobante;
 use App\Model\Factura\SerieCorrelativo;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -153,6 +154,22 @@ class NotaVentaController extends Controller
                     'user_id' => $venta->usuario_id,
                 ];
                 Inventarios::create($inventario);
+
+                //productos top ventas
+                $topVentas = ProductosVentasTop::getProducto($producto->id);
+                //si el array esta vacio
+                if (empty($topVentas)) {
+                    $topVentas = [
+                        'producto_id' => $producto->id,
+                        'cant_ventas' => $producto->cantidad,
+                    ];
+                    ProductosVentasTop::registrar((object)$topVentas);
+                } else {
+                    $topVentas = [
+                        'cant_ventas' => $topVentas->cant_ventas + $producto->cantidad,
+                    ];
+                    ProductosVentasTop::actualizar($producto->id, (object)$topVentas);
+                }
             }
 
 
@@ -225,6 +242,13 @@ class NotaVentaController extends Controller
                 'user_id' => session()->user()->id,
             ];
             Inventarios::create($inventario);
+
+            //productos top ventas
+            $topVentas = ProductosVentasTop::getProducto($producto->id);
+            $topVentas = [
+                'cant_ventas' => $topVentas->cant_ventas - $producto->cantidad,
+            ];
+            ProductosVentasTop::actualizar($producto->id, (object)$topVentas);
         }
 
         // $mmm = ['estado' => '0'];

@@ -10,6 +10,7 @@ use App\Model\Clientes;
 use App\Model\Productos;
 use App\Model\NotaVentas;
 use App\Model\Proveedores;
+use App\Model\ProductosVentasTop;
 
 
 class DashboardController extends Controller
@@ -88,6 +89,13 @@ class DashboardController extends Controller
         ];
 
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    public function topventas()
+    {
+        $topVentas = ProductosVentasTop::getVentasTop();
+        echo json_encode($topVentas, JSON_UNESCAPED_UNICODE);
         exit;
     }
 }
