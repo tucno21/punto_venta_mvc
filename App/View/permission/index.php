@@ -22,9 +22,7 @@ $linksScript2 = [
                         <input id="urlCrearPermiso" type="hidden" data-url="<?= route('permissions.create') ?>">
                     </div>
                     <div class="">
-                        <?php if (can('users.create')) : ?>
-                            <button id="btnCrearPermiso" type="button" class="btn btn-primary btn-sm">Crear Permiso</button>
-                        <?php endif;  ?>
+                        <button id="btnCrearPermiso" type="button" class="btn btn-primary btn-sm">Crear Permiso</button>
                     </div>
                 </div>
             </div>

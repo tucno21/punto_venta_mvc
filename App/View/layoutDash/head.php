@@ -108,11 +108,13 @@
                                 </a>
                                 <ul class="pc-submenu">
                                     <?php foreach ($value['submenu'] as $subValue) : ?>
-                                        <li class="pc-item">
-                                            <a class="pc-link" href="<?= $subValue['url']; ?>">
-                                                <?= $subValue['text']; ?>
-                                            </a>
-                                        </li>
+                                        <?php if (isset($subValue['text'])) : ?>
+                                            <li class="pc-item">
+                                                <a class="pc-link" href="<?= $subValue['url']; ?>">
+                                                    <?= $subValue['text']; ?>
+                                                </a>
+                                            </li>
+                                        <?php endif; ?>
                                     <?php endforeach; ?>
                                 </ul>
                             </li>

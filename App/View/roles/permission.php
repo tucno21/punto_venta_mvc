@@ -29,9 +29,10 @@
                         <div class="row">
                             <?= csrf() ?>
                             <?php foreach ($permissionsGroup as $g) : ?>
-                                <div class="col-md-3">
-                                    <div class="card h-100">
+                                <div class="col-md-3 mb-2">
+                                    <div class="card h-100 mb-2">
                                         <div class="card-header border-dark bg-dark p-2">
+                                            <!-- obtener el titulo de $g -->
                                             <h5 class="card-title text-white m-0"><?= ucfirst($g[0]->title) ?></h5>
                                         </div>
                                         <div class="card-body border border-dark py-2 pb-0">

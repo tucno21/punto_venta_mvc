@@ -62,164 +62,192 @@ $linksSidebar = [
                 ],
             ],
         ] : null,
-    [
-        'mode' => 'submenu',
-        'text'    => 'Productos',
-        'url'    => '#',
-        'icon' => 'bi bi-card-checklist',
-        'submenu' => [
-
-            [
-                'text' => 'Productos',
-                'url'  =>  route('productos.index'),
-                'icon' => 'fas fa-circle',
+    can('productos.index') || can('categorias.index') || can('unidades.index') ?
+        [
+            'mode' => 'submenu',
+            'text'    => 'Productos',
+            'url'    => '#',
+            'icon' => 'bi bi-card-checklist',
+            'submenu' => [
+                can('productos.index') ?
+                    [
+                        'text' => 'Productos',
+                        'url'  =>  route('productos.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                can('categorias.index') ?
+                    [
+                        'text' => 'Categorias',
+                        'url'  => route('categorias.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                can('unidades.index') ?
+                    [
+                        'text' => 'Unidades',
+                        'url'  => route('unidades.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
             ],
-
-            [
-                'text' => 'Categorias',
-                'url'  => route('categorias.index'),
-                'icon' => 'fas fa-circle',
+        ] : null,
+    can('clientes.index') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Clientes',
+            'url'  => route('clientes.index'),
+            'icon' => 'bi bi-people',
+        ] : null,
+    can('proveedores.index') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Proveedores',
+            'url'  => route('proveedores.index'),
+            'icon' => 'bi bi-truck',
+        ] : null,
+    can('compras.index') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Compras',
+            'url'  => route('compras.index'),
+            'icon' => 'bi bi-cart2',
+        ] : null,
+    can('ventas.index') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Ventas',
+            'url'  => route('ventas.index'),
+            'icon' => 'bi bi-cash-coin',
+        ] : null,
+    can('ventas.create') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Nuevo Venta',
+            'url'  => route('ventas.create'),
+            'icon' => 'bi bi-piggy-bank',
+        ] : null,
+    can('notaventas.index') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Ventas Internas',
+            'url'  => route('notaventas.index'),
+            'icon' => 'bi bi-receipt',
+        ] : null,
+    can('notaventas.create') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Nuevo Venta Interna',
+            'url'  => route('notaventas.create'),
+            'icon' => 'bi bi-piggy-bank',
+        ] : null,
+    can('notaCDs.index') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Notas C/D',
+            'url'  => route('notaCDs.index'),
+            'icon' => 'bi bi-sticky',
+        ] : null,
+    can('cajas.index') || can('cajaArqueos.index') ?
+        [
+            'mode' => 'submenu',
+            'text'    => 'Cajas',
+            'url'    => '#',
+            'icon' => 'bi bi-inboxes',
+            'submenu' => [
+                can('cajas.index') ?
+                    [
+                        'text' => 'Cajas Registradoras',
+                        'url'  =>  route('cajas.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                can('cajaArqueos.index') ?
+                    [
+                        'text' => 'Caja Aper-Cierre',
+                        'url'  => route('cajaArqueos.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
             ],
-            [
-                'text' => 'Unidades',
-                'url'  => route('unidades.index'),
-                'icon' => 'fas fa-circle',
+        ] : null,
+    can('inventarios.index') || can('inventarios.kardex') ?
+        [
+            'mode' => 'submenu',
+            'text'    => 'Inventario & Kardex',
+            'url'    => '#',
+            'icon' => 'bi bi-inboxes',
+            'submenu' => [
+                can('inventarios.index') ?
+                    [
+                        'text' => 'Inventario',
+                        'url'  => route('inventarios.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                can('inventarios.kardex') ?
+                    [
+                        'text' => 'Kardex',
+                        'url'  => route('inventarios.kardex'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
             ],
-        ],
-    ],
-    [
-        'mode' => 'menu',
-        'text' => 'Clientes',
-        'url'  => route('clientes.index'),
-        'icon' => 'bi bi-people',
-    ],
-    [
-        'mode' => 'menu',
-        'text' => 'Proveedores',
-        'url'  => route('proveedores.index'),
-        'icon' => 'bi bi-truck',
-    ],
-    [
-        'mode' => 'menu',
-        'text' => 'Compras',
-        'url'  => route('compras.index'),
-        'icon' => 'bi bi-cart2',
-    ],
-    [
-        'mode' => 'menu',
-        'text' => 'Ventas',
-        'url'  => route('ventas.index'),
-        'icon' => 'bi bi-cash-coin',
-    ],
-    [
-        'mode' => 'menu',
-        'text' => 'Nuevo Venta',
-        'url'  => route('ventas.create'),
-        'icon' => 'bi bi-piggy-bank',
-    ],
-    [
-        'mode' => 'menu',
-        'text' => 'Ventas Internas',
-        'url'  => route('notaventas.index'),
-        'icon' => 'bi bi-receipt',
-    ],
-    [
-        'mode' => 'menu',
-        'text' => 'Notas C/D',
-        'url'  => route('notaCDs.index'),
-        'icon' => 'bi bi-sticky',
-    ],
-    [
-        'mode' => 'submenu',
-        'text'    => 'Cajas',
-        'url'    => '#',
-        'icon' => 'bi bi-inboxes',
-        'submenu' => [
-
-            [
-                'text' => 'Cajas Registradoras',
-                'url'  =>  route('cajas.index'),
-                'icon' => 'fas fa-circle',
-            ],
-
-            [
-                'text' => 'Caja Aper-Cierre',
-                'url'  => route('cajaArqueos.index'),
-                'icon' => 'fas fa-circle',
-            ],
-        ],
-    ],
-    [
-        'mode' => 'submenu',
-        'text'    => 'Inventario & Kardex',
-        'url'    => '#',
-        'icon' => 'bi bi-inboxes',
-        'submenu' => [
-
-            [
-                'text' => 'Inventario',
-                'url'  => route('inventarios.index'),
-                'icon' => 'fas fa-circle',
-            ],
-
-            [
-                'text' => 'Kardex',
-                'url'  => route('inventarios.kardex'),
-                'icon' => 'fas fa-circle',
-            ],
-        ],
-    ],
+        ] : null,
     // [
     //     'mode' => 'menu',
     //     'text' => 'Inventario',
     //     'url'  => route('inventarios.index'),
     //     'icon' => 'bi bi-list-ol',
     // ],
-    [
-        'mode' => 'menu',
-        'text' => 'Empresa',
-        'url'  => route('infoEmpresas.index'),
-        'icon' => 'bi bi-buildings',
-    ],
-    [
-        'mode' => 'submenu',
-        'text'    => 'Base Factura',
-        'url'    => '#',
-        'icon' => 'bi bi-file-binary',
-        'submenu' => [
-            [
-                'text' => 'Monedas',
-                'url'  =>  route('monedas.index'),
-                'icon' => 'fas fa-circle',
+    can('infoEmpresas.index') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Empresa',
+            'url'  => route('infoEmpresas.index'),
+            'icon' => 'bi bi-buildings',
+        ] : null,
+    can('monedas.index') || can('serieCorrelativos.index') || can('tipoAfectaciones.index') || can('tablaParametricas.index') || can('tipoComprobantes.index') || can('tipoDocumentos.index') ?
+        [
+            'mode' => 'submenu',
+            'text'    => 'Base Factura',
+            'url'    => '#',
+            'icon' => 'bi bi-file-binary',
+            'submenu' => [
+                can('monedas.index')  ?
+                    [
+                        'text' => 'Monedas',
+                        'url'  =>  route('monedas.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                can('serieCorrelativos.index') ?
+                    [
+                        'text' => 'Series y Correlativos',
+                        'url'  =>  route('serieCorrelativos.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                can('tipoAfectaciones.index') ?
+                    [
+                        'text' => 'Tipo Afectación',
+                        'url'  =>  route('tipoAfectaciones.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                ('tablaParametricas.index') ?
+                    [
+                        'text' => 'Tabla Parametrica',
+                        'url'  =>  route('tablaParametricas.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                can('tipoComprobantes.index') ?
+                    [
+                        'text' => 'Tipo Comprobante',
+                        'url'  =>  route('tipoComprobantes.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                can('tipoDocumentos.index') ?
+                    [
+                        'text' => 'Tipo Documento',
+                        'url'  =>  route('tipoDocumentos.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
             ],
-            [
-                'text' => 'Series y Correlativos',
-                'url'  =>  route('serieCorrelativos.index'),
-                'icon' => 'fas fa-circle',
-            ],
-            [
-                'text' => 'Tipo Afectación',
-                'url'  =>  route('tipoAfectaciones.index'),
-                'icon' => 'fas fa-circle',
-            ],
-            [
-                'text' => 'Tabla Parametrica',
-                'url'  =>  route('tablaParametricas.index'),
-                'icon' => 'fas fa-circle',
-            ],
-            [
-                'text' => 'Tipo Comprobante',
-                'url'  =>  route('tipoComprobantes.index'),
-                'icon' => 'fas fa-circle',
-            ],
-            [
-                'text' => 'Tipo Documento',
-                'url'  =>  route('tipoDocumentos.index'),
-                'icon' => 'fas fa-circle',
-            ],
-        ],
-    ],
+        ] : null,
 ];
+
+// dd($linksSidebar);
 
 
 

@@ -30,15 +30,38 @@ class RolesPermissionController extends Controller
 
         $rol = Roles::select('id', 'rol_name')->where('id', (int)$data->id)->get();
 
-        $group = ['dashboard' => 'Dashboard', 'users' => 'Usuarios', 'roles' => 'Roles'];
+        $group = [
+            'dashboard' => 'Dashboard',
+            'users' => 'Usuarios',
+            'roles' => 'Roles',
+            'productos' => 'Productos',
+            'categorias' => 'Categorias',
+            'unidades' => 'Unidades',
+            'clientes' => 'Clientes',
+            'proveedores' => 'Proveedores',
+            'compras' => 'Compras',
+            'ventas' => 'Ventas',
+            'notaventas' => 'Nota de ventas',
+            'notaCDs' => 'Nota de Credito y Debito',
+            'cajas' => 'Cajas',
+            'cajaArqueos' => 'Caja y Arqueos',
+            'inventarios' => 'Inventarios',
+            'monedas' => 'Monedas',
+            'serieCorrelativos' => 'Serie Correlativos',
+            'tipoAfectaciones' => 'Tipo  Afectaciones',
+            'tablaParametricas' => 'Tabla Parametricas',
+            'tipoComprobantes' => 'Tipo de Comprobantes',
+            'tipoDocumentos' => 'Tipo de Documentos',
+        ];
 
-        foreach ($group as $g => $v) {
-            $permissionsGroup[$g] = [];
-            foreach ($permissions as $p) {
-                if (strpos($p->per_name, $g) !== false) {
-                    //agregar $v
-                    $p->title = $v;
-                    $permissionsGroup[$g][] = $p;
+        foreach ($group as $nameKey => $titleKey) {
+            $permissionsGroup[$nameKey] = [];
+            foreach ($permissions as $groupPermission) {
+                //strstr devuelve la parte de la cadena antes del primer punto
+                if (strstr($groupPermission->per_name, '.', true) == $nameKey) {
+                    //agregar $titleKey
+                    $groupPermission->title = $titleKey;
+                    $permissionsGroup[$nameKey][] = $groupPermission;
                 }
             }
         }
