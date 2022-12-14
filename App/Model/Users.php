@@ -17,7 +17,7 @@ class Users extends Model
     /**
      * nombre de la columnas de la tabla
      */
-    protected static $allowedFields = ['name', 'email', 'password', 'status', 'rol_id'];
+    protected static $allowedFields = ['name', 'email', 'password', 'status', 'rol_id', 'token'];
 
     /**
      * obtener los datos de la tabla en 'array' u 'object'
@@ -51,4 +51,14 @@ class Users extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
+
+    // iniciarSesion
+    public static function iniciarSesion($email)
+    {
+        $sql = "SELECT u.id,u.email,u.name,u.status,u.rol_id, r.rol_name
+                FROM users u
+                INNER JOIN roles r ON r.id = u.rol_id
+                WHERE u.email = '$email'";
+        return self::querySimple($sql);
+    }
 }

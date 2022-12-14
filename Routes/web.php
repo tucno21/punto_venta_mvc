@@ -38,6 +38,11 @@ require_once dirname(__DIR__) . '/System/Autoload.php';
 Route::get('/', [AuthController::class, 'index'])->name('login.index');
 Route::post('/', [AuthController::class, 'store']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('login.logout');
+Route::get('/password/recover', [AuthController::class, 'passwordrecover'])->name('login.passwordrecover');
+Route::post('/password/recover', [AuthController::class, 'passwordrecoverstore']);
+Route::get('/password/message', [AuthController::class, 'message'])->name('login.message');
+Route::get('/password/reset', [AuthController::class, 'reset'])->name('login.reset');
+Route::post('/password/reset', [AuthController::class, 'resetstore']);
 
 
 // BackView

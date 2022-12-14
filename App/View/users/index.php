@@ -24,9 +24,7 @@ $linksScript2 = [
                         <input id="urlRoles" type="hidden" data-url="<?= route('roles.dataTable') ?>">
                     </div>
                     <div class="">
-                        <?php if (can('users.create')) : ?>
-                            <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Registrar Usuario</button>
-                        <?php endif;  ?>
+                        <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Registrar Usuario</button>
                     </div>
                 </div>
             </div>

@@ -50,20 +50,20 @@
 
         <div class="card">
             <div class="card-body text-center">
-                <h5 class="mb-4">Acceso - Punto de Venta</h5>
+                <h5 class="mb-4">Recuperar Contraseña</h5>
                 <img src="<?= base_url('/assets/img/logo_inicio.jpg') ?>" class="img-radius mb-4" alt="Punto de venta" style="width: 4rem;">
 
-                <form action="<?= route('login.index') ?>" method="POST" id="formLogin">
+                <form action="<?= route('login.reset') ?>" method="POST" id="formResetPassword">
 
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Correo" id="inputEmail">
+                        <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
                     </div>
 
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Contraseña" id="inputPassword">
+                        <input type="password" class="form-control" id="inputRepeatPassword" placeholder="Repetir Contraseña">
                     </div>
 
-                    <button class="btn btn-lg btn-primary mb-4" type="submit">Iniciar Sesión</button>
+                    <button class="btn btn-lg btn-primary mb-4" type="submit">Actualizar</button>
                 </form>
 
                 <div id="verMensage">
@@ -71,7 +71,8 @@
                         A simple danger alert—check it out!
                     </div> -->
                 </div>
-                <p class="mb-0 text-muted">Olvido la Contraseña <a href="<?= route("login.passwordrecover") ?>">Recuperar</a></p>
+
+                <p class="mb-0 text-muted"><a href="<?= route("login.index") ?>">Iniciar Sessión</a></p>
             </div>
         </div>
     </div>
@@ -79,7 +80,7 @@
 </div>
 
 <!-- agregar el script -->
-<script src="<?= base_url('/assets/js/iniciarsession.js') ?>"></script>
+<script src="<?= base_url('/assets/js/resetpassword.js') ?>"></script>
 </body>
 
 </html>
