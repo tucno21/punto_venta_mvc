@@ -26,7 +26,7 @@ const urlNotasCD = document
 const urlIndexNotas = document
   .querySelector("#urlIndexNotas")
   .getAttribute("data-url");
-console.log(urlIndexNotas);
+// console.log(urlIndexNotas);
 
 //para reoporte excel y pdf
 const urlReportePdf = document
@@ -39,6 +39,14 @@ const inputFechaInicio = document.querySelector("#inputFechaInicio");
 const inputFechaFin = document.querySelector("#inputFechaFin");
 const btnReportePdf = document.querySelector("#btnReportePdf");
 const btnReporteExcel = document.querySelector("#btnReporteExcel");
+
+//enviar correos
+const urlSendXml = document
+  .querySelector("#urlSendXml")
+  .getAttribute("data-url");
+const urlSendCdr = document
+  .querySelector("#urlSendCdr")
+  .getAttribute("data-url");
 
 cargarEventListeners();
 function cargarEventListeners() {
@@ -84,6 +92,7 @@ async function generarDataTable() {
         <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
 
         <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
+        <li><a class="dropdown-item p-0 py-1 px-2 sendxml" href="${urlSendXml}?email=${element.id}">Enviar correo (XML)</a></li>
       </ul>
       `;
     } else if (element.estado_sunat === 1 && element.estado === 1) {
@@ -102,6 +111,8 @@ async function generarDataTable() {
         <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
         <li><a class="dropdown-item p-0 py-1 px-2 downloadCDR" href="${urlDownloadCdr}?xml=${element.nombre_xml}">Descargar CDR</a></li>
         <li><a class="dropdown-item p-0 py-1 px-2 generarNotas" href="${urlNotasCD}?id=${element.id}">Nota de C/D</a></li>
+        <li><a class="dropdown-item p-0 py-1 px-2 sendxml" href="${urlSendXml}?email=${element.id}">Enviar correo (XML)</a></li>
+        <li><a class="dropdown-item p-0 py-1 px-2 sendcdr" href="${urlSendCdr}?email=${element.id}">Enviar correo (CDR)</a></li>
       </ul>
       `;
     } else if (element.estado_sunat === 1 && element.estado === 0) {
@@ -119,6 +130,8 @@ async function generarDataTable() {
         <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
         <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
         <li><a class="dropdown-item p-0 py-1 px-2 downloadCDR" href="${urlDownloadCdr}?xml=${element.nombre_xml}">Descargar CDR</a></li>
+        <li><a class="dropdown-item p-0 py-1 px-2 sendxml" href="${urlSendXml}?email=${element.id}">Enviar correo (XML)</a></li>
+        <li><a class="dropdown-item p-0 py-1 px-2 sendcdr" href="${urlSendCdr}?email=${element.id}">Enviar correo (CDR)</a></li>
       </ul>
       `;
     }
@@ -262,6 +275,32 @@ function botonesDataTable() {
         e.target.getAttribute("href");
 
       botonNotasVentas(url);
+    }
+
+    //sendxml
+    if (
+      e.target.classList.contains("sendxml") ||
+      e.target.parentElement.classList.contains("sendxml")
+    ) {
+      //traer link del boton
+      const url =
+        e.target.parentElement.getAttribute("href") ||
+        e.target.getAttribute("href");
+
+      botonSendXML(url);
+    }
+
+    //sendcdr
+    if (
+      e.target.classList.contains("sendcdr") ||
+      e.target.parentElement.classList.contains("sendcdr")
+    ) {
+      //traer link del boton
+      const url =
+        e.target.parentElement.getAttribute("href") ||
+        e.target.getAttribute("href");
+
+      botonSendCDR(url);
     }
   });
 }
@@ -431,4 +470,26 @@ function generarReporteExcel(e) {
     "&fecha_fin=" +
     inputFechaFin.value;
   window.open(url);
+}
+
+//botonSendXML
+async function botonSendXML(url) {
+  const response = await fetch(url);
+  const data = await response.json();
+  if (data.status) {
+    toastPersonalizado("success", data.message);
+  } else {
+    toastPersonalizado("error", data.message);
+  }
+}
+
+//botonSendCDR
+async function botonSendCDR(url) {
+  const response = await fetch(url);
+  const data = await response.json();
+  if (data.status) {
+    toastPersonalizado("success", data.message);
+  } else {
+    toastPersonalizado("error", data.message);
+  }
 }

@@ -263,6 +263,9 @@ Route::get('/ventas/boleta', [VentaController::class, 'boleta'])->name('ventas.b
 Route::get('/ventas/factura', [VentaController::class, 'factura'])->name('ventas.factura');
 Route::get('/ventas/ventaspdf', [VentaController::class, 'ventaspdf'])->name('ventas.ventaspdf');
 Route::get('/ventas/ventasexcel', [VentaController::class, 'ventasexcel'])->name('ventas.ventasexcel');
+Route::get('/ventas/sendxml', [VentaController::class, 'sendxml'])->name('ventas.sendxml');
+Route::get('/ventas/sendcdr', [VentaController::class, 'sendcdr'])->name('ventas.sendcdr');
+
 
 //NotaCDController
 Route::get('/notaCDs', [NotaCDController::class, 'index'])->name('notaCDs.index');

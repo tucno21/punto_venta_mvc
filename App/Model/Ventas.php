@@ -150,5 +150,13 @@ class Ventas extends Model
                 WHERE estado = 1 AND YEAR(fecha_emision) = YEAR(NOW())";
         return self::querySimple($sql);
     }
+
+    public static function getVentaCliente($id)
+    {
+        $sql = "SELECT v.id, v.nombre_xml, c.nombre as cliente, c.email as email
+                FROM ventas v
+                INNER JOIN clientes c ON c.id = v.cliente_id
+                WHERE v.id = $id";
+        return self::querySimple($sql);
+    }
 }
-// WHERE estado_sunat = 0 AND estado = 1 AND YEAR(fecha_emision) = YEAR(NOW())

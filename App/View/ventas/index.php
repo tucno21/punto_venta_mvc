@@ -26,6 +26,8 @@ $linksScript2 = [
                         <input id="urlIndexNotas" type="hidden" data-url="<?= route('notaCDs.index') ?>">
                         <input id="urlReportePdf" type="hidden" data-url="<?= route('ventas.ventaspdf') ?>">
                         <input id="urlReporteExcel" type="hidden" data-url="<?= route('ventas.ventasexcel') ?>">
+                        <input id="urlSendXml" type="hidden" data-url="<?= route('ventas.sendxml') ?>">
+                        <input id="urlSendCdr" type="hidden" data-url="<?= route('ventas.sendcdr') ?>">
                     </div>
                     <div class="">
                         <a a href="<?= route('ventas.create') ?>" class="btn btn-primary btn-sm">Registrar Venta</a>

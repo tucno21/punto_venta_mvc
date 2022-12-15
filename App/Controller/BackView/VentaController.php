@@ -10,6 +10,7 @@ use App\Model\NotaVentas;
 use App\Library\FPDF\FPDF;
 use App\Model\InfoEmpresa;
 use App\Model\Inventarios;
+use App\Library\Email\Email;
 use App\Model\Factura\Monedas;
 use App\Help\PrintPdf\PrintPdf;
 use App\Model\ProductosVentasTop;
@@ -687,6 +688,80 @@ class VentaController extends Controller
         header('Cache-Control: max-age=0');
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
         $writer->save('php://output');
+        exit;
+    }
+
+    public function sendxml()
+    {
+        $data = $this->request()->getInput();
+        $ventaCliente = Ventas::getVentaCliente($data->email);
+
+        //preguntar si el cliente tiene correo
+        if (empty($ventaCliente->email)) {
+            $data = ['status' => false, 'message' => 'El cliente ' . $ventaCliente->cliente . 'no tiene correo registrado'];
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $nombreXML = $ventaCliente->nombre_xml . '.XML';
+        $rutaxml = DIR_APP . '/Library/ApiFacturador/files_factura/xml_files/' . $nombreXML;
+        // preguntar si el archivo existe
+        if (!file_exists($rutaxml)) {
+            $data = ['status' => false, 'message' => 'El archivo XML no existe'];
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        //enviar email
+        $email = new Email($ventaCliente->email, $ventaCliente->cliente);
+        $email->sendXml($rutaxml, $nombreXML);
+        $result = $email->send();
+
+        if (!$result) {
+            $response = ['status' => false, 'message' => 'Error al enviar el email'];
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $data = ['status' => true, 'message' => 'Se el archivo se envio correctamente'];
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    public function sendcdr()
+    {
+        $data = $this->request()->getInput();
+        $ventaCliente = Ventas::getVentaCliente($data->email);
+
+        //preguntar si el cliente tiene correo
+        if (empty($ventaCliente->email)) {
+            $data = ['status' => false, 'message' => 'El cliente ' . $ventaCliente->cliente . 'no tiene correo registrado'];
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $nombreCDR = 'R-' . $ventaCliente->nombre_xml . '.ZIP';
+        $rutaCDR = DIR_APP . '/Library/ApiFacturador/files_factura/cdr_files/' . $nombreCDR;
+        // preguntar si el archivo existe
+        if (!file_exists($rutaCDR)) {
+            $data = ['status' => false, 'message' => 'El archivo CDR no existe'];
+            echo json_encode($data, JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        //enviar email
+        $email = new Email($ventaCliente->email, $ventaCliente->cliente);
+        $email->sendCdr($rutaCDR, $nombreCDR);
+        $result = $email->send();
+
+        if (!$result) {
+            $response = ['status' => false, 'message' => 'Error al enviar el email'];
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $data = ['status' => true, 'message' => 'Se el archivo se envio correctamente'];
+        echo json_encode($data, JSON_UNESCAPED_UNICODE);
         exit;
     }
 }
