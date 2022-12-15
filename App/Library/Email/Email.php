@@ -2,6 +2,8 @@
 
 namespace App\Library\Email;
 
+use App\Model\ConfigEmail;
+use App\Model\InfoEmpresa;
 use PHPMailer\PHPMailer\PHPMailer;
 
 class Email
@@ -50,23 +52,27 @@ class Email
 
     public function send()
     {
+        $id = 1;
+        $data  = ConfigEmail::find($id);
+        $empresa = InfoEmpresa::find($id);
+
         //crear una isntancia de PHPmailer
         $mail = new PHPMailer();
         //CONFIGURADOR DEL SERVIDOR
         $mail->isSMTP();
-        $mail->Host = "smtp.gmail.com"; //servidor de correo
+        $mail->Host = $data->servidor; //servidor de correo
         $mail->SMTPAuth = true; // habilitar autenticacion
-        $mail->Username = "carlitostucno@gmail.com"; // usuario del correo
-        $mail->Password = "czfluoplsuelqpsj"; // contraseña del correo
+        $mail->Username = $data->correo_servidor; // usuario del correo
+        $mail->Password = $data->contrasena_servidor; // contraseña del correo
         // $mail->SMTPSecure = "tls";
-        // $mail->SMTPSecure = "ssl"; // habilitar encriptacion
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mail->Port  = "465"; // puerto de salida
+        $mail->SMTPSecure = $data->tipo_protocolo; // habilitar encriptacion
+        // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port  = $data->puerto; // puerto de salida
 
         //CONFIGURADOR DEL CORREO
-        $mail->setFrom("admin@admin.com", "Admin"); // correo y nombre del remitente
+        $mail->setFrom($empresa->email, $empresa->nombre_comercial); // correo y nombre del remitente
         $mail->addAddress($this->email, $this->nombre); // correo y nombre del destinatario
-        $mail->Subject = "Recuperar contraseña"; // asunto del correo
+        $mail->Subject = "Reestablecer contraseña"; // asunto del correo
         $mail->isHTML(true); // habilitar el contenido html
         $mail->CharSet = "UTF-8"; // codificacion del correo
 

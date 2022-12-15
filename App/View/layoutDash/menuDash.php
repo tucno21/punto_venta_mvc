@@ -187,18 +187,27 @@ $linksSidebar = [
                     ] : null,
             ],
         ] : null,
-    // [
-    //     'mode' => 'menu',
-    //     'text' => 'Inventario',
-    //     'url'  => route('inventarios.index'),
-    //     'icon' => 'bi bi-list-ol',
-    // ],
-    can('infoEmpresas.index') ?
+
+    can('infoEmpresas.index') || can('configEmails.index') ?
         [
-            'mode' => 'menu',
-            'text' => 'Empresa',
-            'url'  => route('infoEmpresas.index'),
+            'mode' => 'submenu',
+            'text'    => 'Empresa',
+            'url'    => '#',
             'icon' => 'bi bi-buildings',
+            'submenu' => [
+                can('infoEmpresas.index') ?
+                    [
+                        'text' => 'Empresa',
+                        'url'  => route('infoEmpresas.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                can('configEmails.index') ?
+                    [
+                        'text' => 'Config. Email',
+                        'url'  => route('configEmails.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+            ],
         ] : null,
     can('monedas.index') || can('serieCorrelativos.index') || can('tipoAfectaciones.index') || can('tablaParametricas.index') || can('tipoComprobantes.index') || can('tipoDocumentos.index') ?
         [

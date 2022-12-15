@@ -19,6 +19,7 @@ use App\Controller\BackView\ProveedorController;
 use App\Controller\BackView\CajaArqueoController;
 use App\Controller\BackView\InventarioController;
 use App\Controller\BackView\PermissionController;
+use App\Controller\BackView\ConfigEmailController;
 use App\Controller\BackView\InfoEmpresaController;
 use App\Controller\BackView\BuscarDniRucController;
 use App\Controller\BackView\FirmaDigitalController;
@@ -329,3 +330,7 @@ Route::get('/inventarios/tablekardex', [InventarioController::class, 'tablekarde
 Route::get('/inventarios/searchdate', [InventarioController::class, 'searchdate'])->name('inventarios.searchdate');
 Route::get('/inventarios/kardexpdf', [InventarioController::class, 'kardexpdf'])->name('inventarios.kardexpdf');
 Route::get('/inventarios/kardexexcel', [InventarioController::class, 'kardexexcel'])->name('inventarios.kardexexcel');
+
+//ConfigEmailController
+Route::get('/configEmails', [ConfigEmailController::class, 'index'])->name('configEmails.index');
+Route::post('/configEmails', [ConfigEmailController::class, 'store']);

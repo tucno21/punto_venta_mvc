@@ -52,6 +52,8 @@ class RolesPermissionController extends Controller
             'tablaParametricas' => 'Tabla Parametricas',
             'tipoComprobantes' => 'Tipo de Comprobantes',
             'tipoDocumentos' => 'Tipo de Documentos',
+            'configEmails' => 'Configuracion de Correo',
+            'infoEmpresas' => 'Informacion de la Empresa',
         ];
 
         foreach ($group as $nameKey => $titleKey) {
