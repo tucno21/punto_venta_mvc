@@ -159,4 +159,17 @@ class Ventas extends Model
                 WHERE v.id = $id";
         return self::querySimple($sql);
     }
+
+    public static function buscarVenta($tipodoc, $serie, $correlativo, $total)
+    {
+        $sql = "SELECT v.id, v.serie, v.correlativo, v.fecha_emision, v.total, v.nombre_xml, c.nombre as cliente, c.documento as documentocliente
+                FROM ventas v
+                INNER JOIN clientes c ON c.id = v.cliente_id
+                WHERE v.tipodoc = '$tipodoc'
+                AND v.serie = '$serie'
+                AND v.correlativo = '$correlativo'
+                AND v.total = '$total'";
+
+        return self::querySimple($sql);
+    }
 }

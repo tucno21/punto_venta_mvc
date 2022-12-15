@@ -25,6 +25,7 @@ use App\Controller\BackView\BuscarDniRucController;
 use App\Controller\BackView\FirmaDigitalController;
 use App\Controller\Factura\TipoDocumentoController;
 use App\Controller\Factura\TipoAfectacionController;
+use App\Controller\BackView\SearchDocumentController;
 use App\Controller\Factura\TipoComprobanteController;
 use App\Controller\BackView\RolesPermissionController;
 use App\Controller\Factura\SerieCorrelativoController;
@@ -337,3 +338,11 @@ Route::get('/inventarios/kardexexcel', [InventarioController::class, 'kardexexce
 //ConfigEmailController
 Route::get('/configEmails', [ConfigEmailController::class, 'index'])->name('configEmails.index');
 Route::post('/configEmails', [ConfigEmailController::class, 'store']);
+
+//SearchDocumentController
+Route::get('/buscar-comprobante', [SearchDocumentController::class, 'index'])->name('searchDocuments.index');
+Route::post('/buscar-comprobante', [SearchDocumentController::class, 'store']);
+Route::get('/buscar-comprobante/tipoComprobante', [SearchDocumentController::class, 'tipoComprobante'])->name('searchDocuments.tipoComprobante');
+Route::get('/buscar-comprobante/downloadxml', [SearchDocumentController::class, 'downloadxml'])->name('searchDocuments.downloadxml');
+Route::get('/buscar-comprobante/downloadcdr', [SearchDocumentController::class, 'downloadcdr'])->name('searchDocuments.downloadcdr');
+Route::get('/buscar-comprobante/reporte', [SearchDocumentController::class, 'reporte'])->name('searchDocuments.reporte');
