@@ -17,6 +17,7 @@ use App\Controller\BackView\DashboardController;
 use App\Controller\BackView\NotaVentaController;
 use App\Controller\BackView\ProveedorController;
 use App\Controller\BackView\CajaArqueoController;
+use App\Controller\BackView\CotizacionController;
 use App\Controller\BackView\InventarioController;
 use App\Controller\BackView\PermissionController;
 use App\Controller\BackView\ConfigEmailController;
@@ -261,7 +262,9 @@ Route::get('/ventas/enviarSunat', [VentaController::class, 'enviarSunat'])->name
 Route::get('/ventas/downloadxml', [VentaController::class, 'downloadxml'])->name('ventas.downloadxml');
 Route::get('/ventas/downloadcdr', [VentaController::class, 'downloadcdr'])->name('ventas.downloadcdr');
 Route::get('/ventas/boleta', [VentaController::class, 'boleta'])->name('ventas.boleta');
+Route::get('/ventas/boletacoti', [VentaController::class, 'boletacoti'])->name('ventas.boletacoti');
 Route::get('/ventas/factura', [VentaController::class, 'factura'])->name('ventas.factura');
+Route::get('/ventas/facturacoti', [VentaController::class, 'facturacoti'])->name('ventas.facturacoti');
 Route::get('/ventas/ventaspdf', [VentaController::class, 'ventaspdf'])->name('ventas.ventaspdf');
 Route::get('/ventas/ventasexcel', [VentaController::class, 'ventasexcel'])->name('ventas.ventasexcel');
 Route::get('/ventas/sendxml', [VentaController::class, 'sendxml'])->name('ventas.sendxml');
@@ -301,6 +304,21 @@ Route::get('/notaventas/reporte', [NotaVentaController::class, 'reporte'])->name
 Route::get('/notaventas/updateElectronico', [NotaVentaController::class, 'updateElectronico'])->name('notaventas.updateElectronico');
 Route::get('/notaventas/ventaspdf', [NotaVentaController::class, 'ventaspdf'])->name('notaventas.ventaspdf');
 Route::get('/notaventas/ventasexcel', [NotaVentaController::class, 'ventasexcel'])->name('notaventas.ventasexcel');
+
+//CotizacionController
+Route::get('/cotizaciones', [CotizacionController::class, 'index'])->name('cotizaciones.index');
+Route::get('/cotizaciones/dataTable', [CotizacionController::class, 'dataTable'])->name('cotizaciones.dataTable');
+Route::get('/cotizaciones/create', [CotizacionController::class, 'create'])->name('cotizaciones.create');
+Route::post('/cotizaciones/create', [CotizacionController::class, 'store']);
+Route::get('/cotizaciones/destroy', [CotizacionController::class, 'destroy'])->name('cotizaciones.destroy');
+Route::get('/cotizaciones/tipocomprobante', [CotizacionController::class, 'tipocomprobante'])->name('cotizaciones.tipocomprobante');
+Route::get('/cotizaciones/serieCorrelativo', [CotizacionController::class, 'serieCorrelativo'])->name('cotizaciones.serieCorrelativo');
+Route::get('/cotizaciones/monedas', [CotizacionController::class, 'monedas'])->name('cotizaciones.monedas');
+Route::get('/cotizaciones/reporte', [CotizacionController::class, 'reporte'])->name('cotizaciones.reporte');
+Route::get('/cotizaciones/updateElectronico', [CotizacionController::class, 'updateElectronico'])->name('cotizaciones.updateElectronico');
+Route::get('/cotizaciones/cotizacionespdf', [CotizacionController::class, 'cotizacionespdf'])->name('cotizaciones.cotizacionespdf');
+Route::get('/cotizaciones/cotizacionesexcel', [CotizacionController::class, 'cotizacionesexcel'])->name('cotizaciones.cotizacionesexcel');
+Route::get('/cotizaciones/ventainterna', [CotizacionController::class, 'ventainterna'])->name('cotizaciones.ventainterna');
 
 
 //CajaController

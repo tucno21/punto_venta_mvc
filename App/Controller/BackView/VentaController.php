@@ -10,6 +10,7 @@ use App\Model\NotaVentas;
 use App\Library\FPDF\FPDF;
 use App\Model\InfoEmpresa;
 use App\Model\Inventarios;
+use App\Model\Cotizaciones;
 use App\Library\Email\Email;
 use App\Model\Factura\Monedas;
 use App\Help\PrintPdf\PrintPdf;
@@ -496,6 +497,99 @@ class VentaController extends Controller
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
     }
+    public function boletacoti()
+    {
+        $data = $this->request()->getInput();
+        //traer notas de venta
+        $cotizacion = Cotizaciones::getCotizacionId($data->id);
+        //
+
+        $tipoComprobante = TipoComprobante::where('codigo', '03')->get();
+
+        $seriemm = SerieCorrelativo::getSerieCorrelativo($tipoComprobante->codigo);
+        if (is_object($seriemm)) {
+            $seriemm = [$seriemm];
+        }
+
+        //cambios
+        $cotizacion->tipodoc = $tipoComprobante->codigo;
+        $cotizacion->nombre_tipodoc = $tipoComprobante->descripcion;
+        $cotizacion->serie_id = $seriemm[0]->id;
+        $cotizacion->serie = $seriemm[0]->serie;
+        $cotizacion->correlativo = $seriemm[0]->correlativo;
+        $cotizacion->fecha_emision = date('Y-m-d H:i:s');
+        $cotizacion->cuotas = "";
+        //eliminar $cotizacion->estado_sunat
+        unset($cotizacion->estado_sunat);
+        unset($cotizacion->estado);
+        unset($cotizacion->created_at);
+        unset($cotizacion->updated_at);
+        unset($cotizacion->id);
+        unset($cotizacion->venta_id);
+
+
+        $result = Ventas::create($cotizacion);
+        $venta = Ventas::find($result->id);
+        //traer SerieCorrelativo
+        $serie = SerieCorrelativo::find($venta->serie_id);
+        //actualizar correlativo
+        $dataSerie = ['correlativo' => $serie->correlativo + 1];
+        $ff = SerieCorrelativo::update($serie->id, $dataSerie);
+
+        $productos =  json_decode($venta->productos);
+        foreach ($productos as $producto) {
+            //actualiza el stock de los productos
+            //buscar el producto
+            $pro = Productos::getProd($producto->id);
+
+            $actualizar = [
+                'stock' => $pro->stock - $producto->cantidad,
+            ];
+
+            Productos::update($producto->id, $actualizar);
+
+            //regitrar en el inventario
+            $inventario = [
+                'producto_id' => $producto->id,
+                'comprobante' => $venta->serie . '-' . $venta->correlativo,
+                'cantidad' => $producto->cantidad,
+                'fecha' => $venta->fecha_emision,
+                'tipo' => 'salida',
+                'accion' => 'Venta',
+                'stock_actual' => $pro->stock - $producto->cantidad,
+                'user_id' => $venta->usuario_id,
+            ];
+            Inventarios::create($inventario);
+
+            //productos top ventas
+            $topVentas = ProductosVentasTop::getProducto($producto->id);
+            //si el array esta vacio
+            if (empty($topVentas)) {
+                $topVentas = [
+                    'producto_id' => $producto->id,
+                    'cant_ventas' => $producto->cantidad,
+                ];
+                ProductosVentasTop::registrar((object)$topVentas);
+            } else {
+                $topVentas = [
+                    'cant_ventas' => $topVentas->cant_ventas + $producto->cantidad,
+                ];
+                ProductosVentasTop::actualizar($producto->id, (object)$topVentas);
+            }
+        }
+        //crear xml y firmar
+
+        $estado = $this->generarXML($venta->id);
+
+        if ($estado->success) {
+            $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];
+        } else {
+            $response = ['status' => false, 'message' => $estado->message];
+        }
+
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
 
     public function factura()
     {
@@ -535,6 +629,97 @@ class VentaController extends Controller
         ]);
 
         $response = $this->guardarVenta($venta);
+        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    public function facturacoti()
+    {
+        $data = $this->request()->getInput();
+        //traer notas de venta
+        $cotizacion = Cotizaciones::getCotizacionId($data->id);
+
+        $tipoComprobante = TipoComprobante::where('codigo', '01')->get();
+
+        $seriemm = SerieCorrelativo::getSerieCorrelativo($tipoComprobante->codigo);
+        if (is_object($seriemm)) {
+            $seriemm = [$seriemm];
+        }
+
+        //cambios
+        $cotizacion->tipodoc = $tipoComprobante->codigo;
+        $cotizacion->nombre_tipodoc = $tipoComprobante->descripcion;
+        $cotizacion->serie_id = $seriemm[0]->id;
+        $cotizacion->serie = $seriemm[0]->serie;
+        $cotizacion->correlativo = $seriemm[0]->correlativo;
+        $cotizacion->fecha_emision = date('Y-m-d H:i:s');
+        $cotizacion->cuotas = "";
+        //eliminar $cotizacion->estado_sunat
+        unset($cotizacion->estado_sunat);
+        unset($cotizacion->estado);
+        unset($cotizacion->created_at);
+        unset($cotizacion->updated_at);
+        unset($cotizacion->id);
+
+        $result = Ventas::create($cotizacion);
+        $venta = Ventas::find($result->id);
+        //traer SerieCorrelativo
+        $serie = SerieCorrelativo::find($venta->serie_id);
+        //actualizar correlativo
+        $dataSerie = ['correlativo' => $serie->correlativo + 1];
+        $ff = SerieCorrelativo::update($serie->id, $dataSerie);
+
+        $productos =  json_decode($venta->productos);
+        foreach ($productos as $producto) {
+            //actualiza el stock de los productos
+            //buscar el producto
+            $pro = Productos::getProd($producto->id);
+
+            $actualizar = [
+                'stock' => $pro->stock - $producto->cantidad,
+            ];
+
+            Productos::update($producto->id, $actualizar);
+
+            //regitrar en el inventario
+            $inventario = [
+                'producto_id' => $producto->id,
+                'comprobante' => $venta->serie . '-' . $venta->correlativo,
+                'cantidad' => $producto->cantidad,
+                'fecha' => $venta->fecha_emision,
+                'tipo' => 'salida',
+                'accion' => 'Venta',
+                'stock_actual' => $pro->stock - $producto->cantidad,
+                'user_id' => $venta->usuario_id,
+            ];
+            Inventarios::create($inventario);
+
+            //productos top ventas
+            $topVentas = ProductosVentasTop::getProducto($producto->id);
+            //si el array esta vacio
+            if (empty($topVentas)) {
+                $topVentas = [
+                    'producto_id' => $producto->id,
+                    'cant_ventas' => $producto->cantidad,
+                ];
+                ProductosVentasTop::registrar((object)$topVentas);
+            } else {
+                $topVentas = [
+                    'cant_ventas' => $topVentas->cant_ventas + $producto->cantidad,
+                ];
+                ProductosVentasTop::actualizar($producto->id, (object)$topVentas);
+            }
+        }
+        //crear xml y firmar
+
+        $estado = $this->generarXML($venta->id);
+
+        if ($estado->success) {
+            $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];
+        } else {
+            $response = ['status' => false, 'message' => $estado->message];
+        }
+
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
         exit;
     }

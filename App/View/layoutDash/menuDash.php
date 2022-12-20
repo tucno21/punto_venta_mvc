@@ -138,6 +138,13 @@ $linksSidebar = [
             'url'  => route('notaventas.create'),
             'icon' => 'bi bi-piggy-bank',
         ] : null,
+    can('cotizaciones.index') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Cotizaciones',
+            'url'  => route('cotizaciones.index'),
+            'icon' => 'bi bi-tag',
+        ] : null,
     can('notaCDs.index') ?
         [
             'mode' => 'menu',

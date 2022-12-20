@@ -50,7 +50,7 @@ class PrintPdf
         $pdf->cell(60, 9, 'RUC: ' . $emisor->ruc, 'LRT', 1, 'C', 0);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->SetXY(83, 16);
-        if ($venta->tipodoc == "07" || $venta->tipodoc == "08" || $venta->tipodoc == "20") {
+        if ($venta->tipodoc == "07" || $venta->tipodoc == "08" || $venta->tipodoc == "20" || $venta->tipodoc == "21") {
             $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc), 'LR', 1, 'C', 0);
         } else {
             $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc)  . ' ELECTRONICA', 'LR', 1, 'C', 0);
@@ -92,6 +92,21 @@ class PrintPdf
             $pdf->cell(25, 6, utf8_decode('Descripción'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 8);
             $pdf->cell(112, 6, ': ' . utf8_decode($venta->descripcion), 'R', 1, 'L', 0);
+        }
+        // dd($venta->fecha_emision);
+        if ($venta->tipodoc == "21") {
+            $pdf->Ln(-1);
+            $pdf->SetFont('Arial', 'B', 8);
+            $pdf->cell(25, 6, utf8_decode('Tiempo de Oferta'), 'L', 0, 'L', 0);
+            $pdf->SetFont('Arial', '', 8);
+            $pdf->cell(112, 6, ': ' . utf8_decode($venta->tiempo . " Días"), 'R', 1, 'L', 0);
+            $pdf->Ln(-1);
+            $pdf->SetFont('Arial', 'B', 8);
+            $pdf->cell(25, 6, utf8_decode('Fecha Vencimiento'), 'L', 0, 'L', 0);
+            $pdf->SetFont('Arial', '', 8);
+            //agregar $venta->fecha_emision los dias de tiempo de oferta
+            $fecha_vencimiento = date('d-m-Y', strtotime($venta->fecha_emision . ' + ' . $venta->tiempo . ' days'));
+            $pdf->cell(112, 6, ': ' . utf8_decode($fecha_vencimiento), 'R', 1, 'L', 0);
         }
 
         $pdf->Ln(-1);
@@ -228,7 +243,7 @@ class PrintPdf
         $pdf->cell(60, 9, 'RUC: ' . $emisor->ruc, 'LRT', 1, 'C', 0);
         $pdf->SetFont('Arial', 'B', 11);
         $pdf->SetXY(142, 16);
-        if ($venta->tipodoc == "07" || $venta->tipodoc == "08" || $venta->tipodoc == "20") {
+        if ($venta->tipodoc == "07" || $venta->tipodoc == "08" || $venta->tipodoc == "20"  || $venta->tipodoc == "21") {
             $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc), 'LR', 1, 'C', 0);
         } else {
             $pdf->cell(60, 4, utf8_decode($venta->nombre_tipodoc)  . ' ELECTRONICA', 'LR', 1, 'C', 0);
@@ -268,6 +283,19 @@ class PrintPdf
             $pdf->cell(35, 6, utf8_decode('Descripción'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 9);
             $pdf->cell(160, 6, ': ' . utf8_decode($venta->descripcion), 'R', 1, 'L', 0);
+        }
+        if ($venta->tipodoc == "21") {
+            $pdf->Ln(-1);
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->cell(35, 6, utf8_decode('Tiempo de Oferta'), 'L', 0, 'L', 0);
+            $pdf->SetFont('Arial', '', 9);
+            $pdf->cell(160, 6, ': ' . utf8_decode($venta->tiempo . " Días"), 'R', 1, 'L', 0);
+            $pdf->Ln(-1);
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->cell(35, 6, utf8_decode('Fecha Vencimiento'), 'L', 0, 'L', 0);
+            $pdf->SetFont('Arial', '', 9);
+            $fecha_vencimiento = date('d-m-Y', strtotime($venta->fecha_emision . ' + ' . $venta->tiempo . ' days'));
+            $pdf->cell(160, 6, ': ' . utf8_decode($fecha_vencimiento), 'R', 1, 'L', 0);
         }
 
 

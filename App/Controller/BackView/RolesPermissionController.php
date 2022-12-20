@@ -54,6 +54,7 @@ class RolesPermissionController extends Controller
             'tipoDocumentos' => 'Tipo de Documentos',
             'configEmails' => 'Configuracion de Correo',
             'infoEmpresas' => 'Informacion de la Empresa',
+            'cotizaciones' => 'Cotizaciones',
         ];
 
         foreach ($group as $nameKey => $titleKey) {
