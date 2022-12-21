@@ -77,7 +77,8 @@ $linksScript2 = [
                         <label class="form-label mb-1">Fecha Abono</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-braces-asterisk"></i></span>
-                            <input type="date" class="form-control" id="inputFecha" value="<?= date('Y-m-d') ?>">
+                            <input type="date" class="form-control" id="inputFecha" value="<?= date('Y-m-d') ?>" readonly disabled>
+                            <input type="hidden" id="inputFechaEnviar" value="<?= date('Y-m-d H:i:s') ?>">
                         </div>
                     </div>
                     <div class="col-md-6  mt-3">

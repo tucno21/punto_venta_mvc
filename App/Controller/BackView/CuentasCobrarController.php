@@ -102,6 +102,7 @@ class CuentasCobrarController extends Controller
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
         } else {
+            $data->user_id = session()->user()->id;
             CuentasCobrar::create($data);
             $response = ['status' => true, 'message' => 'Abono registrado correctamente'];
             echo json_encode($response, JSON_UNESCAPED_UNICODE);

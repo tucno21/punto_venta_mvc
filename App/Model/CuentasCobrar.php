@@ -17,7 +17,7 @@ class CuentasCobrar extends Model
     /**
      * nombre de la columnas de la tabla
      */
-    protected static $allowedFields = ['venta_id', 'monto', 'fecha'];
+    protected static $allowedFields = ['venta_id', 'user_id', 'monto', 'fecha'];
     /**
      * obtener los datos de la tabla en 'array' u 'object'
      */
@@ -42,6 +42,23 @@ class CuentasCobrar extends Model
     {
         //ORDER BY id DESC
         $sql = "SELECT * FROM abonos WHERE venta_id = $id";
+        return self::querySimple($sql);
+    }
+
+    public static function TotalAbonos($fecha_apertura, $fecha_cierre, $usuarioCaja)
+    {
+        $sql = "SELECT SUM(monto) as total
+                FROM abonos
+                WHERE fecha BETWEEN '$fecha_apertura' AND '$fecha_cierre' AND user_id = $usuarioCaja";
+        return self::querySimple($sql);
+    }
+
+    public static function abonosGenerados($fecha_apertura, $fecha_cierre, $usuarioCaja)
+    {
+        $sql = "SELECT a.*, v.serie, v.correlativo
+                FROM abonos a
+                INNER JOIN ventas v ON v.id = a.venta_id
+                WHERE a.fecha BETWEEN '$fecha_apertura' AND '$fecha_cierre' AND a.user_id = $usuarioCaja";
         return self::querySimple($sql);
     }
 }

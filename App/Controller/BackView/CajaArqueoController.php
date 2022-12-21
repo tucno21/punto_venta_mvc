@@ -8,6 +8,7 @@ use System\Controller;
 use App\Model\NotaVentas;
 use App\Library\FPDF\FPDF;
 use App\Model\CajasArqueo;
+use App\Model\CuentasCobrar;
 
 class CajaArqueoController extends Controller
 {
@@ -142,9 +143,10 @@ class CajaArqueoController extends Controller
 
         $ventas = Ventas::TotalVentas($cajaArqueo->fecha_apertura, $dataCerrar->fecha_cierre, $usuarioCaja);
         $notaventas = NotaVentas::TotalVentas($cajaArqueo->fecha_apertura, $dataCerrar->fecha_cierre, $usuarioCaja);
+        $abonos = CuentasCobrar::TotalAbonos($cajaArqueo->fecha_apertura, $dataCerrar->fecha_cierre, $usuarioCaja);
 
 
-        $dataCerrar->total_venta = $ventas->total + $notaventas->total;
+        $dataCerrar->total_venta = $ventas->total + $notaventas->total + $abonos->total;
         $dataCerrar->monto_final = $dataCerrar->total_venta + $cajaArqueo->monto_inicial;
 
         CajasArqueo::update($data->id, $dataCerrar);
@@ -167,11 +169,16 @@ class CajaArqueoController extends Controller
         if (is_object($notaventas)) {
             $notaventas = [$notaventas];
         }
+        $abonos = CuentasCobrar::abonosGenerados($cajaArqueo->fecha_apertura, $cajaArqueo->fecha_cierre, $usuarioCaja);
+        if (is_object($abonos)) {
+            $abonos = [$abonos];
+        }
+
         // dd($ventas);
         $pdf = new FPDF('P', 'mm', 'A4');
         $pdf->AddPage();
         $pdf->setMargins(10, 10, 10);
-        $pdf->setTitle('Detalle de Compra');
+        $pdf->setTitle('Detalle de caja arqueo');
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(0, 5, 'Detalle de Caja Arqueo', 0, 1, 'C');
         $pdf->Ln(5);
@@ -179,68 +186,125 @@ class CajaArqueoController extends Controller
         $pdf->Cell(0, 5, 'Fecha Apertura: ' . $cajaArqueo->fecha_apertura, 0, 1, 'L');
         $pdf->Cell(0, 5, 'Fecha Cierre: ' . $cajaArqueo->fecha_cierre, 0, 1, 'L');
         $pdf->Cell(0, 5, 'Monto Inicial: ' . $cajaArqueo->monto_inicial, 0, 1, 'L');
-        $pdf->Cell(0, 5, 'Total Ventas: ' . $cajaArqueo->total_venta, 0, 1, 'L');
+        $pdf->Cell(0, 5, 'Total Ingresos: ' . $cajaArqueo->total_venta, 0, 1, 'L');
         $pdf->Cell(0, 5, 'Monto Final: ' . $cajaArqueo->monto_final, 0, 1, 'L');
         $pdf->Ln(5);
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(0, 5, 'Ventas', 0, 1, 'C');
-        $pdf->Ln(5);
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(0, 5, 'Detalle de Ventas', 0, 1, 'C');
-        $pdf->Ln(5);
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(40, 5, 'Fecha', 1, 0, 'C');
-        $pdf->Cell(25, 5, 'comprobante', 1, 0, 'C');
-        $pdf->Cell(75, 5, 'Cliente', 1, 0, 'C');
-        $pdf->Cell(30, 5, 'Forma de pago', 1, 0, 'C');
-        $pdf->Cell(20, 5, 'sub-Total', 1, 0, 'C');
-        $pdf->Ln(5);
-        $pdf->SetFont('Arial', '', 10);
 
-        $totalVentas = 0;
-        foreach ($ventas as $venta) {
-            $totalVentas += $venta->total;
-            $pdf->Cell(40, 5, $venta->fecha_emision, 1, 0, 'C');
-            $pdf->Cell(25, 5, $venta->serie . "-" . $venta->correlativo, 1, 0, 'C');
-            $pdf->Cell(75, 5, $venta->cliente, 1, 0, 'L');
-            $pdf->Cell(30, 5, $venta->forma_pago, 1, 0, 'C');
-            $pdf->Cell(20, 5, $venta->total, 1, 0, 'C');
-            //aggregar suna total
+        // dd($ventas == null);
+
+        if (!empty($ventas)) {
+            //========= CONTADO SUNAT
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(0, 5, 'Ingresos Detalle de Ventas (Sunat)', 0, 1, 'C');
+            $pdf->Ln(5);
+
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->Cell(40, 5, 'Fecha', 1, 0, 'C');
+            $pdf->Cell(25, 5, 'comprobante', 1, 0, 'C');
+            $pdf->Cell(75, 5, 'Cliente', 1, 0, 'C');
+            $pdf->Cell(30, 5, 'Forma de pago', 1, 0, 'C');
+            $pdf->Cell(20, 5, 'sub-Total', 1, 0, 'C');
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', '', 10);
+
+            $totalVentas = 0;
+            foreach ($ventas as $venta) {
+                if ($venta->forma_pago == 'Contado') {
+                    $totalVentas += $venta->total;
+                    $pdf->Cell(40, 5, $venta->fecha_emision, 1, 0, 'C');
+                    $pdf->Cell(25, 5, $venta->serie . "-" . $venta->correlativo, 1, 0, 'C');
+                    $pdf->Cell(75, 5, $venta->cliente, 1, 0, 'L');
+                    $pdf->Cell(30, 5, $venta->forma_pago, 1, 0, 'C');
+                    $pdf->Cell(20, 5, $venta->total, 1, 1, 'C');
+                    //aggregar suna total
+                }
+            }
+            $pdf->Cell(170, 5, 'Total', 1, 0, 'R');
+            $pdf->Cell(20, 5, $totalVentas, 1, 1, 'C');
+            $pdf->Ln(5);
+
+            //========= CREDITO SUNAT
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(0, 5, 'Detalle de Ventas Credito (Sunat)', 0, 1, 'C');
+            $pdf->SetFont('Arial', '', 9);
+            $pdf->Cell(0, 5, 'No forman parte del del total de caja', 0, 1, 'C');
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->Cell(40, 5, 'Fecha', 1, 0, 'C');
+            $pdf->Cell(25, 5, 'comprobante', 1, 0, 'C');
+            $pdf->Cell(75, 5, 'Cliente', 1, 0, 'C');
+            $pdf->Cell(30, 5, 'Forma de pago', 1, 0, 'C');
+            $pdf->Cell(20, 5, 'sub-Total', 1, 0, 'C');
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', '', 10);
+            $totalVentasCredito = 0;
+            foreach ($ventas as $venta) {
+                if ($venta->forma_pago == 'Credito') {
+                    $totalVentasCredito += $venta->total;
+                    $pdf->Cell(40, 5, $venta->fecha_emision, 1, 0, 'C');
+                    $pdf->Cell(25, 5, $venta->serie . "-" . $venta->correlativo, 1, 0, 'C');
+                    $pdf->Cell(75, 5, $venta->cliente, 1, 0, 'L');
+                    $pdf->Cell(30, 5, $venta->forma_pago, 1, 0, 'C');
+                    $pdf->Cell(20, 5, $venta->total, 1, 1, 'C');
+                    //aggregar suna total
+                }
+            }
+            $pdf->Cell(170, 5, 'Total', 1, 0, 'R');
+            $pdf->Cell(20, 5, $totalVentasCredito, 1, 1, 'C');
             $pdf->Ln(5);
         }
-        $pdf->Cell(170, 5, 'Total', 1, 0, 'R');
-        $pdf->Cell(20, 5, $totalVentas, 1, 0, 'C');
+        if (!empty($notaventas)) {
+            //========= NOTA DE VENTA
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(0, 5, 'Ingreso Detalle de Nota de Ventas', 0, 1, 'C');
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->Cell(40, 5, 'Fecha', 1, 0, 'C');
+            $pdf->Cell(25, 5, 'comprobante', 1, 0, 'C');
+            $pdf->Cell(75, 5, 'Cliente', 1, 0, 'C');
+            $pdf->Cell(30, 5, 'Forma de pago', 1, 0, 'C');
+            $pdf->Cell(20, 5, 'sub-Total', 1, 0, 'C');
+            $pdf->Ln(5);
+            $pdf->SetFont('Arial', '', 10);
 
-
-
-        $pdf->Ln(5);
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Cell(0, 5, 'Detalle de Nota de Ventas', 0, 1, 'C');
-        $pdf->Ln(5);
-        $pdf->SetFont('Arial', 'B', 10);
-        $pdf->Cell(40, 5, 'Fecha', 1, 0, 'C');
-        $pdf->Cell(25, 5, 'comprobante', 1, 0, 'C');
-        $pdf->Cell(75, 5, 'Cliente', 1, 0, 'C');
-        $pdf->Cell(30, 5, 'Forma de pago', 1, 0, 'C');
-        $pdf->Cell(20, 5, 'sub-Total', 1, 0, 'C');
-        $pdf->Ln(5);
-        $pdf->SetFont('Arial', '', 10);
-
-        $totalNotaVentas = 0;
-        foreach ($notaventas as $notaventa) {
-            $totalNotaVentas += $notaventa->total;
-            $pdf->Cell(40, 5, $notaventa->fecha_emision, 1, 0, 'C');
-            $pdf->Cell(25, 5, $notaventa->serie . "-" . $notaventa->correlativo, 1, 0, 'C');
-            $pdf->Cell(75, 5, $notaventa->cliente, 1, 0, 'L');
-            $pdf->Cell(30, 5, $notaventa->forma_pago, 1, 0, 'C');
-            $pdf->Cell(20, 5, $notaventa->total, 1, 0, 'C');
+            $totalNotaVentas = 0;
+            foreach ($notaventas as $notaventa) {
+                $totalNotaVentas += $notaventa->total;
+                $pdf->Cell(40, 5, $notaventa->fecha_emision, 1, 0, 'C');
+                $pdf->Cell(25, 5, $notaventa->serie . "-" . $notaventa->correlativo, 1, 0, 'C');
+                $pdf->Cell(75, 5, $notaventa->cliente, 1, 0, 'L');
+                $pdf->Cell(30, 5, $notaventa->forma_pago, 1, 0, 'C');
+                $pdf->Cell(20, 5, $notaventa->total, 1, 0, 'C');
+                $pdf->Ln(5);
+            }
+            $pdf->Cell(170, 5, 'Total', 1, 0, 'R');
+            $pdf->Cell(20, 5, $totalNotaVentas, 1, 0, 'C');
+            $pdf->Ln(5);
             $pdf->Ln(5);
         }
-        $pdf->Cell(170, 5, 'Total', 1, 0, 'R');
-        $pdf->Cell(20, 5, $totalNotaVentas, 1, 0, 'C');
+        if (!empty($abonos)) {
+            //========= ABONOS
+            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->Cell(0, 5, 'Ingreso de Detalle Abonos', 0, 1, 'C');
+            $pdf->Ln(5);
 
-        $pdf->Ln(5);
-        $pdf->SetFont('Arial', 'B', 12);
+            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->Cell(60, 5, 'Fecha', 1, 0, 'C');
+            $pdf->Cell(60, 5, 'comprobante', 1, 0, 'C');
+            $pdf->Cell(0, 5, 'sub-Total', 1, 1, 'C');
+
+            $pdf->SetFont('Arial', '', 10);
+            $totalAbonos = 0;
+            foreach ($abonos as $abono) {
+                $totalAbonos += $abono->monto;
+                $pdf->Cell(60, 5, $abono->fecha, 1, 0, 'C');
+                $pdf->Cell(60, 5, $abono->serie . "-" . $abono->correlativo, 1, 0, 'C');
+                $pdf->Cell(0, 5, $abono->monto, 1, 1, 'C');
+            }
+            $pdf->Cell(120, 5, 'Total', 1, 0, 'R');
+            $pdf->Cell(0, 5, $totalAbonos, 1, 1, 'C');
+            $pdf->Ln(5);
+        }
 
         $pdf->Output('DetalleCajaArqueo.pdf', "I");
     }

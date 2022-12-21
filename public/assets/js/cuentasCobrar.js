@@ -228,7 +228,7 @@ async function enviarCrearFormulario() {
   const data = new FormData();
   data.append("venta_id", inputVentaId.value);
   data.append("monto", inputAbonar.value);
-  data.append("fecha", inputFecha.value);
+  data.append("fecha", inputFechaEnviar.value);
 
   const response = await fetch(urlAddAbono, {
     method: "POST",

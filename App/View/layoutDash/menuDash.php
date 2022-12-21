@@ -152,6 +152,13 @@ $linksSidebar = [
             'url'  => route('notaCDs.index'),
             'icon' => 'bi bi-sticky',
         ] : null,
+    can('cuentasCobrar.index') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Cuentas por Cobrar',
+            'url'  => route('cuentasCobrar.index'),
+            'icon' => 'bi bi-coin',
+        ] : null,
     can('cajas.index') || can('cajaArqueos.index') ?
         [
             'mode' => 'submenu',
@@ -172,13 +179,6 @@ $linksSidebar = [
                         'icon' => 'fas fa-circle',
                     ] : null,
             ],
-        ] : null,
-    can('cuentasCobrar.index') ?
-        [
-            'mode' => 'menu',
-            'text' => 'Cuentas por Cobrar',
-            'url'  => route('cuentasCobrar.index'),
-            'icon' => 'bi bi-coin',
         ] : null,
     can('inventarios.index') || can('inventarios.kardex') ?
         [

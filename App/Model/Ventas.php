@@ -86,8 +86,9 @@ class Ventas extends Model
         $sql = "SELECT SUM(total) as total
                 FROM ventas
                 WHERE fecha_emision BETWEEN '$fecha_apertura' AND '$fecha_cierre'
-                AND estado = 1
-                AND usuario_id = $usuarioCaja";
+                AND forma_pago = 'Contado'
+                AND usuario_id = $usuarioCaja
+                AND estado = 1";
         return self::querySimple($sql);
     }
 
