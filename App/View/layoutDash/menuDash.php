@@ -173,6 +173,13 @@ $linksSidebar = [
                     ] : null,
             ],
         ] : null,
+    can('cuentasCobrar.index') ?
+        [
+            'mode' => 'menu',
+            'text' => 'Cuentas por Cobrar',
+            'url'  => route('cuentasCobrar.index'),
+            'icon' => 'bi bi-coin',
+        ] : null,
     can('inventarios.index') || can('inventarios.kardex') ?
         [
             'mode' => 'submenu',

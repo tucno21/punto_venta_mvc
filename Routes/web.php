@@ -25,6 +25,7 @@ use App\Controller\BackView\InfoEmpresaController;
 use App\Controller\BackView\BuscarDniRucController;
 use App\Controller\BackView\FirmaDigitalController;
 use App\Controller\Factura\TipoDocumentoController;
+use App\Controller\BackView\CuentasCobrarController;
 use App\Controller\Factura\TipoAfectacionController;
 use App\Controller\BackView\SearchDocumentController;
 use App\Controller\Factura\TipoComprobanteController;
@@ -364,3 +365,10 @@ Route::get('/buscar-comprobante/tipoComprobante', [SearchDocumentController::cla
 Route::get('/buscar-comprobante/downloadxml', [SearchDocumentController::class, 'downloadxml'])->name('searchDocuments.downloadxml');
 Route::get('/buscar-comprobante/downloadcdr', [SearchDocumentController::class, 'downloadcdr'])->name('searchDocuments.downloadcdr');
 Route::get('/buscar-comprobante/reporte', [SearchDocumentController::class, 'reporte'])->name('searchDocuments.reporte');
+
+//CuentasCobrarController
+Route::get('/cuentasCobrar', [CuentasCobrarController::class, 'index'])->name('cuentasCobrar.index');
+Route::get('/cuentasCobrar/dataTable', [CuentasCobrarController::class, 'dataTable'])->name('cuentasCobrar.dataTable');
+Route::get('/cuentasCobrar/abono', [CuentasCobrarController::class, 'abono'])->name('cuentasCobrar.abono');
+Route::post('/cuentasCobrar/abono', [CuentasCobrarController::class, 'store']);
+Route::get('/cuentasCobrar/reporte', [CuentasCobrarController::class, 'reporte'])->name('cuentasCobrar.reporte');

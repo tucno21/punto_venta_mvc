@@ -172,4 +172,25 @@ class Ventas extends Model
 
         return self::querySimple($sql);
     }
+
+    public static function getCreditos()
+    {
+        //forma_pago = Credito y estado = 1
+        $sql = "SELECT v.id, v.serie, v.correlativo, v.total, v.forma_pago, v.cuotas, c.nombre as cliente
+                FROM ventas v
+                INNER JOIN clientes c ON c.id = v.cliente_id
+                WHERE v.forma_pago = 'Credito'
+                AND v.estado = 1
+                ORDER BY v.id DESC";
+        return self::querySimple($sql);
+    }
+
+    public static function getVentaIdCliente($id)
+    {
+        $sql = "SELECT v.id, v.serie, v.correlativo, v.total, v.cuotas, v.fecha_emision, c.nombre as cliente, c.email as email
+        FROM ventas v
+        INNER JOIN clientes c ON c.id = v.cliente_id
+        WHERE v.id = $id";
+        return self::querySimple($sql);
+    }
 }

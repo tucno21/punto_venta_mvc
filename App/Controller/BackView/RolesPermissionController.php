@@ -55,6 +55,7 @@ class RolesPermissionController extends Controller
             'configEmails' => 'Configuracion de Correo',
             'infoEmpresas' => 'Informacion de la Empresa',
             'cotizaciones' => 'Cotizaciones',
+            'cuentasCobrar' => 'Cuentas por Cobrar',
         ];
 
         foreach ($group as $nameKey => $titleKey) {
@@ -77,7 +78,6 @@ class RolesPermissionController extends Controller
             'rol' => $rol,
             // 'group' => $group,
             'permissionsGroup' => $permissionsGroup
-
         ]);
     }
 
