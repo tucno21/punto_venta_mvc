@@ -56,6 +56,7 @@ class RolesPermissionController extends Controller
             'infoEmpresas' => 'Informacion de la Empresa',
             'cotizaciones' => 'Cotizaciones',
             'cuentasCobrar' => 'Cuentas por Cobrar',
+            'documentosSunat' => 'Documentos Sunat',
         ];
 
         foreach ($group as $nameKey => $titleKey) {

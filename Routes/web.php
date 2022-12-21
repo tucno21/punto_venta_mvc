@@ -29,6 +29,7 @@ use App\Controller\BackView\CuentasCobrarController;
 use App\Controller\Factura\TipoAfectacionController;
 use App\Controller\BackView\SearchDocumentController;
 use App\Controller\Factura\TipoComprobanteController;
+use App\Controller\BackView\DocumentosSunatController;
 use App\Controller\BackView\RolesPermissionController;
 use App\Controller\Factura\SerieCorrelativoController;
 use App\Controller\Factura\TablaParametricaController;
@@ -376,3 +377,8 @@ Route::get('/cuentasCobrar/dataTable', [CuentasCobrarController::class, 'dataTab
 Route::get('/cuentasCobrar/abono', [CuentasCobrarController::class, 'abono'])->name('cuentasCobrar.abono');
 Route::post('/cuentasCobrar/abono', [CuentasCobrarController::class, 'store']);
 Route::get('/cuentasCobrar/reporte', [CuentasCobrarController::class, 'reporte'])->name('cuentasCobrar.reporte');
+
+//DocumentosSunatController
+Route::get('/documentosSunat', [DocumentosSunatController::class, 'index'])->name('documentosSunat.index');
+Route::get('/documentosSunat/xml', [DocumentosSunatController::class, 'xml'])->name('documentosSunat.xml');
+Route::get('/documentosSunat/cdr', [DocumentosSunatController::class, 'cdr'])->name('documentosSunat.cdr');

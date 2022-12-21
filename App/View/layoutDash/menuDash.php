@@ -202,7 +202,7 @@ $linksSidebar = [
             ],
         ] : null,
 
-    can('infoEmpresas.index') || can('configEmails.index') ?
+    can('infoEmpresas.index') || can('configEmails.index') || can('documentosSunat.index')  ?
         [
             'mode' => 'submenu',
             'text'    => 'Empresa',
@@ -219,6 +219,12 @@ $linksSidebar = [
                     [
                         'text' => 'Config. Email',
                         'url'  => route('configEmails.index'),
+                        'icon' => 'fas fa-circle',
+                    ] : null,
+                can('documentosSunat.index') ?
+                    [
+                        'text' => 'Documentos Sunat',
+                        'url'  => route('documentosSunat.index'),
                         'icon' => 'fas fa-circle',
                     ] : null,
             ],
