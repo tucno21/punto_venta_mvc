@@ -57,7 +57,7 @@ class ProductoController extends Controller
         $data = (object)$data;
 
         $valid = $this->validate($data, [
-            'codigo' => 'required',
+            'codigo' => 'required|unique:Productos,codigo',
             'detalle' => 'required',
             'stock' => 'required',
             'stock_minimo' => 'required',
