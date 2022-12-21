@@ -153,4 +153,36 @@ class Productos extends Model
                 ORDER BY p.id DESC";
         return self::querySimple($sql);
     }
+
+    public static function getCodigoProductos()
+    {
+        $sql = "SELECT codigo FROM productos";
+        return self::querySimple($sql);
+    }
+
+    public static function insertProductos($dataProductos)
+    {
+        // $sql = "INSERT INTO productos (codigo, detalle, categoria_id, unidad_id, tipo_afectacion_id, stock, stock_minimo, precio_compra, precio_venta, estado, user_id) 
+        //         VALUES (:codigo, :detalle, :categoria_id, :unidad_id, :tipo_afectacion_id, :stock, :stock_minimo, :precio_compra, :precio_venta, :estado, :user_id)";
+        $sql = "INSERT INTO `productos` (`codigo`, `detalle`,`precio_compra`,`precio_venta`,`stock`, `stock_minimo`,`categoria_id`,`unidad_id`,`tipo_afectacion_id`,`user_id`,`created_at`) VALUES ";
+        foreach ($dataProductos as $k => $v) {
+            //sanitizar
+            $v['codigo'] = filter_var($v['codigo'], FILTER_UNSAFE_RAW);
+            $v['detalle'] = filter_var($v['detalle'], FILTER_UNSAFE_RAW);
+            $v['precio_compra'] = filter_var($v['precio_compra'], FILTER_UNSAFE_RAW);
+            $v['precio_venta'] = filter_var($v['precio_venta'], FILTER_UNSAFE_RAW);
+            $v['stock'] = filter_var($v['stock'], FILTER_UNSAFE_RAW);
+            $v['stock_minimo'] = filter_var($v['stock_minimo'], FILTER_UNSAFE_RAW);
+            $v['categoria_id'] = filter_var($v['categoria_id'], FILTER_UNSAFE_RAW);
+            $v['unidad_id'] = filter_var($v['unidad_id'], FILTER_UNSAFE_RAW);
+            $v['tipo_afectacion_id'] = filter_var($v['tipo_afectacion_id'], FILTER_UNSAFE_RAW);
+            $v['user_id'] = filter_var($v['user_id'], FILTER_UNSAFE_RAW);
+            $v['created_at'] = filter_var($v['created_at'], FILTER_UNSAFE_RAW);
+
+            $sql .= "('{$v['codigo']}','{$v['detalle']}','{$v['precio_compra']}','{$v['precio_venta']}','{$v['stock']}','{$v['stock_minimo']}','{$v['categoria_id']}','{$v['unidad_id']}','{$v['tipo_afectacion_id']}','{$v['user_id']}','{$v['created_at']}'),";
+        }
+        $sql = substr($sql, 0, -1);
+
+        return self::querySimple($sql);
+    }
 }

@@ -35,4 +35,11 @@ class Categorias extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
+
+    public static function getCategorias()
+    {
+        //estado = 1
+        $sql = "SELECT * FROM categorias WHERE estado = 1";
+        return self::querySimple($sql);
+    }
 }

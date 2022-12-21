@@ -30,6 +30,7 @@ $linksScript2 = [
                         <input id="urlReporteExcel" type="hidden" data-url="<?= route('productos.excel') ?>">
                     </div>
                     <div class="">
+                        <button id="btnCargarProductos" type="button" class="btn btn-success btn-sm">Cargar Producto</button>
                         <button id="btnCrear" type="button" class="btn btn-primary btn-sm">Registrar Producto</button>
                     </div>
                 </div>
@@ -285,6 +286,45 @@ $linksScript2 = [
                     <div class="col-sm-9 text-secondary">
                         <input id="infouser" class="form-control" disabled>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modal Excel -->
+<div class="modal fade" id="modalExel" tabindex="-1" aria-labelledby="modalExel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Registrar productos en forma masiva</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input id="urlCargarProcutos" type="hidden" data-url="<?= route('productos.uploaddata') ?>">
+                <p>Seleccione el archivo excel que descargo de ejemplo y agrego todos sus productos</p>
+
+                <div class="mb-3">
+                    <div class="input-group input-group-sm mb-3">
+                        <label class="input-group-text" for="inputGroupFile01"><i class="bi bi-filetype-xls"></i></label>
+                        <input type="file" id="inputDataExcel" accept=".xls,.xlsx" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="text-center card-footer p-0 pb-3">
+                    <a href="<?= route('productos.tablemodel') ?>" class="btn btn-success">
+                        <i class="mx-1 bi bi-file-earmark-excel"></i>
+                        Descargar Excel de ejemplo
+                        <i class="mx-1 bi bi-arrow-down-square"></i>
+                    </a>
+                    <a href="<?= route('productos.codigoafectacion') ?>" target="_blank" class="btn btn-danger">
+                        códigos: tipo afectacion (IGV)
+                        <i class="mx-1 bi bi-file-earmark-pdf"></i>
+                    </a>
+                </div>
+
+
+                <div class="text-center card-footer p-0 pb-3">
+                    <button class="btn btn-dark" id="btnCargarExcel">Subir EXCEL</button>
                 </div>
             </div>
         </div>

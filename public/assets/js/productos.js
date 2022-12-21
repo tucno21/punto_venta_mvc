@@ -55,6 +55,11 @@ const urlReporteExcel = document
 const btnReportePdf = document.querySelector("#btnReportePdf");
 const btnReporteExcel = document.querySelector("#btnReporteExcel");
 
+//cargar productos excel
+const btnCargarProductos = document.querySelector("#btnCargarProductos");
+const modalExel = new bootstrap.Modal("#modalExel");
+const btnCargarExcel = document.querySelector("#btnCargarExcel");
+
 //mi tabla
 let dataTable = new simpleDatatables.DataTable(listaTabla, {
   searchable: true,
@@ -71,6 +76,8 @@ cargarEventListeners();
 function cargarEventListeners() {
   btnReportePdf.addEventListener("click", generarReportePdf);
   btnReporteExcel.addEventListener("click", generarReporteExcel);
+  btnCargarProductos.addEventListener("click", cargarProductos);
+  btnCargarExcel.addEventListener("click", cargarProductosExcel);
   document.addEventListener("DOMContentLoaded", () => {
     generarDataTable();
     botonCrear();
@@ -84,6 +91,40 @@ function cargarEventListeners() {
     igvGananciaPV();
     gananciaIgvTipoAfectacion();
   });
+}
+
+//cargarProductos
+function cargarProductos() {
+  modalExel.show();
+}
+
+//cargarProductosExcel
+async function cargarProductosExcel() {
+  //capturar el url del formulario
+  const url = document
+    .querySelector("#urlCargarProcutos")
+    .getAttribute("data-url");
+
+  const inputDataExcel = document.querySelector("#inputDataExcel");
+  const data = new FormData();
+  data.append("dataexcel", inputDataExcel.files[0]);
+  console.log(url);
+  const response = await fetch(url, {
+    method: "POST",
+    body: data,
+  });
+  const dataResponse = await response.json();
+  console.log(dataResponse);
+
+  if (dataResponse.status) {
+    inputDataExcel.value = "";
+    modalExel.hide();
+    toastPersonalizado("success", dataResponse.message);
+    generarDataTable();
+  } else {
+    inputDataExcel.value = "";
+    toastPersonalizado("error", dataResponse.message);
+  }
 }
 
 //Traer los datos de la tabla

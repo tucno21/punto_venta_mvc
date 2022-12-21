@@ -137,6 +137,10 @@ Route::get('/productos/pdf', [ProductoController::class, 'pdf'])->name('producto
 Route::get('/productos/excel', [ProductoController::class, 'excel'])->name('productos.excel');
 Route::get('/productos/barcodecompra', [ProductoController::class, 'barcodecompra'])->name('productos.barcodecompra');
 Route::get('/productos/inputSearchcompra', [ProductoController::class, 'inputSearchcompra'])->name('productos.inputSearchcompra');
+Route::get('/productos/tablemodel', [ProductoController::class, 'tablemodel'])->name('productos.tablemodel');
+Route::get('/productos/codigoafectacion', [ProductoController::class, 'codigoafectacion'])->name('productos.codigoafectacion');
+Route::get('/productos/uploaddata', [ProductoController::class, 'uploaddata'])->name('productos.uploaddata');
+Route::post('/productos/uploaddata', [ProductoController::class, 'uploaddatastore']);
 
 //TipoDocumentoController
 Route::get('/tipoDocumentos', [TipoDocumentoController::class, 'index'])->name('tipoDocumentos.index');

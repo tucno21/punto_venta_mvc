@@ -36,4 +36,10 @@ class TipoAfectacion extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
+
+    public static function getTipoAfectacion()
+    {
+        $sql = "SELECT * FROM tipo_afectacion WHERE estado = 1";
+        return self::querySimple($sql);
+    }
 }

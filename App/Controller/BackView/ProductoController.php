@@ -493,4 +493,207 @@ class ProductoController extends Controller
         $writer->save('php://output');
         exit;
     }
+
+    public static function tablemodel()
+    {
+        $excel = new Spreadsheet();
+        $hojaActiva = $excel->getActiveSheet();
+        $hojaActiva->setTitle('Productos');
+        $hojaActiva->getTabColor()->setRGB('FF0000');
+
+        //COLOR CELDA
+        $hojaActiva->getStyle('A1:I1')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setRGB('BDECB6');
+
+        $hojaActiva->getColumnDimension('A')->setWidth(15);
+        $hojaActiva->setCellValue('A1', 'CODIGO');
+        $hojaActiva->getColumnDimension('B')->setWidth(30);
+        $hojaActiva->setCellValue('B1', 'DETALLE');
+        $hojaActiva->getColumnDimension('C')->setWidth(18);
+        $hojaActiva->setCellValue('C1', 'PRECIO COMPRA');
+        $hojaActiva->getColumnDimension('D')->setWidth(18);
+        $hojaActiva->setCellValue('D1', 'PRECIO VENTA');
+        $hojaActiva->getColumnDimension('E')->setWidth(7);
+        $hojaActiva->setCellValue('E1', 'STOCK');
+        $hojaActiva->getColumnDimension('F')->setWidth(12);
+        $hojaActiva->setCellValue('F1', 'STOCK MIN');
+        $hojaActiva->getColumnDimension('G')->setWidth(15);
+        $hojaActiva->setCellValue('G1', 'CATEGORIA');
+        $hojaActiva->getColumnDimension('H')->setWidth(12);
+        $hojaActiva->setCellValue('H1', 'UNIDAD');
+        $hojaActiva->getColumnDimension('I')->setWidth(25);
+        $hojaActiva->setCellValue('I1', 'CODIGO TIPO AFECTACION');
+
+        //EJEMPLO
+        $hojaActiva->setCellValue('A2', '213153');
+        $hojaActiva->setCellValue('B2', 'LAPTOP HP');
+        $hojaActiva->setCellValue('C2', '1500');
+        $hojaActiva->setCellValue('D2', '2000');
+        $hojaActiva->setCellValue('E2', '10');
+        $hojaActiva->setCellValue('F2', '5');
+        $hojaActiva->setCellValue('G2', 'ELECTRONICA');
+        $hojaActiva->setCellValue('H2', 'UNIDAD');
+        $hojaActiva->setCellValue('I2', '10');
+
+
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="modeloProductos.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $writer = IOFactory::createWriter($excel, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
+
+    public function codigoafectacion()
+    {
+        $tipo = TipoAfectacion::get();
+        if (is_object($tipo)) {
+            $tipo = [$tipo];
+        }
+
+        $pdf = new FPDF('P', 'mm', 'A4');
+        $pdf->AddPage();
+        $pdf->setMargins(10, 10, 10);
+        $pdf->setTitle('Tipos de Afectacion IGV');
+
+        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->Cell(0, 5, 'Tipos de Afectacion IGV', 0, 1, 'C');
+        $pdf->Ln(5);
+        $pdf->SetFont('Arial', 'B', 9);
+        $pdf->Cell(0, 5, utf8_decode('Utilice el codigo para la afectación de venta de los productos, no use si el estado esta inactivo'), 0, 1, 'C');
+        $pdf->Ln(5);
+
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->Cell(20, 7, utf8_decode('CÓDIGO'), 1, 0, 'C');
+        $pdf->Cell(100, 7, utf8_decode('DESCRIPCIÓN'), 1, 0, 'C');
+        $pdf->Cell(20, 7, 'ESTADO', 1, 1, 'C');
+
+        $pdf->SetFont('Arial', '', 10);
+        foreach ($tipo as $tip) {
+            $pdf->Cell(20, 7, utf8_decode($tip->codigo), 1, 0, 'C');
+            $pdf->Cell(100, 7, utf8_decode($tip->descripcion), 1, 0, 'L');
+            if ($tip->estado == 1) {
+                $pdf->Cell(20, 7, utf8_decode('Activo'), 1, 1, 'C');
+            } else {
+                $pdf->Cell(20, 7, utf8_decode('Inactivo'), 1, 1, 'C');
+            }
+        }
+
+        $pdf->Output('I', 'codigoAfectacion.pdf');
+    }
+
+    public function uploaddatastore()
+    {
+        $data = $_POST;
+        if (!empty($_FILES)) {
+            $data = array_merge($data, $_FILES);
+        }
+        $data = (object)$data;
+
+        $valid = $this->validate($data, [
+            'dataexcel' => 'requiredFile',
+        ]);
+
+        if ($valid !== true) {
+            //mensaje de error
+            $response = ['status' => false, 'message' => 'No envio ningun archivo'];
+            //json_encode
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            exit;
+        } else {
+
+            $allowedFileType = ['application/vnd.ms-excel', 'text/xls', 'text/xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
+
+            $codigoProductos = Productos::getCodigoProductos();
+            $categorias = Categorias::getCategorias();
+            $categorias = array_column($categorias, 'nombre', 'id');
+            $unidades = Unidades::getUnidades();
+            $unidades = array_column($unidades, 'descripcion', 'id');
+            $tiposAfectaciones = TipoAfectacion::getTipoAfectacion();
+            $tiposAfectaciones = array_column($tiposAfectaciones, 'codigo', 'id');
+            // dd($tiposAfectaciones);
+
+            if (in_array($data->dataexcel['type'], $allowedFileType)) {
+                //movel el archivo a la carpeta temporal
+                $excelPath = DIR_IMG . $data->dataexcel['name'];
+                move_uploaded_file($data->dataexcel['tmp_name'], $excelPath);
+
+                //revisar el documento
+                $documentoExcel = IOFactory::load($excelPath);
+                $hojaactual = $documentoExcel->getSheet(0);
+                $numeroFilas = $hojaactual->getHighestDataRow();
+
+                $dataProductos = [];
+                for ($fila = 2; $fila <= $numeroFilas; $fila++) {
+                    $codigo = $hojaactual->getCell('A' . $fila)->getValue();
+                    $detalle = $hojaactual->getCell('B' . $fila)->getValue();
+                    $precioCompra = $hojaactual->getCell('C' . $fila)->getValue();
+                    $precioVenta = $hojaactual->getCell('D' . $fila)->getValue();
+                    $stock = $hojaactual->getCell('E' . $fila)->getValue();
+                    $stockMin = $hojaactual->getCell('F' . $fila)->getValue();
+                    $categoria = $hojaactual->getCell('G' . $fila)->getValue();
+                    $unidad = $hojaactual->getCell('H' . $fila)->getValue();
+                    $codigoAfectacion = $hojaactual->getCell('I' . $fila)->getValue();
+
+                    foreach ($codigoProductos as $coPro) {
+                        if ($coPro->codigo == $codigo) {
+                            $response = ['status' => false, 'message' => 'El codigo ' . $codigo . ' ya existe en la fila ' . $fila];
+                            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+                            exit;
+                        }
+                    }
+
+                    if (array_search($categoria, $categorias) === false) {
+                        $response = ['status' => false, 'message' => 'La categoria ' . $categoria . ' no existe o esta inactiva en la fila ' . $fila];
+                        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+                        exit;
+                    } else {
+                        $categoria = array_search($categoria, $categorias);
+                    }
+
+                    if (array_search($unidad, $unidades) === false) {
+                        $response = ['status' => false, 'message' => 'La unidad ' . $unidad . ' no existe o esta inactiva en la fila ' . $fila];
+                        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+                        exit;
+                    } else {
+                        $unidad = array_search($unidad, $unidades);
+                    }
+
+                    if (array_search($codigoAfectacion, $tiposAfectaciones) === false) {
+                        $response = ['status' => false, 'message' => 'El codigo de afectacion ' . $codigoAfectacion . ' no existe o esta inactiva en la fila ' . $fila];
+                        echo json_encode($response, JSON_UNESCAPED_UNICODE);
+                        exit;
+                    } else {
+                        $codigoAfectacion = array_search($codigoAfectacion, $tiposAfectaciones);
+                    }
+
+                    //array push
+                    array_push($dataProductos, [
+                        'codigo' => $codigo,
+                        'detalle' => $detalle,
+                        'precio_compra' => $precioCompra,
+                        'precio_venta' => $precioVenta,
+                        'stock' => $stock,
+                        'stock_minimo' => $stockMin,
+                        'categoria_id' => $categoria,
+                        'unidad_id' => $unidad,
+                        'tipo_afectacion_id' => $codigoAfectacion,
+                        'user_id' => session()->user()->id,
+                        'created_at' => date('Y-m-d H:i:s'),
+                    ]);
+                }
+                // dd($dataProductos);
+                $result = Productos::insertProductos($dataProductos);
+                unlink($excelPath);
+                $response = ['status' => true, 'message' => 'Productos registrados correctamente'];
+                echo json_encode($response, JSON_UNESCAPED_UNICODE);
+                exit;
+            } else {
+                $response = ['status' => false, 'message' => 'Tipo de archivo no permitido'];
+                echo json_encode($response, JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+        }
+    }
 }

@@ -35,4 +35,11 @@ class Unidades extends Model
      */
     protected static $createdField    = 'created_at';
     protected static $updatedField    = 'updated_at';
+
+    public static function getUnidades()
+    {
+        //estado = 1
+        $sql = "SELECT * FROM unidades WHERE estado = 1";
+        return self::querySimple($sql);
+    }
 }
