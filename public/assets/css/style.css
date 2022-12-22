@@ -16180,7 +16180,7 @@ pre[class*="language-"]>code {
 }
 
 .pc-sidebar .m-header {
-    height: 45px;
+    height: 48px;
     /* CAMBIO menu superior logo nombre*/
     display: flex;
     align-items: center;
@@ -16450,6 +16450,10 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
     /* CAMBIO menu superior */
     right: 0;
     z-index: 1025;
+    /* ADD borde inferior */
+    border-bottom: 0.5px solid #1C232F50;
+    /* ADD box-shadow inferior */
+    /* box-shadow: 0 0.5px 4px 0 #161C25; */
 }
 
 .pc-header ul {
