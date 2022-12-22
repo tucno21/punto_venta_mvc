@@ -16079,7 +16079,8 @@ pre[class*="language-"]>code {
 .pc-sidebar {
     background: #1c232f;
     box-shadow: 0 1px 20px 0 rgba(69, 90, 100, 0.08);
-    width: 280px;
+    width: 255px;
+    /* CAMBIO menu lateral */
     position: fixed;
     top: 0;
     bottom: 0;
@@ -16179,10 +16180,11 @@ pre[class*="language-"]>code {
 }
 
 .pc-sidebar .m-header {
-    height: 60px;
+    height: 45px;
+    /* CAMBIO menu superior logo nombre*/
     display: flex;
     align-items: center;
-    padding: 15px 30px;
+    padding: 5px 20px;
     background: #161c25;
 }
 
@@ -16192,7 +16194,7 @@ pre[class*="language-"]>code {
 
 .pc-sidebar .navbar-content {
     position: relative;
-    height: calc(100vh - 70px);
+    height: calc(100vh - 45px);
     padding: 10px 0;
 }
 
@@ -16415,7 +16417,8 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
 
 @media (max-width: 1024px) {
     .pc-sidebar {
-        left: -280px;
+        left: -255px;
+        /* CAMBIO menu lateral celular*/
         box-shadow: none;
         transition: all 0.15s ease-in-out;
     }
@@ -16440,9 +16443,11 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
     background: #fff;
     box-shadow: 0 1px 0 0 #f1f1f1;
     color: #525b69;
-    min-height: 60px;
+    min-height: 45px;
+    /* CAMBIO menu superior */
     position: fixed;
-    left: 280px;
+    left: 255px;
+    /* CAMBIO menu superior */
     right: 0;
     z-index: 1025;
 }
@@ -16458,7 +16463,8 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
 }
 
 .pc-header .pc-h-item {
-    min-height: 60px;
+    min-height: 45px;
+    /* CAMBIO menu superior */
     display: flex;
     align-items: center;
     position: relative;
@@ -16468,7 +16474,8 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
     color: #525b69;
     display: inline-flex;
     align-items: center;
-    padding: 0.6rem 0.9rem;
+    padding: 0.14rem 0.9rem;
+    /* CAMBIO menu superior */
     margin: 0 5px;
     border-radius: 4px;
     position: relative;
@@ -16476,11 +16483,12 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
 }
 
 .pc-header .pc-head-link>i {
-    font-size: 20px;
-    color: #3f80ea;
+    font-size: 1.65rem;
+    color: #161C25;
+    /* CAMBIO menu superior hamburguesa */
 }
 
-.pc-header .pc-head-link>i.material-icons-two-tone {
+/* .pc-header .pc-head-link>i.material-icons-two-tone {
     font-size: 24px;
     background-color: #525b69;
 }
@@ -16488,7 +16496,7 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
 .pc-header .pc-head-link>svg {
     width: 20px;
     height: 20px;
-}
+} */
 
 .pc-header .pc-head-link.active,
 .pc-header .pc-head-link:active,
@@ -16675,8 +16683,10 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
 .pc-mob-header {
     display: none;
     background: #161c25;
-    height: 60px;
-    align-items: center;
+    height: 50px;
+    /* CAMBIO menu superior celular*/
+    /* align-items: center; */
+    /* CAMBIO menu superior celular*/
     justify-content: space-between;
     position: fixed;
     z-index: 1026;
@@ -16745,7 +16755,8 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
     }
 
     .pc-header .pcm-logo {
-        margin-left: 30px;
+        margin-left: 40px;
+        /* CAMBIO menu superior celular*/
     }
 
     .pc-header .pcm-logo img {
@@ -16753,7 +16764,8 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
     }
 
     .pc-header.mob-header-active {
-        top: 60px;
+        top: 50px;
+        /* CAMBIO menu superior celular menu oculto*/
     }
 
     .pc-header.mob-header-active .header-wrapper {
@@ -16835,8 +16847,9 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
 
 @media (max-width: 575.98px) {
     .pc-header .pc-head-link {
-        padding: 0.65rem;
+        /* padding: 0.65rem; */
         margin: 0;
+        color: #fff;
     }
 
     .pc-header .pc-h-item {
@@ -16851,15 +16864,20 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
 
 .pc-container {
     position: relative;
-    top: 70px;
-    margin-left: 280px;
+    top: 50px;
+    /* CAMBIO contenido de paginas*/
+    margin-left: 255px;
+    /* CAMBIO contenido de paginas*/
     min-height: calc(100vh - 70px);
 }
 
 .pc-container .pcoded-content {
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 30px;
+    padding-left: 18px;
+    /* CAMBIO contenido de paginas*/
+    padding-right: 18px;
+    /* CAMBIO contenido de paginas*/
+    padding-top: 25px;
+    /* CAMBIO contenido de paginas*/
 }
 
 .pc-container .page-header+.row {
@@ -16884,12 +16902,16 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
     position: fixed;
     display: flex;
     align-items: center;
-    top: 60px;
-    left: 280px;
+    top: 45px;
+    /* CAMBIO de titulo de paneles */
+    left: 255px;
+    /* CAMBIO de titulo de paneles */
     right: 0;
     z-index: 1023;
-    min-height: 55px;
-    padding: 13px 30px;
+    min-height: 45px;
+    /* CAMBIO de titulo de paneles */
+    padding: 10px 30px;
+    /* CAMBIO de titulo de paneles */
 }
 
 .page-header .page-block {
@@ -17059,7 +17081,8 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
     .pc-container .page-header+.row,
     .pc-container .page-header+.pcoded-content,
     .pc-container .pcoded-content {
-        padding-top: 20px;
+        padding-top: 15px;
+        /* CAMBIO contenido de paginas celular*/
     }
 
     .page-header {
@@ -17079,7 +17102,8 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
 
 @media (max-width: 575.98px) {
     .pc-container .pcoded-content {
-        padding: 20px;
+        padding: 15px;
+        /* CAMBIO contenido de paginas celular*/
     }
 
     .pc-container .container {
@@ -17088,7 +17112,8 @@ body:not(.minimenu) .pc-sidebar .pc-submenu .pc-submenu .pc-submenu>.pc-item:bef
     }
 
     .page-header {
-        padding: 13px 20px;
+        padding: 5px 10px;
+        /* CAMBIO contenido de paginas celular*/
     }
 
     .page-header h5,

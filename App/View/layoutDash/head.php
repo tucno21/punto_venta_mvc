@@ -45,13 +45,8 @@
             <p class="logo logo-lg text-white fs-2 mt-2 mx-auto"> <i class="bi bi-truck"></i> <?= $title ?></p>
         </div>
         <div class="pcm-toolbar">
-            <a href="#!" class="pc-head-link" id="mobile-collapse">
-                <div class="hamburger hamburger--arrowturn">
-                    <div class="hamburger-box">
-                        <div class="hamburger-inner"></div>
-                    </div>
-                </div>
-                <!-- <i data-feather="menu"></i> -->
+            <a href="#!" class="pc-head-link text-white" id="mobile-collapse">
+                <i class="text-white bi bi-list"></i>
             </a>
 
             <a href="#!" class="pc-head-link" id="header-collapse">
@@ -65,7 +60,7 @@
     <nav class="pc-sidebar ">
         <div class="navbar-wrapper">
             <div class="m-header">
-                <a href="<?= $mainLink ?>" class="b-brand text-white fs-3 mt-2 mx-auto">
+                <a href="<?= $mainLink ?>" class="b-brand text-white fs-4 mx-auto">
                     <!-- ========   change your logo hear   ============ -->
                     <i class="bi bi-truck"></i>
                     <span class="logo logo-lg"><?= $title ?></span>
