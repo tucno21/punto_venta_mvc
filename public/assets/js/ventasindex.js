@@ -74,6 +74,7 @@ let dataTable = new simpleDatatables.DataTable(listaTabla, {
 async function generarDataTable() {
   const response = await fetch(urlDataTable);
   const data = await response.json();
+
   let i = 1;
   data.forEach((element) => {
     element.orden = i;
@@ -152,7 +153,7 @@ async function generarDataTable() {
       "Comprobante",
       "F. Emisión",
       "Total",
-      "Vendedor",
+      "Cliente",
       "Sunat",
       "Acciones",
     ],
@@ -162,7 +163,7 @@ async function generarDataTable() {
         item.serie + "-" + item.correlativo,
         item.fecha_emision,
         "S/. " + item.total,
-        item.vendedor,
+        item.cliente,
         item.estadoSunat,
         item.actions,
       ];

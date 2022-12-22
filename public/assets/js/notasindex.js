@@ -93,7 +93,7 @@ async function generarDataTable() {
       "Referente",
       "F. Emisión",
       "Total",
-      "Vendedor",
+      "Clientes",
       "Sunat",
       "Acciones",
     ],
@@ -104,7 +104,7 @@ async function generarDataTable() {
         item.serie_ref + "-" + item.correlativo_ref,
         item.fecha_emision,
         "S/. " + item.total,
-        item.vendedor,
+        item.cliente,
         item.estadoSunat,
         item.actions,
       ];
