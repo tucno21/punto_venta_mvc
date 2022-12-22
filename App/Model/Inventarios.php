@@ -71,4 +71,16 @@ class Inventarios extends Model
                 WHERE i.producto_id = $productoID AND i.fecha BETWEEN '$fechaInicio' AND '$fechaFin'";
         return self::querySimple($sql);
     }
+
+    public static function registrarMovimientos($nuevoInventario)
+    {
+        $sql = "INSERT INTO inventario (producto_id, comprobante, cantidad, fecha, tipo, accion, stock_actual, user_id) VALUES ";
+        foreach ($nuevoInventario as $key => $value) {
+            $sql .= "({$value['producto_id']}, '{$value['comprobante']}', {$value['cantidad']}, '{$value['fecha']}', '{$value['tipo']}', '{$value['accion']}', {$value['stock_actual']}, {$value['user_id']}),";
+        }
+        $sql = substr($sql, 0, -1);
+
+        $result = self::execute($sql);
+        return $result > 0 ? true : false;
+    }
 }

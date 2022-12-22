@@ -554,4 +554,16 @@ class Model
         self::$query = $query;
         return self::readDB();
     }
+
+    //ejecutar query personalizado
+    public static function execute($query)
+    {
+        self::startBd();
+        self::$query = $query;
+
+        $stmt = self::$db->prepare(self::$query);
+        $stmt->execute();
+        //resultado si se actualizo o no
+        return $stmt->rowCount();
+    }
 }

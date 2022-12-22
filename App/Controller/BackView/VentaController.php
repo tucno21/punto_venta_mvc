@@ -119,78 +119,127 @@ class VentaController extends Controller
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
         } else {
-            // $response = $this->guardarVenta($data);
-            // echo json_encode($response, JSON_UNESCAPED_UNICODE);
-            // exit;
-            $result = Ventas::create($data);
-            //     ["status"]=>
-            //     bool(true)
-            //     ["id"]=>
-            //     string(1) "1"
-            //   }
-            //buscar  result->id
-            $venta = Ventas::find($result->id);
-            //traer SerieCorrelativo
-            $serie = SerieCorrelativo::find($venta->serie_id);
-            //actualizar correlativo
-            $dataSerie = ['correlativo' => $serie->correlativo + 1];
-            $ff = SerieCorrelativo::update($serie->id, $dataSerie);
+
+            //grabar en la tabla ventas
+            $response = Ventas::create($data);
+            $response = (object)$response;
+            if (isset($response->error)) {
+                $jsonData = ['status' => false, 'message' => $response->error];
+                echo json_encode($jsonData, JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+
+            //buscar la venta grabada
+            $venta = Ventas::find($response->id);
+
+            //actualiozar correlativo de la venta
+            $resCorr = $this->updateCorrelativo($venta);
+            if (!$resCorr) {
+                $jsonData = ['status' => false, 'message' => 'Error al actualizar el correlativo'];
+                echo json_encode($jsonData, JSON_UNESCAPED_UNICODE);
+                exit;
+            }
 
             //crear xml y firmar
-
             $estado = $this->generarXML($venta->id);
-
-            if ($estado->success) {
-                $productos =  json_decode($venta->productos);
-                foreach ($productos as $producto) {
-                    //actualiza el stock de los productos
-                    //buscar el producto
-                    $pro = Productos::where('id', $producto->id)->first();
-
-                    $actualizar = [
-                        'stock' => $pro->stock - $producto->cantidad,
-                    ];
-
-                    Productos::update($producto->id, $actualizar);
-
-                    //regitrar en el inventario
-                    $inventario = [
-                        'producto_id' => $producto->id,
-                        'comprobante' => $venta->serie . '-' . $venta->correlativo,
-                        'cantidad' => $producto->cantidad,
-                        'fecha' => $venta->fecha_emision,
-                        'tipo' => 'salida',
-                        'accion' => 'Venta',
-                        'stock_actual' => $pro->stock - $producto->cantidad,
-                        'user_id' => $venta->usuario_id,
-                    ];
-                    Inventarios::create($inventario);
-
-                    //productos top ventas
-                    $topVentas = ProductosVentasTop::getProducto($producto->id);
-                    //si el array esta vacio
-                    if (empty($topVentas)) {
-                        $topVentas = [
-                            'producto_id' => $producto->id,
-                            'cant_ventas' => $producto->cantidad,
-                        ];
-                        ProductosVentasTop::registrar((object)$topVentas);
-                    } else {
-                        $topVentas = [
-                            'cant_ventas' => $topVentas->cant_ventas + $producto->cantidad,
-                        ];
-                        ProductosVentasTop::actualizar($producto->id, (object)$topVentas);
-                    }
-                }
-
-
-                $response = ['status' => true, 'id' => $result->id, 'message' => $estado->message];
-            } else {
-                $response = ['status' => false, 'message' => $estado->message];
+            if (!$estado->success) {
+                $jsonData = ['status' => false, 'message' => $estado->message];
+                echo json_encode($jsonData, JSON_UNESCAPED_UNICODE);
+                exit;
             }
+
+            //cambiar stock de los productos
+            $respProd = $this->updateStockProducto($venta);
+            if (!$respProd) {
+                $jsonData = ['status' => false, 'message' => 'Error al actualizar el stock de los productos'];
+                echo json_encode($jsonData, JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+
+            //regitrar en el inventario
+            $respInv = $this->registrarInventario($venta);
+            if (!$respInv) {
+                $jsonData = ['status' => false, 'message' => 'Error al registrar en el inventario'];
+                echo json_encode($jsonData, JSON_UNESCAPED_UNICODE);
+                exit;
+            }
+
+            //top ventas
+            $resTop = $this->topVentas($venta);
+            if (!$resTop) {
+                $jsonData = ['status' => false, 'message' => 'Error al actualizar el top de ventas'];
+                echo json_encode($jsonData, JSON_UNESCAPED_UNICODE);
+                exit;
+            };
+
+            //enciar id de la venta
+            $response = ['status' => true, 'id' => $response->id, 'message' => $estado->message];
             echo json_encode($response, JSON_UNESCAPED_UNICODE);
             exit;
         }
+    }
+
+    public function updateCorrelativo($venta)
+    {
+        //traer SerieCorrelativo
+        $serie = SerieCorrelativo::find($venta->serie_id);
+        //actualizar correlativo
+        $dataSerie = ['correlativo' => $serie->correlativo + 1];
+        $response = SerieCorrelativo::update($serie->id, $dataSerie);
+        return $response->status ? true : false;
+    }
+
+    public function updateStockProducto($venta)
+    {
+        $productos =  json_decode($venta->productos);
+        $result = Productos::disminuirStock($productos);
+        return $result ? true : false;
+    }
+
+    public function registrarInventario($venta)
+    {
+        $nuevoInventario = [];
+        $productos =  json_decode($venta->productos);
+        foreach ($productos as $producto) {
+            $pro = Productos::where('id', $producto->id)->first();
+            $inventario = [
+                'producto_id' => $producto->id,
+                'comprobante' => $venta->serie . '-' . $venta->correlativo,
+                'cantidad' => $producto->cantidad,
+                'fecha' => $venta->fecha_emision,
+                'tipo' => 'salida',
+                'accion' => 'Venta',
+                'stock_actual' => $pro->stock,
+                'user_id' => $venta->usuario_id,
+            ];
+            array_push($nuevoInventario, $inventario);
+        }
+        $result = Inventarios::registrarMovimientos($nuevoInventario);
+        return $result ? true : false;
+    }
+
+    public function topVentas($venta)
+    {
+        $productos =  json_decode($venta->productos);
+
+        foreach ($productos as $producto) {
+            $topVentas = ProductosVentasTop::getProducto($producto->id);
+            //si el array esta vacio
+            if (empty($topVentas)) {
+                $topVentas = [
+                    'producto_id' => $producto->id,
+                    'cant_ventas' => $producto->cantidad,
+                ];
+                ProductosVentasTop::registrar((object)$topVentas);
+            } else {
+                $topVentas = [
+                    'cant_ventas' => $topVentas->cant_ventas + $producto->cantidad,
+                ];
+                ProductosVentasTop::actualizar($producto->id, (object)$topVentas);
+            }
+        }
+
+        return true;
     }
 
     public function guardarVenta($data)

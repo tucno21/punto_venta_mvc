@@ -185,4 +185,23 @@ class Productos extends Model
 
         return self::querySimple($sql);
     }
+
+    public static function disminuirStock($productos)
+    {
+        //disminir el stock actual array de productos
+        $sql = "UPDATE productos SET stock = CASE id ";
+        foreach ($productos as $k => $v) {
+            $sql .= "WHEN {$v->id} THEN stock - {$v->cantidad} ";
+        }
+        $sql .= "END WHERE id IN(";
+        foreach ($productos as $k => $v) {
+            $sql .= $v->id . ',';
+        }
+        $sql = substr($sql, 0, -1);
+        $sql .= ')';
+
+        $result = self::execute($sql);
+
+        return $result > 0 ? true : false;
+    }
 }

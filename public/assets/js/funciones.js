@@ -1,12 +1,12 @@
 //funcion toast personalizado
-function toastPersonalizado(icon, title) {
+function toastPersonalizado(icon, title, timer = 3000) {
   Swal.fire({
     toast: true,
     position: "top-right",
     icon: icon,
     title: title,
     showConfirmButton: false,
-    timer: 2000,
+    timer: timer,
     //modificar color
     iconColor: "white",
     customClass: {
