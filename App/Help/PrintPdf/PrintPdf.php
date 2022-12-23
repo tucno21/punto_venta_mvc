@@ -65,29 +65,29 @@ class PrintPdf
         $pdf->cell(25, 6, 'Cliente', 'LT', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 8);
         $pdf->cell(112, 6, ': ' . utf8_decode($cliente->nombre), 'TR', 1, 'L', 0);
-        $pdf->Ln(-1);
+        $pdf->Ln(2);
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->cell(25, 7, 'RUC/DNI', 'L', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 8);
         $pdf->cell(112, 6, ': ' . utf8_decode($cliente->documento), 'R', 1, 'L', 0);
-        $pdf->Ln(-1);
+        $pdf->Ln(2);
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->cell(25, 6, utf8_decode('Dirección'), 'L', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 8);
         $pdf->cell(112, 6, ': ' . utf8_decode($cliente->direccion), 'R', 1, 'L', 0);
 
         if ($venta->tipodoc == "07" || $venta->tipodoc == "08") {
-            $pdf->Ln(-1);
+            $pdf->Ln(2);
             $pdf->SetFont('Arial', 'B', 8);
             $pdf->cell(25, 6, utf8_decode('Doc. Afectado'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 8);
             $pdf->cell(112, 6, ': ' . utf8_decode($venta->serie_ref . "-" . $venta->correlativo_ref), 'R', 1, 'L', 0);
-            $pdf->Ln(-1);
+            $pdf->Ln(2);
             $pdf->SetFont('Arial', 'B', 8);
             $pdf->cell(25, 6, utf8_decode('Tipo Nota'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 8);
             $pdf->cell(112, 6, ': ' . utf8_decode($venta->motivo), 'R', 1, 'L', 0);
-            $pdf->Ln(-1);
+            $pdf->Ln(2);
             $pdf->SetFont('Arial', 'B', 8);
             $pdf->cell(25, 6, utf8_decode('Descripción'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 8);
@@ -95,12 +95,12 @@ class PrintPdf
         }
         // dd($venta->fecha_emision);
         if ($venta->tipodoc == "21") {
-            $pdf->Ln(-1);
+            $pdf->Ln(2);
             $pdf->SetFont('Arial', 'B', 8);
             $pdf->cell(25, 6, utf8_decode('Tiempo de Oferta'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 8);
             $pdf->cell(112, 6, ': ' . utf8_decode($venta->tiempo . " Días"), 'R', 1, 'L', 0);
-            $pdf->Ln(-1);
+            $pdf->Ln(2);
             $pdf->SetFont('Arial', 'B', 8);
             $pdf->cell(25, 6, utf8_decode('Fecha Vencimiento'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 8);
@@ -109,7 +109,7 @@ class PrintPdf
             $pdf->cell(112, 6, ': ' . utf8_decode($fecha_vencimiento), 'R', 1, 'L', 0);
         }
 
-        $pdf->Ln(-1);
+        $pdf->Ln(2);
         $pdf->SetFont('Arial', 'B', 8);
         $pdf->cell(25, 6, utf8_decode('Fecha Emisión'), 'LB', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 8);
@@ -256,41 +256,41 @@ class PrintPdf
         $pdf->cell(35, 6, 'Cliente', 'LT', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 9);
         $pdf->cell(160, 6, ': ' . utf8_decode($cliente->nombre), 'TR', 1, 'L', 0);
-        $pdf->Ln(-1);
+        $pdf->Ln(2);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->cell(35, 7, 'RUC/DNI', 'L', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 9);
         $pdf->cell(160, 6, ': ' . utf8_decode($cliente->documento), 'R', 1, 'L', 0);
-        $pdf->Ln(-1);
+        $pdf->Ln(2);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->cell(35, 6, utf8_decode('Dirección'), 'L', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 9);
         $pdf->cell(160, 6, ': ' . utf8_decode($cliente->direccion), 'R', 1, 'L', 0);
 
         if ($venta->tipodoc == "07" || $venta->tipodoc == "08") {
-            $pdf->Ln(-1);
+            $pdf->Ln(2);
             $pdf->SetFont('Arial', 'B', 10);
             $pdf->cell(35, 6, utf8_decode('Doc. Afectado'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 9);
             $pdf->cell(160, 6, ': ' . utf8_decode($venta->serie_ref . "-" . $venta->correlativo_ref), 'R', 1, 'L', 0);
-            $pdf->Ln(-1);
+            $pdf->Ln(2);
             $pdf->SetFont('Arial', 'B', 10);
             $pdf->cell(35, 6, utf8_decode('Tipo Nota'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 9);
             $pdf->cell(160, 6, ': ' . utf8_decode($venta->motivo), 'R', 1, 'L', 0);
-            $pdf->Ln(-1);
+            $pdf->Ln(2);
             $pdf->SetFont('Arial', 'B', 10);
             $pdf->cell(35, 6, utf8_decode('Descripción'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 9);
             $pdf->cell(160, 6, ': ' . utf8_decode($venta->descripcion), 'R', 1, 'L', 0);
         }
         if ($venta->tipodoc == "21") {
-            $pdf->Ln(-1);
+            $pdf->Ln(2);
             $pdf->SetFont('Arial', 'B', 10);
             $pdf->cell(35, 6, utf8_decode('Tiempo de Oferta'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 9);
             $pdf->cell(160, 6, ': ' . utf8_decode($venta->tiempo . " Días"), 'R', 1, 'L', 0);
-            $pdf->Ln(-1);
+            $pdf->Ln(2);
             $pdf->SetFont('Arial', 'B', 10);
             $pdf->cell(35, 6, utf8_decode('Fecha Vencimiento'), 'L', 0, 'L', 0);
             $pdf->SetFont('Arial', '', 9);
@@ -299,7 +299,7 @@ class PrintPdf
         }
 
 
-        $pdf->Ln(-1);
+        $pdf->Ln(2);
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->cell(35, 6, utf8_decode('Fecha Emisión'), 'LB', 0, 'L', 0);
         $pdf->SetFont('Arial', '', 9);
@@ -406,108 +406,119 @@ class PrintPdf
 
     public function ModeloTicket($emisor, $venta, $cliente)
     {
-        $pdf = new FPDF('P', 'mm', array(80, 250));
+        // dd($venta);
+        $ancho = 80;
+        $pdf = new FPDF('P', 'mm', array($ancho, 250));
         $pdf->AddPage();
-        $pdf->setMargins(3, 2, 3);
+        // $pdf->SetFont('Arial', 'B', 8);    //Letra Arial, negrita (Bold), tam. 20
 
-        $pdf->SetFont('Helvetica', '', 11);
-        $pdf->Cell(60, 4, utf8_decode($emisor->razon_social), 0, 1, 'C');
+        $pdf->setY(4);
+        $pdf->setX(3);
+        $pdf->setMargins(3, 4, 3);
+        // CABECERA
+        $pdf->SetFont('Helvetica', 'B', 10);
+        $pdf->MultiCell(0, 4, utf8_decode($emisor->razon_social), 0, 'C');
         $pdf->SetFont('Helvetica', '', 8);
-        $pdf->MultiCell(74, 4, utf8_decode($emisor->descripcion), 0, 'C');
-        $pdf->Cell(74, 4, 'RUC: ' . $emisor->ruc, 0, 1, 'C');
-        $pdf->Cell(74, 4, utf8_decode($emisor->direccion), 0, 1, 'C');
-        $pdf->Cell(74, 4, utf8_decode($emisor->departamento . ' - ' . $emisor->provincia . ' - ' . $emisor->distrito), 0, 1, 'C');
-        $pdf->Cell(74, 4, 'Cel: ' . $emisor->telefono, 0, 1, 'C');
+        $pdf->MultiCell(0, 4, utf8_decode($emisor->descripcion), 0, 'C');
+        $pdf->Cell(0, 4, 'RUC: ' . $emisor->ruc, 0, 1, 'C');
+        $pdf->Cell(0, 4, utf8_decode($emisor->direccion), 0, 1, 'C');
+        $pdf->Cell(0, 4, utf8_decode($emisor->departamento . ' - ' . $emisor->provincia . ' - ' . $emisor->distrito), 0, 1, 'C');
+        $pdf->Cell(0, 4, 'Cel: ' . $emisor->telefono, 0, 1, 'C');
+        $pdf->Ln(3);
+
+        //CABECERA DE LA VENTA TIPO DE DOCUMENTO
+        $pdf->SetFont('Helvetica', 'B', 9);
         if ($venta->tipodoc == "07" || $venta->tipodoc == "08" || $venta->tipodoc == "20") {
-            $pdf->Cell(74, 4, utf8_decode($venta->nombre_tipodoc), 0, 1, 'C');
+            $pdf->Cell(0, 4, utf8_decode($venta->nombre_tipodoc), 0, 1, 'C');
         } else {
-            $pdf->Cell(74, 4, utf8_decode($venta->nombre_tipodoc) . ' ELECTRONICA', 0, 1, 'C');
+            $pdf->Cell(0, 4, utf8_decode($venta->nombre_tipodoc) . ' ELECTRONICA', 0, 1, 'C');
         }
+        $pdf->SetFont('Helvetica', '', 8);
         $number = $venta->correlativo;
         $length = 8;
         $correlativo = substr(str_repeat(0, $length) . $number, -$length);
-        $pdf->Cell(74, 4, $venta->serie . '-' . $correlativo, 0, 1, 'C');
-        $newDate = date("d/m/Y", strtotime($venta->fecha_emision));
-        $pdf->Cell(74, 4, $newDate, 0, 1, 'C');
-
-        // DATOS FACTURA        
+        $pdf->Cell(0, 4, $venta->serie . '-' . $correlativo, 0, 1, 'C');
+        $newDate = date("d-m-Y", strtotime($venta->fecha_emision));
+        $pdf->Cell(0, 4, $newDate, 0, 1, 'C');
         $pdf->Ln(5);
+
+
+        //DATOS DEL CLIENTE
         $pdf->Cell(14, 4, 'Cliente', 0, 0, '');
-        $pdf->Cell(50, 4, ': ' . utf8_decode($cliente->nombre), 0, 1, '');
+        $pdf->Cell(0, 4, ': ' . utf8_decode($cliente->nombre), 0, 1, '');
         $pdf->Cell(14, 4, 'Dni', 0, 0, '');
-        $pdf->Cell(50, 4, ': ' . $cliente->documento, 0, 1, '');
-        $pdf->Cell(14, 4, 'Direccion', 0, 0, '');
-        $pdf->Cell(50, 4, ': ' . utf8_decode($cliente->direccion), 0, 1, '');
+        $pdf->Cell(0, 4, ': ' . $cliente->documento, 0, 1, '');
+        $pdf->Cell(14, 4, utf8_decode('Dirección'), 0, 0, '');
+        $pdf->MultiCell(0, 4, ': ' . utf8_decode($cliente->direccion), 0, '');
+        $pdf->Ln(2);
 
-        $pdf->SetAutoPageBreak('auto', 2);
-        $pdf->SetDisplayMode(75);
-
-        // COLUMNAS
+        //CABECERA DE LA TABLA
         $pdf->SetFont('Helvetica', 'B', 7);
-        $pdf->Cell(74, 0, '', 'T' . 0, 1);
-        $pdf->Ln(-2);
-        $pdf->Cell(44, 10, utf8_decode('Descripción'), 0);
-        $pdf->Cell(5, 10, 'Cant', 0, 0, 'R');
-        $pdf->Cell(10, 10, 'Precio', 0, 0, 'R');
-        $pdf->Cell(15, 10, 'Importe', 0, 0, 'R');
-        $pdf->Ln(8);
-        $pdf->Cell(74, 0, '', 'T');
-        $pdf->Ln(1);
+        $pdf->Cell(0, 0, '', 'T', 1, 1); //BORDE DE ARRIBA
+        $pdf->Cell(44, 5, utf8_decode('Descripción'), 0);
+        $pdf->Cell(7, 5, 'Cant', 0, 0, 'R');
+        $pdf->Cell(10, 5, 'Precio', 0, 0, 'R');
+        $pdf->Cell(0, 5, 'Importe', 0, 1, 'R');
+        $pdf->Cell(0, 0, '', 'T', 1, 1); // BORDE DE ABAJO
 
-        // DETALLE
-        $productos = json_decode($venta->productos);
+        // DETALLE DE LA VENTA
         $pdf->SetFont('Helvetica', '', 7);
+        $productos = json_decode($venta->productos);
         foreach ($productos as $key => $value) {
             $pdf->MultiCell(44, 4, utf8_decode($value->detalle), 0, 'L');
-            $pdf->Cell(47, -5, $value->cantidad, 0, 0, 'R');
-            $pdf->Cell(11, -5, $value->precio_unitario, 0, 0, 'R');
-            $pdf->Cell(15, -5, $value->precio_unitario * $value->cantidad, 0, 1, 'R');
-            $pdf->Ln(5);
+            $pdf->Cell(52, -4, $value->cantidad, 0, 0, 'R');
+            $pdf->Cell(10, -4, number_format($value->precio_unitario, 2), 0, 0, 'R');
+            $pdf->Cell(0, -4, number_format($value->precio_unitario * $value->cantidad, 2), 0, 1, 'R');
+            $pdf->Ln(4);
         }
-        $pdf->Ln(3);
-        $pdf->Cell(74, 0, '', 'T' . 0, 1);
-        // SUMATORIO DE LOS PRODUCTOS Y EL IVA
-        $pdf->Ln(0);
-        $pdf->Cell(38, 10, 'OP. EXONERADAS', 0);
-        $pdf->Cell(20, 10, '', 0);
-        $pdf->Cell(15, 10, 'S/ ' . $venta->op_exoneradas, 0, 0, 'R');
-        $pdf->Ln(3);
-        $pdf->Cell(38, 10, 'OP. INAFECTAS', 0);
-        $pdf->Cell(20, 10, '', 0);
-        $pdf->Cell(15, 10, 'S/ ' . $venta->op_inafectas, 0, 0, 'R');
-        $pdf->Ln(3);
-        $pdf->Cell(38, 10, 'OP. GRAVADAS', 0);
-        $pdf->Cell(20, 10, '', 0);
-        $pdf->Cell(15, 10, 'S/ ' . $venta->op_gravadas, 0, 0, 'R');
-        $pdf->Ln(3);
-        $pdf->Cell(38, 10, 'IGV (18%)', 0);
-        $pdf->Cell(20, 10, '', 0);
-        $pdf->Cell(15, 10, 'S/ ' . $venta->igv_total, 0, 0, 'R');
-        $pdf->Ln(3);
-        $pdf->Cell(38, 10, 'TOTAL', 0);
-        $pdf->Cell(20, 10, '', 0);
-        $pdf->Cell(15, 10, 'S/ ' . $venta->total, 0, 1, 'R');
+        $pdf->Cell(0, 0, '', 'T', 1, 1); // BORDE DE ABAJO
+        $pdf->Ln(2);
 
+        // TOTALES
+        $h = 4;
+        if ($venta->op_gratuitas !== '0.00') {
+            $pdf->Cell(58, $h, 'OP. GRATUITAS', 0);
+            $pdf->Cell(0, $h, 'S/ ' . $venta->op_gratuitas, 0, 1, 'R');
+        }
+        if ($venta->op_exoneradas !== '0.00') {
+            $pdf->Cell(58, $h, 'OP. EXONERADAS', 0);
+            $pdf->Cell(0, $h, 'S/ ' . $venta->op_exoneradas, 0, 1, 'R');
+        }
+        if ($venta->op_inafectas !== '0.00') {
+            $pdf->Cell(58, $h, 'OP. INAFECTAS', 0);
+            $pdf->Cell(0, $h, 'S/ ' . $venta->op_inafectas, 0, 1, 'R');
+        }
+        if ($venta->op_gravadas !== '0.00') {
+            $pdf->Cell(58, $h, 'OP. GRAVADAS', 0);
+            $pdf->Cell(0, $h, 'S/ ' . $venta->op_gravadas, 0, 1, 'R');
+        }
+        $pdf->Cell(58, $h, 'IGV (18%)', 0);
+        $pdf->Cell(0, $h, 'S/ ' . $venta->igv_total, 0, 1, 'R');
+        $pdf->SetFont('Helvetica', 'B', 7);
+        $pdf->Cell(58, $h, 'TOTAL', 0);
+        $pdf->Cell(0, $h, 'S/ ' . $venta->total, 0, 1, 'R');
+        $pdf->Ln(2);
+
+        //FORMA DE PAGO Y CANTIDAD EN LETRAS
+        $pdf->Cell(0, 0, '', 'T', 1, 1); // BORDE DE ABAJO
         $classnumeroLetra = new NumeroALetras();
         $numeroLetra = $classnumeroLetra->toInvoice($venta->total, 2, 'soles');
-        $pdf->Cell(74, 0, '', 'T' . 0, 1);
+        $pdf->Ln(1);
         $pdf->SetFont('Helvetica', '', 6);
-        $pdf->Cell(74, 4, utf8_decode('SON: ' . $numeroLetra), 0, 1, 'C');
-
+        $pdf->Cell(0, 4, utf8_decode('SON: ' . $numeroLetra), 0, 1, 'C');
         if ($venta->forma_pago == 'Contado') {
-            $pdf->cell(74, 4, utf8_decode('CONDICIÓN DE PAGO: Contado'), 0, 1, 'C');
+            $pdf->cell(0, 4, utf8_decode('CONDICIÓN DE PAGO: Contado'), 0, 1, 'C');
         } else {
             $cuotas = json_decode($venta->cuotas);
-            $pdf->cell(74, 4, utf8_decode('CONDICIÓN DE PAGO: Credito'), 0, 1, 'C');
+            $pdf->cell(0, 4, utf8_decode('CONDICIÓN DE PAGO: Credito'), 0, 1, 'C');
             foreach ($cuotas as $key => $v) {
                 $newDate = date("d/m/Y", strtotime($v->fecha));
-                $pdf->cell(74, 4, utf8_decode($v->cuota . ' / Fecha: ' . $newDate . ' / Monto: S/' . $v->monto), 0, 1, 'L');
+                $pdf->cell(0, 4, utf8_decode($v->cuota . ' / Fecha: ' . $newDate . ' / Monto: S/' . $v->monto), 0, 1, 'L');
             }
         }
+        $pdf->Cell(0, 0, '', 'T', 1, 1); // BORDE DE ABAJO
+        $pdf->Ln(2);
 
-        $pdf->Cell(74, 0, '', 'T' . 0, 1);
-
-        $pdf->ln(2);
         //CODIGO QR
         //RUC|TIPO DOC|SERIE|CORRELATIVO|IGV|TOTAL|FECHA EMISION|TIPO DOC CLIENTE|NUMERO DOC CLI|
         $ruc = $emisor->ruc;
@@ -527,26 +538,19 @@ class PrintPdf
 
         \QRcode::png($texto_qr, $ruta_qr, 'Q', 15, 0);
 
-        $pdf->Image($ruta_qr, 32, $pdf->GetY(), 17, 17);
-        // $pdf->Ln(-3);
+        $longitud = 18;
+        $centrar = ($ancho / 2) - ($longitud / 2);
+        $pdf->Image($ruta_qr, $centrar, $pdf->GetY(), $longitud, $longitud);
+        $pdf->Ln($longitud + 2);
 
+        //PIE DE PAGINA
         $name_comprobante = strtolower($venta->nombre_tipodoc);
-        $pdf->Ln(19);
         $pdf->SetFont('Helvetica', '', 7);
-        $pdf->Cell(74, 3, utf8_decode("Representación Impresa de la $name_comprobante electrónica"), 0, 1, 'C');
-        // $pdf->Cell(74, 3, utf8_decode('Consultar en https://ww3.sunat.gob.pe/ol-ti-itconsvalicpe/ConsValiCpe.htm'), 0, 1, 'C');
-        // $pdf->Write(4, utf8_decode('Consultar en https://ww3.sunat.gob.pe/ol-ti-itconsvalicpe/ConsValiCpe.htm'));
-        $pdf->MultiCell(74, 3, utf8_decode('Consultar en https://ww3.sunat.gob.pe/ol-ti-itconsvalicpe/ConsValiCpe.htm'), 0, 'C');
-        // $pdf->Ln(4);
-        $pdf->SetFont('Helvetica', '', 8);
-        $pdf->Cell(74, 4, utf8_decode('Gracias por Compras'), 0, 1, 'C');
+        $pdf->MultiCell(0, 3, utf8_decode("Representación Impresa de la $name_comprobante electrónica"), 0, 'C');
+        $buscarComprobante = route('searchDocuments.index');
+        $pdf->MultiCell(0, 3, utf8_decode("Consultar en: $buscarComprobante"), 0, 'C');
 
-        if ($venta->estado == 0) {
-            $pdf->Image(base_url('/assets/img/anulado.png'), 6, 90, 50);
-        }
-
-        $pdf->Output('I', $nombrexml . '.pdf');
+        $pdf->Output('I', $venta->nombre_xml . '.pdf');
         unlink($ruta_qr);
-        // exit;
     }
 }
