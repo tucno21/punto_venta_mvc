@@ -83,11 +83,11 @@ $linksScript2 = [
                                 <!-- boton buscar -->
                                 <div class="mx-1">
                                     <button id="btnBuscarFecha" type="button" class="btn btn-primary btn-sm"><i class="bi bi-search"></i> Generar</button>
-                                    <button id="btnReportePdf" type="button" class="btn btn-danger btn-sm">
+                                    <button id="btnReportePdf" type="button" class="btn btn-danger btn-sm" title="reporte en pdf">
                                         <i class="bi bi-file-pdf"></i>
                                     </button>
-                                    <button id="btnReporteExcel" type="button" class="btn btn-success btn-sm">
-                                        <i class="bi bi-file-earmark-excel"></i>
+                                    <button id="btnReporteExcel" type="button" class="btn btn-success btn-sm" title="reporte en excel">
+                                        <i class=" bi bi-file-earmark-excel"></i>
                                     </button>
                                 </div>
                             </div>

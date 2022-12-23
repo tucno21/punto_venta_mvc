@@ -137,8 +137,8 @@ async function generarDataTable() {
     i++;
     element["estado"] =
       element.estado == 1
-        ? `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-success rounded-pill btn-sm p-0 px-1">Habilitado</button>`
-        : `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-danger rounded-pill btn-sm p-0 px-1">Inhabilitado</button>`;
+        ? `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-success rounded-pill btn-sm p-0 px-1" title="Click para inhabilitar">Habilitado</button>`
+        : `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-danger rounded-pill btn-sm p-0 px-1" title="Click para habilitar">Inhabilitado</button>`;
     element["actions"] = `
         <a href="${urlVerData}?id=${element.id}" class="btn btn-outline-success btn-sm rounded-pill btnVerData" title="Ver Datos">
             <i class="bi bi-eye"></i>

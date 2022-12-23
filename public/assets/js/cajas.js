@@ -49,13 +49,13 @@ async function generarDataTable() {
     i++;
     element["estado"] =
       element.estado == 1
-        ? `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-success rounded-pill btn-sm p-0 px-1">Habilitado</button>`
-        : `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-danger rounded-pill btn-sm p-0 px-1">Inhabilitado</button>`;
+        ? `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-success rounded-pill btn-sm p-0 px-1" title="Click para inhabilitar">Habilitado</button>`
+        : `<button data-url="${urlStatus}?id=${element.id}" class="btnEstado btn btn-outline-danger rounded-pill btn-sm p-0 px-1" title="Click para habilitar">Inhabilitado</button>`;
     element["actions"] = `
-        <a href="${urlEdit}?id=${element.id}" class="btn btn-outline-warning btn-sm btnEditar">
+        <a href="${urlEdit}?id=${element.id}" class="btn btn-outline-warning btn-sm btnEditar" title="Editar">
             <i class="bi bi-pencil"></i>
         </a>
-        <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar">
+        <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar" title="Eliminar">
             <i class="bi bi-trash3"></i>
         </a>
         `;

@@ -45,10 +45,10 @@ $linksScript2 = [
                             Lista de Clientes
                         </div>
                         <div class="col-md-2 text-center mt-1">
-                            <button id="btnReportePdf" type="button" class="btn btn-danger btn-sm p-0 px-1">
+                            <button id="btnReportePdf" type="button" class="btn btn-danger btn-sm p-0 px-1" title="reporte en formato pdf">
                                 <i class="bi bi-file-pdf fs-5"></i>
                             </button>
-                            <button id="btnReporteExcel" type="button" class="btn btn-success btn-sm p-0 px-1">
+                            <button id="btnReporteExcel" type="button" class="btn btn-success btn-sm p-0 px-1" title="reporte en formato excel">
                                 <i class="bi bi-file-earmark-excel fs-5"></i>
                             </button>
                         </div>

@@ -84,13 +84,13 @@ async function generarDataTable() {
     let actions;
     if (element.estado == 1) {
       actions = `
-        <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar">
+        <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar" title="Cerrar Caja">
             <i class="bi bi-unlock"></i>
         </a>
         `;
     } else {
       actions = `
-        <a href="${urlReporte}?id=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
+        <a href="${urlReporte}?id=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="reporte de ventas de caja">
             <i class="bi bi-file-pdf"></i>
         </a>
         `;

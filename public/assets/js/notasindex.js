@@ -58,9 +58,7 @@ async function generarDataTable() {
     element.orden = i;
 
     let actions = `
-    <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
-          <i class="bi bi-file-earmark-pdf"></i>
-        </a>
+    <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="comprobante pdf A5"><i class="bi bi-file-earmark-pdf"></i></a>
     <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
       <i class="bi bi-three-dots"></i>
     </button>

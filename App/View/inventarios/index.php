@@ -50,8 +50,8 @@ $linksScript2 = [
                             </div>
                             <!-- Hover added -->
                             <div class="">
-                                <button type="button" class="btn btn-sm btn-danger mx-1" id="inventarioMesPDF"><i class="bi bi-file-earmark-pdf"></i></button>
-                                <button type="button" class="btn btn-sm btn-success mx-1" id="inventarioMesExcel"><i class="bi bi-file-earmark-excel"></i></button>
+                                <button type="button" class="btn btn-sm btn-danger mx-1" id="inventarioMesPDF" title="reporte en formato pdf"><i class="bi bi-file-earmark-pdf"></i></button>
+                                <button type="button" class="btn btn-sm btn-success mx-1" id="inventarioMesExcel" title="reporte en formato excel"><i class="bi bi-file-earmark-excel"></i></button>
                                 <!-- <button type="button" class="btn btn-sm btn-info"><i class="bi bi-gear"></i></button> -->
                             </div>
                         </div>

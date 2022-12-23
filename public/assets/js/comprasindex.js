@@ -54,17 +54,14 @@ async function generarDataTable() {
   data.forEach((element) => {
     element.orden = i;
     i++;
+
+    const lista = {
+      reporte: `<a href="${urlReporte}?id=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="Ver reporte pdf"><i class="bi bi-file-earmark-pdf"></i></a>`,
+      eliminar: `<a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar" title="anular la compra"><i class="bi bi-trash3"></i></a>`,
+    };
+
     element["actions"] =
-      element.estado === 1
-        ? `<a href="${urlReporte}?id=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
-            <i class="bi bi-file-earmark-pdf"></i>
-          </a>
-          <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar">
-            <i class="bi bi-trash3"></i>
-          </a>`
-        : `<a href="${urlReporte}?id=${element.id}" class="btn btn-outline-success btn-sm btnReporte">
-            <i class="bi bi-file-earmark-pdf"></i>
-          </a>`;
+      element.estado === 1 ? lista.reporte + lista.eliminar : lista.reporte;
   });
 
   let newData = {

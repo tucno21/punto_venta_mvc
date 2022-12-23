@@ -79,62 +79,53 @@ async function generarDataTable() {
   data.forEach((element) => {
     element.orden = i;
 
+    const lista = {
+      reporteA5: `<a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="venta pdf A5"><i class="bi bi-file-earmark-pdf"></i></a>`,
+      destroy: `<a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar" title="Anular venta"><i class="bi bi-x-circle"></i></a>`,
+      MENUINICIO: `<button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i></button><ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">`,
+      MENUFIN: `</ul>`,
+      pdfTicket: `<li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>`,
+      downloadXML: `<li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>`,
+      sendxml: `<li><a class="dropdown-item p-0 py-1 px-2 sendxml" href="${urlSendXml}?email=${element.id}">Enviar correo XML</a></li>`,
+      downloadCdr: `<li><a class="dropdown-item p-0 py-1 px-2 downloadCDR" href="${urlDownloadCdr}?xml=${element.nombre_xml}">Descargar CDR</a></li>`,
+      sendcdr: `<li><a class="dropdown-item p-0 py-1 px-2 sendcdr" href="${urlSendCdr}?email=${element.id}">Enviar correo (CDR)</a></li>`,
+      generarNota: `<li><a class="dropdown-item p-0 py-1 px-2 generarNotas" href="${urlNotasCD}?id=${element.id}">Nota de C/D</a></li>`,
+      btnNotasVentas: `<a href="${urlIndexNotas}" class="btn btn-outline-primary btn-sm btnNotasVentas" title="Ir Listado de Notas"><i class="bi bi-sticky"></i></a>`,
+    };
+
     let actions;
 
-    if (element.estado_sunat === 0 && element.estado === 1) {
-      actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
-            <i class="bi bi-file-earmark-pdf"></i>
-          </a>
-      <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-three-dots"></i>
-      </button>
-      <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
-
-        <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 sendxml" href="${urlSendXml}?email=${element.id}">Enviar correo (XML)</a></li>
-      </ul>
-      `;
-    } else if (element.estado_sunat === 1 && element.estado === 1) {
-      actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
-            <i class="bi bi-file-earmark-pdf"></i>
-          </a>
-      <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar" title="Anular venta">
-          <i class="bi bi-x-circle"></i>
-      </a>
-      <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-three-dots"></i>
-      </button>
-      <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 downloadCDR" href="${urlDownloadCdr}?xml=${element.nombre_xml}">Descargar CDR</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 generarNotas" href="${urlNotasCD}?id=${element.id}">Nota de C/D</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 sendxml" href="${urlSendXml}?email=${element.id}">Enviar correo (XML)</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 sendcdr" href="${urlSendCdr}?email=${element.id}">Enviar correo (CDR)</a></li>
-      </ul>
-      `;
-    } else if (element.estado_sunat === 1 && element.estado === 0) {
-      actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
-        <i class="bi bi-file-earmark-pdf"></i>
-      </a>
-      <a href="${urlIndexNotas}" class="btn btn-outline-primary btn-sm btnNotasVentas" title="Ir Listado de Notas">
-        <i class="bi bi-sticky"></i>
-      </a>
-      <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-three-dots"></i>
-      </button>
-      <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 downloadXML" href="${urlDownloadXml}?xml=${element.nombre_xml}">Descargar XML</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 downloadCDR" href="${urlDownloadCdr}?xml=${element.nombre_xml}">Descargar CDR</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 sendxml" href="${urlSendXml}?email=${element.id}">Enviar correo (XML)</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 sendcdr" href="${urlSendCdr}?email=${element.id}">Enviar correo (CDR)</a></li>
-      </ul>
-      `;
+    if (element.estado === 1 && element.estado_sunat === 0) {
+      actions =
+        lista.reporteA5 +
+        lista.MENUINICIO +
+        lista.pdfTicket +
+        lista.downloadXML +
+        lista.sendxml +
+        lista.MENUFIN;
+    } else if (element.estado === 1 && element.estado_sunat === 1) {
+      actions =
+        lista.reporteA5 +
+        lista.destroy +
+        lista.MENUINICIO +
+        lista.pdfTicket +
+        lista.downloadXML +
+        lista.downloadCdr +
+        lista.generarNota +
+        lista.sendxml +
+        lista.sendcdr +
+        lista.MENUFIN;
+    } else if (element.estado === 0 && element.estado_sunat === 1) {
+      actions =
+        lista.reporteA5 +
+        lista.btnNotasVentas +
+        lista.MENUINICIO +
+        lista.pdfTicket +
+        lista.downloadXML +
+        lista.downloadCdr +
+        // lista.sendxml +
+        // lista.sendcdr +
+        lista.MENUFIN;
     }
 
     element["actions"] = actions;
@@ -142,7 +133,7 @@ async function generarDataTable() {
     element["estadoSunat"] =
       element.estado_sunat === 1
         ? `<span  class="text-white badge rounded-pill bg-success">Aceptado</span>`
-        : `<span  class="text-white badge rounded-pill bg-danger enviarSunat" data-id="${element.id}">Sin enviar</span>`;
+        : `<span  class="text-white badge rounded-pill bg-danger enviarSunat" data-id="${element.id}" title="Click para enviar a sunat">Sin enviar</span>`;
 
     i++;
   });

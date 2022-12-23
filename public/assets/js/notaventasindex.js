@@ -60,68 +60,27 @@ async function generarDataTable() {
   data.forEach((element) => {
     element.orden = i;
 
-    let actions;
+    const lista = {
+      reporteA5: `<a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5"><i class="bi bi-file-earmark-pdf"></i></a>`,
+      destroy: `<a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar" title="ELimininar venta Interna"><i class="bi bi-trash3"></i></a>`,
+      MENUINICIO: `<button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i></button><ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">`,
+      MENUFIN: `</ul>`,
+      pdfTicket: `<li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>`,
+      boleta: `<li><a class="dropdown-item p-0 py-1 px-2 generarBoleta" href="${urlBoleta}?id=${element.id}" data-id="${element.id}">Generar Boleta</a></li>`,
+      factura: `<li><a class="dropdown-item p-0 py-1 px-2 generarFactura" href="${urlFactura}?id=${element.id}" data-id="${element.id}">Generar Factura</a></li>`,
+    };
 
-    if (element.estado_sunat === 0 && element.estado === 1) {
+    let actions;
+    if (element.estado === 1 && element.estado_sunat === 0) {
       if (element.documentocliente.length == 11) {
-        actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
-            <i class="bi bi-file-earmark-pdf"></i>
-      </a>
-      <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar" title="ELimininar venta Interna">
-            <i class="bi bi-trash3"></i>
-      </a>
-      <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-three-dots"></i>
-      </button>
-      <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 generarBoleta" href="${urlBoleta}?id=${element.id}" data-id="${element.id}">Generar Boleta</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 generarFactura" href="${urlFactura}?id=${element.id}" data-id="${element.id}">Generar Factura</a></li>
-      </ul>
-      `;
+        actions = `${lista.reporteA5} ${lista.destroy} ${lista.MENUINICIO} ${lista.pdfTicket} ${lista.factura} ${lista.boleta} ${lista.MENUFIN}`;
       } else {
-        actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
-            <i class="bi bi-file-earmark-pdf"></i>
-      </a>
-      <a href="${urlDestroy}?id=${element.id}" class="btn btn-outline-danger btn-sm btnEliminar" title="ELimininar venta Interna">
-          <i class="bi bi-trash3"></i>
-      </a>
-          
-      <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-three-dots"></i>
-      </button>
-      <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
-        <li><a class="dropdown-item p-0 py-1 px-2 generarBoleta" href="${urlBoleta}?id=${element.id}" data-id="${element.id}">Generar Boleta</a></li>
-      </ul>
-      `;
+        actions = `${lista.reporteA5} ${lista.destroy} ${lista.MENUINICIO} ${lista.pdfTicket} ${lista.boleta} ${lista.MENUFIN}`;
       }
-    } else if (element.estado_sunat === 1 && element.estado === 1) {
-      actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
-            <i class="bi bi-file-earmark-pdf"></i>
-      </a>
-      <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-three-dots"></i>
-      </button>
-      <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
-      </ul>
-      `;
+    } else if (element.estado === 1 && element.estado_sunat === 1) {
+      actions = `${lista.reporteA5} ${lista.MENUINICIO} ${lista.pdfTicket} ${lista.MENUFIN}`;
     } else if (element.estado === 0) {
-      actions = `
-      <a href="${urlReporte}?pdfA5=${element.id}" class="btn btn-outline-success btn-sm btnReporte" title="pdf A5">
-            <i class="bi bi-file-earmark-pdf"></i>
-      </a>
-      <button class="btn btn-outline-warning btn-sm rounded-circle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-three-dots"></i>
-      </button>
-      <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item p-0 py-1 px-2 pdfTicket" href="${urlReporte}?ticket=${element.id}">Pdf Ticket</a></li>
-      </ul>
-      `;
+      actions = `${lista.reporteA5} ${lista.MENUINICIO} ${lista.pdfTicket} ${lista.MENUFIN}`;
     }
 
     element["actions"] = actions;
